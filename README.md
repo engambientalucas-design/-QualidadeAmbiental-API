@@ -157,26 +157,27 @@ Os arquivos `.zip` em `backup/` sao locais e ignorados pelo Git.
 
 ## Status
 
-Fase atual: Fase 1.3 - Validação Local Completa concluída.
+Fase atual: Fase 2.0 - Inspecao Real do Banco SQL Server documentada.
 
-Validações realizadas em 2026-05-27:
+Validações e inspecoes realizadas:
 
-- Python 3.12.10 validado na `.venv`.
-- `pip` validado.
-- Imports principais validados: FastAPI, SQLAlchemy, pyodbc, Pydantic, Uvicorn, httpx e pytest.
-- API iniciada com o comando oficial:
+- Fase 1.3 concluida com API local validada.
+- `/health`, `/docs`, `/redoc` e `/openapi.json` validados.
+- `pytest` aprovado com 2 testes.
+- Banco `QualidadeAmbiental` inspecionado em modo read-only.
+- 9 tabelas base identificadas.
+- 6 views consolidadas identificadas.
+- Relacionamentos principais confirmados.
+- Indices, constraints, triggers e volumes iniciais documentados.
+- Contratos planejados da Fase 2 registrados antes de implementacao.
 
-```powershell
-.\.venv\Scripts\python.exe -m uvicorn app.main:app --reload
-```
+Documentos principais:
 
-- `GET /health` validado com HTTP 200.
-- Swagger `/docs` validado com HTTP 200.
-- ReDoc `/redoc` validado com HTTP 200.
-- OpenAPI `/openapi.json` validado com HTTP 200.
-- Teste automatizado mínimo criado para `/health`.
-- `pytest` executado com sucesso: 2 testes aprovados.
+- `docs/modelo_banco.md`
+- `docs/contratos_api_fase2.md`
+- `docs/fases.md`
+- `docs/checklist_operacional.md`
 
-Próxima etapa: Fase 2.0 - inspeção real do banco SQL Server antes de criar endpoints de domínio.
+Proxima etapa recomendada: Fase 2.1 - implementar o primeiro endpoint read-only `GET /api/v1/pontos-coleta`, usando o fluxo completo `router -> service -> repository -> banco`.
 
-Ainda não devem ser criados CRUD, autenticação, migrations, Docker, deploy ou endpoints reais sem a inspeção e documentação do schema do banco.
+Ainda nao devem ser criados CRUD, autenticacao, migrations, Docker, deploy ou alteracoes no SQL Server.

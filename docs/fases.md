@@ -83,7 +83,7 @@ Resultados:
 
 ## Fase 2.0 - Inspecao Real do Banco SQL Server
 
-Status: proxima etapa.
+Status: concluida em 2026-05-27.
 
 Objetivos:
 
@@ -94,6 +94,29 @@ Objetivos:
 - Confirmar usuario e politica read-only.
 - Atualizar `docs/modelo_banco.md` com o mapeamento real.
 - Definir contratos dos primeiros endpoints antes de implementa-los.
+
+Resultados:
+
+- 9 tabelas base identificadas.
+- 6 views consolidadas identificadas.
+- Relacionamentos principais confirmados.
+- Indices, constraints, triggers e volumes iniciais documentados.
+- Contratos planejados da Fase 2 criados.
+- Nenhuma alteracao realizada no SQL Server.
+
+## Fase 2.1 - Primeiro Endpoint Read-only
+
+Status: proxima etapa.
+
+Objetivos:
+
+- Implementar `GET /api/v1/pontos-coleta`.
+- Validar o fluxo `router -> service -> repository -> banco`.
+- Criar schema Pydantic de resposta.
+- Criar repository read-only.
+- Criar service simples.
+- Criar teste automatizado.
+- Validar Swagger.
 
 ## Fase 2 - Endpoints de Consulta
 

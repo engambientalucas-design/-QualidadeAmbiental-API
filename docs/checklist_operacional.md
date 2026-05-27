@@ -58,3 +58,16 @@ Use este checklist antes de evoluir o projeto ou executar mudancas criticas.
 - [x] API local validada.
 - [x] Swagger e ReDoc validados.
 - [x] Teste automatizado minimo criado.
+
+## Fase 2.0 - Inspecao do banco
+
+- [x] Tabelas base identificadas.
+- [x] Views identificadas.
+- [x] Chaves primarias documentadas.
+- [x] Chaves estrangeiras documentadas.
+- [x] Indices principais documentados.
+- [x] Constraints relevantes documentadas.
+- [x] Triggers de auditoria documentadas.
+- [x] Volumes iniciais documentados.
+- [x] Contratos planejados da Fase 2 criados.
+- [x] Nenhuma alteracao realizada no SQL Server.
