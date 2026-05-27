@@ -1,4 +1,4 @@
-﻿# Fases do Projeto
+# Fases do Projeto
 
 ## Fase 0 - Planejamento e Estruturacao
 
@@ -33,7 +33,7 @@ Objetivos:
 
 ## Fase 1.2 - Governanca Tecnica, Versionamento e Backup
 
-Status: em andamento.
+Status: concluida.
 
 Objetivos:
 
@@ -57,7 +57,7 @@ Regras desta fase:
 
 ## Fase 1.3 - Validacao Local Completa
 
-Status: pendente.
+Status: concluida em 2026-05-27.
 
 Objetivos:
 
@@ -66,7 +66,34 @@ Objetivos:
 - Validar endpoint `/health`.
 - Validar Swagger `/docs`.
 - Validar ReDoc `/redoc`.
-- Validar conexao tecnica com SQL Server quando aplicavel.
+- Criar teste automatizado minimo.
+- Rodar `pytest`.
+- Revisar encoding dos arquivos.
+- Atualizar documentacao da etapa.
+
+Resultados:
+
+- Python 3.12.10 validado.
+- `pip` validado.
+- Imports principais validados.
+- API iniciou com o comando oficial.
+- `/health`, `/docs`, `/redoc` e `/openapi.json` responderam HTTP 200.
+- `tests/test_health.py` criado.
+- `pytest` aprovado com 2 testes.
+
+## Fase 2.0 - Inspecao Real do Banco SQL Server
+
+Status: proxima etapa.
+
+Objetivos:
+
+- Inspecionar schemas, tabelas, colunas, chaves primarias e chaves estrangeiras.
+- Confirmar tipos de dados e relacionamentos reais.
+- Verificar views existentes.
+- Avaliar indices relevantes para filtros.
+- Confirmar usuario e politica read-only.
+- Atualizar `docs/modelo_banco.md` com o mapeamento real.
+- Definir contratos dos primeiros endpoints antes de implementa-los.
 
 ## Fase 2 - Endpoints de Consulta
 

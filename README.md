@@ -1,4 +1,4 @@
-﻿# QualidadeAmbiental API FastAPI
+# QualidadeAmbiental API FastAPI
 
 API REST em Python com FastAPI para consultar, organizar e futuramente manipular dados de qualidade ambiental a partir do banco SQL Server `QualidadeAmbiental`.
 
@@ -157,6 +157,26 @@ Os arquivos `.zip` em `backup/` sao locais e ignorados pelo Git.
 
 ## Status
 
-Fase atual: Fase 1.2 - Governanca tecnica, versionamento e backup.
+Fase atual: Fase 1.3 - Validação Local Completa concluída.
 
-Nesta etapa nao devem ser criados endpoints de dominio, CRUD, migrations ou alteracoes em tabelas do SQL Server.
+Validações realizadas em 2026-05-27:
+
+- Python 3.12.10 validado na `.venv`.
+- `pip` validado.
+- Imports principais validados: FastAPI, SQLAlchemy, pyodbc, Pydantic, Uvicorn, httpx e pytest.
+- API iniciada com o comando oficial:
+
+```powershell
+.\.venv\Scripts\python.exe -m uvicorn app.main:app --reload
+```
+
+- `GET /health` validado com HTTP 200.
+- Swagger `/docs` validado com HTTP 200.
+- ReDoc `/redoc` validado com HTTP 200.
+- OpenAPI `/openapi.json` validado com HTTP 200.
+- Teste automatizado mínimo criado para `/health`.
+- `pytest` executado com sucesso: 2 testes aprovados.
+
+Próxima etapa: Fase 2.0 - inspeção real do banco SQL Server antes de criar endpoints de domínio.
+
+Ainda não devem ser criados CRUD, autenticação, migrations, Docker, deploy ou endpoints reais sem a inspeção e documentação do schema do banco.
