@@ -10,6 +10,7 @@ from app.core.config import settings
 def build_database_url() -> URL:
     query = {
         "driver": settings.DB_DRIVER,
+        "Encrypt": settings.DB_ENCRYPT,
         "TrustServerCertificate": "yes" if settings.DB_TRUST_SERVER_CERTIFICATE else "no",
     }
 

@@ -1,5 +1,3 @@
-from decimal import Decimal
-
 from pydantic import BaseModel, ConfigDict, Field
 
 
@@ -9,8 +7,8 @@ class PontoColetaResponse(BaseModel):
     tipo_ponto: str = Field(..., examples=["Corpo Hidrico"])
     municipio: str = Field(..., examples=["Cuiaba"])
     estado: str = Field(..., min_length=2, max_length=2, examples=["MT"])
-    latitude: Decimal | None = Field(default=None, examples=[-15.601234])
-    longitude: Decimal | None = Field(default=None, examples=[-56.097891])
+    latitude: float | None = Field(default=None, examples=[-15.601234])
+    longitude: float | None = Field(default=None, examples=[-56.097891])
     observacao: str | None = Field(default=None, examples=["Ponto de monitoramento ambiental."])
 
     model_config = ConfigDict(from_attributes=True)

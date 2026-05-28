@@ -118,4 +118,25 @@ GET /api/v1/pontos-coleta?municipio=Cuiaba&estado=MT&page=1&page_size=20
 
 - Contrato automatizado validado com `pytest`.
 - OpenAPI validado com endpoint, filtros e respostas esperadas.
-- Validação real com SQL Server pendente no workspace atual por ausência de `.env` configurado.
+- Validação real com SQL Server concluída em 2026-05-28.
+
+Resultados da validação real:
+
+| Item | Resultado |
+| ---- | --------- |
+| Banco | `QualidadeAmbiental` |
+| Tabela | `Tbl_PontosColeta` |
+| Total real | 6 registros |
+| `GET /api/v1/pontos-coleta` | HTTP 200 |
+| `page=1&page_size=2` | 2 itens em `data`, `total=6` |
+| `estado=MT` | 6 registros |
+| `municipio=Cuiaba` | 4 registros |
+| `tipo_ponto=Captacao superficial` | 1 registro |
+| Filtro sem resultado | `data=[]`, `total=0` |
+| `page_size=101` | HTTP 422 |
+
+Observação operacional:
+
+- A validação com autenticação Windows integrada precisou ser executada fora do sandbox para que o driver ODBC acessasse as credenciais do usuário local.
+- O arquivo `.env` local foi usado sem versionar credenciais.
+- O parâmetro `QA_API_DB_ENCRYPT` foi adicionado para controlar a criptografia ODBC em ambientes locais e corporativos.

@@ -198,6 +198,7 @@ As variáveis da aplicação usam o prefixo `QA_API_` para evitar conflito com v
 QA_API_DEBUG=true
 QA_API_DB_SERVER=localhost
 QA_API_DB_NAME=QualidadeAmbiental
+QA_API_DB_ENCRYPT=no
 ```
 
 ### Execução
@@ -304,9 +305,19 @@ A proposta é evoluir a API com qualidade, mantendo rastreabilidade técnica e c
 | Swagger/ReDoc | Ativos |
 | Banco SQL Server | Inspecionado em modo read-only |
 | Primeiro endpoint de domínio | `GET /api/v1/pontos-coleta` implementado |
+| Validação SQL Server real | Concluída em 2026-05-28 |
 | Testes | 5 testes aprovados |
-| Validação SQL Server real | Pendente no workspace atual por ausência de `.env` |
 | Workspace | Preparado para evolução dos endpoints |
+
+Validação real do endpoint `GET /api/v1/pontos-coleta`:
+
+- Banco: `QualidadeAmbiental`.
+- Fonte: `Tbl_PontosColeta`.
+- Total retornado: 6 registros.
+- Paginação validada com `page=1&page_size=2`.
+- Filtros validados: `estado=MT`, `municipio=Cuiaba`, `tipo_ponto=Captacao superficial`.
+- Limite de `page_size=101` retorna HTTP 422.
+- `.env` local configurado sem versionar credenciais.
 
 Ainda não fazem parte do escopo atual:
 

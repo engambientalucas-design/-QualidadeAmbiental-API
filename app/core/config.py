@@ -2,6 +2,7 @@ from functools import lru_cache
 from typing import Optional
 
 from pydantic import Field
+from pydantic import field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -23,6 +24,7 @@ class Settings(BaseSettings):
     DB_USER: str = Field(default="", description="Usuário do banco")
     DB_PASSWORD: str = Field(default="", description="Senha do banco")
     DB_DRIVER: str = Field(default="ODBC Driver 18 for SQL Server")
+    DB_ENCRYPT: str = Field(default="no")
     DB_TRUST_SERVER_CERTIFICATE: bool = True
 
     model_config = SettingsConfigDict(
@@ -32,6 +34,13 @@ class Settings(BaseSettings):
         case_sensitive=True,
         extra="ignore",
     )
+
+    @field_validator("DB_PORT", mode="before")
+    @classmethod
+    def empty_db_port_as_none(cls, value: object) -> object:
+        if value == "":
+            return None
+        return value
 
 
 @lru_cache

@@ -14,10 +14,10 @@ Use este checklist antes de evoluir o projeto ou executar mudancas criticas.
 
 ## Banco de dados
 
-- [ ] SQL Server acessivel.
-- [ ] Banco `QualidadeAmbiental` disponivel.
-- [ ] Usuario de banco com permissao adequada.
-- [ ] Credenciais reais mantidas fora do Git.
+- [x] SQL Server acessivel.
+- [x] Banco `QualidadeAmbiental` disponivel.
+- [x] Usuario de banco com permissao adequada.
+- [x] Credenciais reais mantidas fora do Git.
 
 ## API
 
@@ -91,3 +91,29 @@ Use este checklist antes de evoluir o projeto ou executar mudancas criticas.
 - [ ] Validacao real com SQL Server configurado via `.env`.
 - [x] Documentacao tecnica do endpoint criada.
 - [x] Nenhuma alteracao realizada no SQL Server.
+
+## Fase 2.1.1 - Validacao real do endpoint com SQL Server
+
+- [x] `.env` local criado/revisado a partir do `.env.example`.
+- [x] `.env` confirmado fora do Git.
+- [x] Variavel padronizada conferida: `QA_API_DB_TRUST_SERVER_CERTIFICATE`.
+- [x] Drivers ODBC 17 e 18 identificados.
+- [x] Imports principais validados.
+- [x] Carregamento de configuracao validado sem imprimir senha.
+- [x] Ajuste configuravel `QA_API_DB_ENCRYPT` criado.
+- [x] Conexao real com `QualidadeAmbiental` validada.
+- [x] Uvicorn iniciado localmente.
+- [x] `/health` validado via HTTP.
+- [x] `/docs` validado via HTTP 200.
+- [x] `/redoc` validado via HTTP 200.
+- [x] `/openapi.json` validado com `/api/v1/pontos-coleta`.
+- [x] `GET /api/v1/pontos-coleta` validado contra SQL Server real.
+- [x] Total real de `Tbl_PontosColeta` validado: 6 registros.
+- [x] Paginacao validada com `page=1&page_size=2`.
+- [x] Filtro `estado=MT` validado.
+- [x] Filtro `municipio=Cuiaba` validado.
+- [x] Filtro `tipo_ponto=Captacao superficial` validado.
+- [x] Filtro sem resultado validado com `data=[]`.
+- [x] `page_size=101` validado com HTTP 422.
+- [x] `pytest` executado com 5 testes aprovados.
+- [x] Nenhuma credencial exposta em documentacao ou Git.

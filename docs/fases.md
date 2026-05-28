@@ -106,7 +106,7 @@ Resultados:
 
 ## Fase 2.1 - Primeiro Endpoint Read-only
 
-Status: implementada em 2026-05-28; validacao real com SQL Server pendente no workspace atual por ausencia de `.env`.
+Status: concluida em 2026-05-28.
 
 Objetivos:
 
@@ -131,8 +131,40 @@ Resultados:
 - Suite automatizada aprovada com 5 testes.
 - Documentacao tecnica criada em `docs/pontos_coleta_endpoint.md`.
 - OpenAPI validado com o endpoint, parametros e respostas esperadas.
-- Validacao real contra SQL Server nao concluida neste workspace porque nao ha arquivo `.env` configurado e a aplicacao usou o fallback `localhost:1433`.
+- Validacao real contra SQL Server concluida na Fase 2.1.1.
 - Nenhum CRUD, migration, autenticacao, Docker, deploy ou alteracao no SQL Server foi criado.
+
+## Fase 2.1.1 - Validacao Real do Endpoint com SQL Server
+
+Status: concluida em 2026-05-28.
+
+Objetivos:
+
+- Configurar `.env` local sem versionar credenciais.
+- Confirmar drivers ODBC para SQL Server.
+- Validar carregamento das variaveis `QA_API_`.
+- Validar API local com Uvicorn.
+- Validar `/health`, `/docs`, `/redoc` e `/openapi.json`.
+- Validar `GET /api/v1/pontos-coleta` contra o banco real.
+- Validar paginacao, filtros e limite de `page_size`.
+
+Resultados:
+
+- Drivers identificados: `ODBC Driver 17 for SQL Server` e `ODBC Driver 18 for SQL Server`.
+- Driver usado: `ODBC Driver 18 for SQL Server`.
+- Ajuste configuravel criado: `QA_API_DB_ENCRYPT`.
+- Banco validado: `QualidadeAmbiental`.
+- Tabela validada: `Tbl_PontosColeta`.
+- Total real retornado: 6 registros.
+- Paginacao validada com `page=1&page_size=2`, retornando 2 itens e `total=6`.
+- Filtro `estado=MT` retornou 6 registros.
+- Filtro `municipio=Cuiaba` retornou 4 registros.
+- Filtro `tipo_ponto=Captacao superficial` retornou 1 registro.
+- Filtro sem resultado retornou `data=[]` e `total=0`.
+- `page_size=101` retornou HTTP 422.
+- Suite automatizada aprovada com 5 testes.
+- Nenhuma credencial foi exposta ou versionada.
+- Nenhuma alteracao realizada no SQL Server.
 
 ## Fase 2 - Endpoints de Consulta
 
