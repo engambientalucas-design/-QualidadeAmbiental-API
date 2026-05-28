@@ -499,6 +499,33 @@ Resultados:
 - Nenhum endpoint de dominio criado.
 - Nenhuma alteracao realizada no SQL Server.
 
+## Fase 3.0.1 - Preparacao para Publicacao no GitHub
+
+Status: concluida em 2026-05-28.
+
+Objetivos:
+
+- Auditar `.gitignore`.
+- Auditar arquivos rastreados pelo Git.
+- Verificar possiveis credenciais ou segredos.
+- Revisar `.env.example`.
+- Criar documentacao de publicacao.
+- Validar testes antes do push.
+- Preparar snapshot da etapa.
+
+Resultados:
+
+- `.gitignore` confirmado com exclusoes para `.env`, `.venv`, caches, logs e snapshots `.zip`.
+- Arquivos rastreados auditados com `git ls-files`.
+- Busca por possiveis segredos executada com `rg`.
+- `.env.example` sanitizado com usuario e senha vazios.
+- Documento `docs/publicacao_github.md` criado.
+- Suite automatizada aprovada com 41 testes.
+- Nenhum endpoint criado.
+- Nenhum contrato publico alterado.
+- Nenhuma alteracao realizada no SQL Server.
+- Projeto pronto para configuracao de remote e push inicial.
+
 ## Fase 4 - Evolucao Funcional
 
 Status: pendente.

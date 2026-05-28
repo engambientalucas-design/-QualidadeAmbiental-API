@@ -297,6 +297,7 @@ Medidas já aplicadas no projeto:
 | `docs/resumo_mensal_endpoint.md` | Documentação técnica do endpoint de resumo mensal. |
 | `docs/parametros_criticos_endpoint.md` | Documentação técnica do endpoint de parâmetros críticos. |
 | `docs/padroes_api.md` | Padrões internos de sucesso, erro, paginação, validação e logs. |
+| `docs/publicacao_github.md` | Checklist e orientações para publicação profissional no GitHub. |
 | `docs/versionamento_backup.md` | Política de Git, snapshots e rollback. |
 | `docs/decisoes_tecnicas.md` | Decisões arquiteturais e tecnológicas. |
 | `docs/checklist_operacional.md` | Checklist antes de mudanças críticas. |
@@ -321,6 +322,7 @@ Medidas já aplicadas no projeto:
 - [x] Fase 2.9 - Consolidação e fechamento técnico da camada read-only e analítica
 - [x] Fase 2 - Endpoints de consulta do domínio
 - [x] Fase 3.0 - Padronização de erros, paginação e validações
+- [x] Fase 3.0.1 - Preparação para publicação no GitHub
 - [ ] Fase 3 - Organização profissional, paginação, filtros e erros
 - [ ] Fase 4 - Evolução funcional controlada
 - [ ] Fase 5 - Validação final e entrega
@@ -347,8 +349,8 @@ A proposta é evoluir a API com qualidade, mantendo rastreabilidade técnica e c
 
 | Item | Status |
 | ---- | ------ |
-| Fase atual | Fase 3.0 concluída |
-| Próxima etapa | Definir próximo incremento da Fase 3 |
+| Fase atual | Fase 3.0.1 concluída |
+| Próxima etapa | Publicação no GitHub com remote e push inicial |
 | API local | Validada |
 | Swagger/ReDoc | Ativos |
 | Banco SQL Server | Inspecionado em modo read-only |
@@ -365,6 +367,7 @@ A proposta é evoluir a API com qualidade, mantendo rastreabilidade técnica e c
 | Testes | 41 testes aprovados |
 | Contrato de erro | Padronizado |
 | Observabilidade leve | Logging básico configurado |
+| Publicação GitHub | Preparada para push inicial |
 | Workspace | Preparado para evolução dos endpoints |
 
 Validação real do endpoint `GET /api/v1/pontos-coleta`:
@@ -454,6 +457,15 @@ Validação da Fase 3.0:
 - Validação de intervalo de datas reutilizável.
 - Logging básico configurado sem expor credenciais.
 - Testes ampliados para 41 cenários aprovados.
+
+Preparação para publicação no GitHub:
+
+- `.gitignore` auditado.
+- Arquivos rastreados revisados.
+- `.env.example` sanitizado.
+- Busca por possíveis segredos executada.
+- Documento `docs/publicacao_github.md` criado.
+- Projeto pronto para configurar remote e executar push inicial.
 
 Validação real do endpoint `GET /api/v1/resultados/parametros-criticos`:
 

@@ -368,3 +368,17 @@ Observacao: a aplicacao carrega `.env` diretamente via `pydantic-settings`; a co
 - [x] Documento `docs/padroes_api.md` criado.
 - [x] Nenhum endpoint de dominio criado.
 - [x] Nenhuma alteracao realizada no SQL Server.
+
+## Fase 3.0.1 - Preparacao para publicacao no GitHub
+
+- [x] `.gitignore` auditado.
+- [x] `.env` confirmado fora do Git.
+- [x] `.env.example` revisado e sanitizado.
+- [x] Arquivos rastreados auditados com `git ls-files`.
+- [x] Busca por possiveis segredos executada.
+- [x] README revisado como produto GitHub.
+- [x] Documento `docs/publicacao_github.md` criado.
+- [x] `pytest` executado com 41 testes aprovados.
+- [x] Snapshot da Fase 3.0.1 gerado.
+- [x] Nenhum endpoint criado.
+- [x] Nenhuma alteracao realizada no SQL Server.
