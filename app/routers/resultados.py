@@ -6,13 +6,51 @@ from sqlalchemy.orm import Session
 
 from app.core.config import settings
 from app.core.database import get_db
-from app.schemas.resultados import ResultadoListResponse, ResumoMensalListResponse
+from app.schemas.resultados import (
+    ParametroCriticoListResponse,
+    ResultadoListResponse,
+    ResumoMensalListResponse,
+)
 from app.services import resultados_service
 
 router = APIRouter(
     prefix=f"{settings.API_V1_PREFIX}/resultados",
     tags=["resultados"],
 )
+
+
+@router.get(
+    "/parametros-criticos",
+    response_model=ParametroCriticoListResponse,
+    summary="Lista ranking de parametros criticos",
+    description="Consulta ranking de parametros criticos a partir da view VW_RankingParametrosCriticos.",
+)
+def list_parametros_criticos(
+    categoria: Annotated[
+        str | None,
+        Query(min_length=1, max_length=80, description="Filtra por categoria do parametro."),
+    ] = None,
+    limit: Annotated[
+        int | None,
+        Query(ge=1, le=100, description="Limita o ranking aos primeiros N parametros."),
+    ] = None,
+    page: Annotated[
+        int,
+        Query(ge=1, description="Numero da pagina."),
+    ] = 1,
+    page_size: Annotated[
+        int,
+        Query(ge=1, le=100, description="Quantidade de registros por pagina."),
+    ] = 20,
+    db: Session = Depends(get_db),
+) -> dict:
+    return resultados_service.list_parametros_criticos(
+        db,
+        categoria=categoria,
+        limit=limit,
+        page=page,
+        page_size=page_size,
+    )
 
 
 @router.get(

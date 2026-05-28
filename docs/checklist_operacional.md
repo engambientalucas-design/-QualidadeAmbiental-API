@@ -42,6 +42,8 @@ Use este checklist antes de evoluir o projeto ou executar mudancas criticas.
 - [x] Endpoint `/api/v1/resultados/sem-limite-referencia` validado por teste automatizado de contrato.
 - [x] Endpoint `/api/v1/resultados/resumo-mensal` implementado.
 - [x] Endpoint `/api/v1/resultados/resumo-mensal` validado por teste automatizado de contrato.
+- [x] Endpoint `/api/v1/resultados/parametros-criticos` implementado.
+- [x] Endpoint `/api/v1/resultados/parametros-criticos` validado por teste automatizado de contrato.
 - [x] Swagger `/docs` acessivel.
 - [x] ReDoc `/redoc` acessivel.
 - [x] OpenAPI `/openapi.json` acessivel.
@@ -55,7 +57,7 @@ Use este checklist antes de evoluir o projeto ou executar mudancas criticas.
 - [x] `tests/test_amostras.py` criado.
 - [x] `tests/test_resultados.py` criado.
 - [x] `pytest` executado.
-- [x] Suite atual aprovada: 34 testes.
+- [x] Suite atual aprovada: 39 testes.
 
 ## Governanca
 
@@ -315,5 +317,33 @@ Observacao: a aplicacao carrega `.env` diretamente via `pydantic-settings`; a co
 - [x] `page_size=101` validado com HTTP 422.
 - [x] `mes=13` validado com HTTP 422.
 - [x] `pytest` executado com 34 testes aprovados.
+- [x] Documentacao tecnica do endpoint criada.
+- [x] Nenhuma alteracao realizada no SQL Server.
+
+## Fase 2.8 - Endpoint analitico read-only de parametros criticos
+
+- [x] View `VW_RankingParametrosCriticos` inspecionada em modo read-only.
+- [x] Colunas e tipos reais confirmados.
+- [x] Endpoint `GET /api/v1/resultados/parametros-criticos` criado.
+- [x] Router de resultados reaproveitado.
+- [x] Schema de parametros criticos criado em `app/schemas/resultados.py`.
+- [x] Repository de resultados ampliado com consulta read-only da view.
+- [x] Service de resultados ampliado.
+- [x] Indicadores consumidos da view, sem recalculo em Python.
+- [x] Ranking calculado em SQL com `ROW_NUMBER()` sobre indicadores oficiais.
+- [x] Decimal convertido para numero JSON.
+- [x] Paginacao `page` e `page_size` implementada.
+- [x] Limite maximo de `page_size` definido em 100.
+- [x] Filtros `categoria` e `limit` implementados.
+- [x] Limite maximo de `limit` definido em 100.
+- [x] Testes automatizados de contrato criados.
+- [x] OpenAPI/Swagger validado com parametros do endpoint.
+- [x] Validacao real com SQL Server concluida.
+- [x] Total real validado: 12 parametros.
+- [x] Ranking 1 validado: `Turbidez`.
+- [x] Filtro sem resultado validado com `data=[]`.
+- [x] `page_size=101` validado com HTTP 422.
+- [x] `limit=101` validado com HTTP 422.
+- [x] `pytest` executado com 39 testes aprovados.
 - [x] Documentacao tecnica do endpoint criada.
 - [x] Nenhuma alteracao realizada no SQL Server.

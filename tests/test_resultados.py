@@ -64,6 +64,20 @@ def resumo_mensal_payload() -> dict[str, Any]:
     }
 
 
+def parametro_critico_payload() -> dict[str, Any]:
+    return {
+        "ranking": 1,
+        "id_parametro": 2,
+        "nome_parametro": "Turbidez",
+        "categoria": "Fisico-quimico",
+        "total_resultados": 6,
+        "resultados_com_limite": 5,
+        "resultados_sem_limite": 1,
+        "total_nao_conformidades": 2,
+        "percentual_nao_conformidade_com_limite": 40.0,
+    }
+
+
 def test_resultados_returns_standard_response(monkeypatch) -> None:
     def fake_list_resultados(db: object, **kwargs: Any) -> dict:
         return {
@@ -514,3 +528,86 @@ def test_resultados_resumo_mensal_openapi_contains_endpoint_and_query_params() -
 
     assert operation["tags"] == ["resultados"]
     assert params == ["ano", "mes", "page", "page_size"]
+
+
+def test_resultados_parametros_criticos_returns_standard_response(monkeypatch) -> None:
+    def fake_list_parametros_criticos(db: object, **kwargs: Any) -> dict:
+        return {
+            "success": True,
+            "message": "Consulta realizada com sucesso.",
+            "data": [parametro_critico_payload()],
+            "pagination": {"page": 1, "page_size": 20, "total": 1},
+        }
+
+    app.dependency_overrides[get_db] = override_get_db
+    monkeypatch.setattr(
+        resultados.resultados_service,
+        "list_parametros_criticos",
+        fake_list_parametros_criticos,
+    )
+
+    response = client.get("/api/v1/resultados/parametros-criticos")
+
+    app.dependency_overrides.clear()
+
+    assert response.status_code == 200
+    payload = response.json()
+    assert payload["success"] is True
+    assert payload["pagination"] == {"page": 1, "page_size": 20, "total": 1}
+    assert payload["data"][0] == parametro_critico_payload()
+
+
+def test_resultados_parametros_criticos_forwards_filters_limit_and_pagination(monkeypatch) -> None:
+    captured: dict[str, Any] = {}
+
+    def fake_list_parametros_criticos(db: object, **kwargs: Any) -> dict:
+        captured.update(kwargs)
+        return {
+            "success": True,
+            "message": "Consulta realizada com sucesso.",
+            "data": [],
+            "pagination": {"page": kwargs["page"], "page_size": kwargs["page_size"], "total": 0},
+        }
+
+    app.dependency_overrides[get_db] = override_get_db
+    monkeypatch.setattr(
+        resultados.resultados_service,
+        "list_parametros_criticos",
+        fake_list_parametros_criticos,
+    )
+
+    response = client.get(
+        "/api/v1/resultados/parametros-criticos",
+        params={"categoria": "Fisico-quimico", "limit": 5, "page": 2, "page_size": 10},
+    )
+
+    app.dependency_overrides.clear()
+
+    assert response.status_code == 200
+    assert captured == {
+        "categoria": "Fisico-quimico",
+        "limit": 5,
+        "page": 2,
+        "page_size": 10,
+    }
+
+
+def test_resultados_parametros_criticos_rejects_invalid_page_size() -> None:
+    response = client.get("/api/v1/resultados/parametros-criticos", params={"page_size": 101})
+
+    assert response.status_code == 422
+
+
+def test_resultados_parametros_criticos_rejects_invalid_limit() -> None:
+    response = client.get("/api/v1/resultados/parametros-criticos", params={"limit": 101})
+
+    assert response.status_code == 422
+
+
+def test_resultados_parametros_criticos_openapi_contains_endpoint_and_query_params() -> None:
+    schema = app.openapi()
+    operation = schema["paths"]["/api/v1/resultados/parametros-criticos"]["get"]
+    params = [param["name"] for param in operation["parameters"]]
+
+    assert operation["tags"] == ["resultados"]
+    assert params == ["categoria", "limit", "page", "page_size"]

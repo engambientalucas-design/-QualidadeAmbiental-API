@@ -139,7 +139,7 @@ Views relevantes para a evolução da API:
 | `GET /api/v1/resultados/nao-conformidades` | Resultados fora do padrão | ✅ Implementado |
 | `GET /api/v1/resultados/sem-limite-referencia` | Resultados sem limite de referência | ✅ Implementado |
 | `GET /api/v1/resultados/resumo-mensal` | Resumo mensal de conformidade | ✅ Implementado |
-| `GET /api/v1/resultados/parametros-criticos` | Ranking de parâmetros críticos | 📋 Planejado |
+| `GET /api/v1/resultados/parametros-criticos` | Ranking de parâmetros críticos | ✅ Implementado |
 
 ### Padrão de resposta
 
@@ -251,7 +251,7 @@ pytest
 
 Status atual:
 
-- ✅ 34 testes aprovados
+- ✅ 39 testes aprovados
 - ✅ Endpoint `/health` validado
 - ✅ Endpoint `/api/v1/pontos-coleta` validado por contrato
 - ✅ Endpoint `/api/v1/parametros` validado por contrato
@@ -260,6 +260,7 @@ Status atual:
 - ✅ Endpoint `/api/v1/resultados/nao-conformidades` validado por contrato
 - ✅ Endpoint `/api/v1/resultados/sem-limite-referencia` validado por contrato
 - ✅ Endpoint `/api/v1/resultados/resumo-mensal` validado por contrato
+- ✅ Endpoint `/api/v1/resultados/parametros-criticos` validado por contrato
 - ✅ Paginação e filtros básicos validados
 
 ---
@@ -293,6 +294,7 @@ Medidas já aplicadas no projeto:
 | `docs/resultados_nao_conformidades_endpoint.md` | Documentação técnica do endpoint de não conformidades. |
 | `docs/resultados_sem_limite_referencia_endpoint.md` | Documentação técnica do endpoint de resultados sem limite. |
 | `docs/resumo_mensal_endpoint.md` | Documentação técnica do endpoint de resumo mensal. |
+| `docs/parametros_criticos_endpoint.md` | Documentação técnica do endpoint de parâmetros críticos. |
 | `docs/versionamento_backup.md` | Política de Git, snapshots e rollback. |
 | `docs/decisoes_tecnicas.md` | Decisões arquiteturais e tecnológicas. |
 | `docs/checklist_operacional.md` | Checklist antes de mudanças críticas. |
@@ -313,6 +315,7 @@ Medidas já aplicadas no projeto:
 - [x] Fase 2.5 - Endpoint read-only analítico: `GET /api/v1/resultados/nao-conformidades`
 - [x] Fase 2.6 - Endpoint read-only analítico: `GET /api/v1/resultados/sem-limite-referencia`
 - [x] Fase 2.7 - Endpoint read-only analítico: `GET /api/v1/resultados/resumo-mensal`
+- [x] Fase 2.8 - Endpoint read-only analítico: `GET /api/v1/resultados/parametros-criticos`
 - [ ] Fase 2 - Endpoints de consulta do domínio
 - [ ] Fase 3 - Organização profissional, paginação, filtros e erros
 - [ ] Fase 4 - Evolução funcional controlada
@@ -340,8 +343,8 @@ A proposta é evoluir a API com qualidade, mantendo rastreabilidade técnica e c
 
 | Item | Status |
 | ---- | ------ |
-| Fase atual | Fase 2.7 concluída |
-| Próxima etapa | Fase 2.8 - Ranking de parâmetros críticos |
+| Fase atual | Fase 2.8 concluída |
+| Próxima etapa | Revisão de fechamento da Fase 2 analítica |
 | API local | Validada |
 | Swagger/ReDoc | Ativos |
 | Banco SQL Server | Inspecionado em modo read-only |
@@ -352,8 +355,9 @@ A proposta é evoluir a API com qualidade, mantendo rastreabilidade técnica e c
 | Primeiro endpoint analítico específico | `GET /api/v1/resultados/nao-conformidades` implementado |
 | Segundo endpoint analítico específico | `GET /api/v1/resultados/sem-limite-referencia` implementado |
 | Endpoint analítico mensal | `GET /api/v1/resultados/resumo-mensal` implementado |
+| Endpoint analítico de ranking | `GET /api/v1/resultados/parametros-criticos` implementado |
 | Validação SQL Server real | Concluída em 2026-05-28 |
-| Testes | 34 testes aprovados |
+| Testes | 39 testes aprovados |
 | Workspace | Preparado para evolução dos endpoints |
 
 Validação real do endpoint `GET /api/v1/pontos-coleta`:
@@ -424,6 +428,18 @@ Validação real do endpoint `GET /api/v1/resultados/resumo-mensal`:
 - Filtros validados: `ano` e `mes`.
 - `page_size=101` retorna HTTP 422.
 - `mes=13` retorna HTTP 422.
+- Indicadores consumidos diretamente da view, sem recalculo em Python.
+
+Validação real do endpoint `GET /api/v1/resultados/parametros-criticos`:
+
+- Fonte oficial: `VW_RankingParametrosCriticos`.
+- Total retornado: 12 parâmetros.
+- Ranking 1 observado: `Turbidez`.
+- Filtros validados: `categoria` e `limit`.
+- `categoria=Fisico-quimico` retorna 5 registros.
+- `limit=3` retorna 3 registros.
+- `page_size=101` retorna HTTP 422.
+- `limit=101` retorna HTTP 422.
 - Indicadores consumidos diretamente da view, sem recalculo em Python.
 
 Ainda não fazem parte do escopo atual:

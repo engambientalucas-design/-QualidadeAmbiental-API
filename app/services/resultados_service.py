@@ -156,3 +156,26 @@ def list_resumo_mensal(
         data=data,
         pagination=pagination_metadata(page=page, page_size=page_size, total=total),
     )
+
+
+def list_parametros_criticos(
+    db: Session,
+    *,
+    categoria: str | None = None,
+    limit: int | None = None,
+    page: int = 1,
+    page_size: int = 20,
+) -> dict:
+    data, total = resultados_repository.list_parametros_criticos(
+        db,
+        categoria=categoria,
+        limit=limit,
+        page=page,
+        page_size=page_size,
+    )
+
+    return success_response(
+        message="Consulta realizada com sucesso.",
+        data=data,
+        pagination=pagination_metadata(page=page, page_size=page_size, total=total),
+    )

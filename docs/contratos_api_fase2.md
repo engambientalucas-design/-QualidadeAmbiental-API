@@ -232,6 +232,8 @@ Observacao: filtros por municipio, categoria, ponto de coleta ou parametro nao f
 
 ## GET /api/v1/resultados/parametros-criticos
 
+Status: implementado e validado.
+
 Objetivo: ranking de parametros por nao conformidade.
 
 Fonte recomendada: `VW_RankingParametrosCriticos`.
@@ -240,6 +242,22 @@ Filtros iniciais:
 
 - `categoria`;
 - `limit`.
+- `page`;
+- `page_size`.
+
+Campos publicos:
+
+- `ranking`;
+- `id_parametro`;
+- `nome_parametro`;
+- `categoria`;
+- `total_resultados`;
+- `resultados_com_limite`;
+- `resultados_sem_limite`;
+- `total_nao_conformidades`;
+- `percentual_nao_conformidade_com_limite`.
+
+Observacao: a view nao possui coluna fisica de ranking. A API calcula a posicao em SQL com `ROW_NUMBER()` usando indicadores oficiais da view, sem recalcular indicadores de negocio em Python.
 
 ## Fora do escopo imediato
 

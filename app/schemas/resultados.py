@@ -69,3 +69,24 @@ class ResumoMensalListResponse(BaseModel):
     message: str = Field(default="Consulta realizada com sucesso.")
     data: list[ResumoMensalResponse]
     pagination: PaginationResponse
+
+
+class ParametroCriticoResponse(BaseModel):
+    ranking: int = Field(..., ge=1, examples=[1])
+    id_parametro: int = Field(..., examples=[2])
+    nome_parametro: str = Field(..., examples=["Turbidez"])
+    categoria: str | None = Field(default=None, examples=["Fisico-quimico"])
+    total_resultados: int | None = Field(default=None, ge=0, examples=[6])
+    resultados_com_limite: int | None = Field(default=None, ge=0, examples=[5])
+    resultados_sem_limite: int | None = Field(default=None, ge=0, examples=[1])
+    total_nao_conformidades: int | None = Field(default=None, ge=0, examples=[2])
+    percentual_nao_conformidade_com_limite: float | None = Field(default=None, examples=[40.0])
+
+    model_config = ConfigDict(from_attributes=True)
+
+
+class ParametroCriticoListResponse(BaseModel):
+    success: bool = Field(default=True, examples=[True])
+    message: str = Field(default="Consulta realizada com sucesso.")
+    data: list[ParametroCriticoResponse]
+    pagination: PaginationResponse

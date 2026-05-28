@@ -30,6 +30,11 @@ BASE_SELECT_RESUMO_MENSAL = """
     WHERE 1 = 1
 """
 
+BASE_SELECT_PARAMETROS_CRITICOS = """
+    FROM VW_RankingParametrosCriticos
+    WHERE 1 = 1
+"""
+
 
 def _build_filters(
     data_inicio: date | None,
@@ -199,6 +204,19 @@ def _build_resumo_mensal_filters(
     if mes is not None:
         conditions.append("AND MesColeta = :mes")
         params["mes"] = mes
+
+    return "\n".join(conditions), params
+
+
+def _build_parametros_criticos_filters(
+    categoria: str | None,
+) -> tuple[str, dict[str, Any]]:
+    conditions: list[str] = []
+    params: dict[str, Any] = {}
+
+    if categoria:
+        conditions.append("AND Categoria = :categoria")
+        params["categoria"] = categoria
 
     return "\n".join(conditions), params
 
@@ -534,6 +552,94 @@ def list_resumo_mensal(
         list_query,
         {
             **params,
+            "offset": offset,
+            "page_size": page_size,
+        },
+    ).mappings()
+
+    return [
+        {key: _normalize_value(value) for key, value in dict(row).items()}
+        for row in rows
+    ], total
+
+
+def list_parametros_criticos(
+    db: Session,
+    *,
+    categoria: str | None = None,
+    limit: int | None = None,
+    page: int = 1,
+    page_size: int = 20,
+) -> tuple[list[dict[str, Any]], int]:
+    filters_sql, params = _build_parametros_criticos_filters(categoria=categoria)
+    offset = (page - 1) * page_size
+
+    base_cte = f"""
+        WITH ranked AS (
+            SELECT
+                ROW_NUMBER() OVER (
+                    ORDER BY
+                        TotalNaoConformidades DESC,
+                        PercentualNaoConformidadeComLimite DESC,
+                        IdParametro ASC
+                ) AS ranking,
+                IdParametro AS id_parametro,
+                NomeParametro AS nome_parametro,
+                Categoria AS categoria,
+                TotalResultados AS total_resultados,
+                ResultadosComLimite AS resultados_com_limite,
+                ResultadosSemLimite AS resultados_sem_limite,
+                TotalNaoConformidades AS total_nao_conformidades,
+                PercentualNaoConformidadeComLimite AS percentual_nao_conformidade_com_limite
+            {BASE_SELECT_PARAMETROS_CRITICOS}
+            {filters_sql}
+        ),
+        limited AS (
+            SELECT *
+            FROM ranked
+            WHERE (:limit IS NULL OR ranking <= :limit)
+        )
+    """
+
+    query_params = {
+        **params,
+        "limit": limit,
+    }
+
+    count_query = text(
+        f"""
+        {base_cte}
+        SELECT COUNT(1)
+        FROM limited
+        """
+    )
+
+    total = db.execute(count_query, query_params).scalar_one()
+
+    list_query = text(
+        f"""
+        {base_cte}
+        SELECT
+            ranking,
+            id_parametro,
+            nome_parametro,
+            categoria,
+            total_resultados,
+            resultados_com_limite,
+            resultados_sem_limite,
+            total_nao_conformidades,
+            percentual_nao_conformidade_com_limite
+        FROM limited
+        ORDER BY ranking ASC
+        OFFSET :offset ROWS
+        FETCH NEXT :page_size ROWS ONLY
+        """
+    )
+
+    rows = db.execute(
+        list_query,
+        {
+            **query_params,
             "offset": offset,
             "page_size": page_size,
         },

@@ -370,6 +370,35 @@ Resultados:
 - Documentacao tecnica criada em `docs/resumo_mensal_endpoint.md`.
 - Nenhum CRUD, migration, autenticacao, Docker, deploy ou alteracao no SQL Server foi criado.
 
+## Fase 2.8 - Endpoint Analitico Read-only de Ranking de Parametros Criticos
+
+Status: concluida em 2026-05-28.
+
+Objetivos:
+
+- Implementar `GET /api/v1/resultados/parametros-criticos`.
+- Consumir `VW_RankingParametrosCriticos` como fonte oficial dos indicadores.
+- Nao recalcular indicadores em Python.
+- Reaproveitar schema, service, repository e router da familia de resultados quando adequado.
+- Validar OpenAPI, testes automatizados e SQL Server real.
+
+Resultados:
+
+- View `VW_RankingParametrosCriticos` inspecionada em modo read-only.
+- Endpoint implementado no router de resultados.
+- Repository de resultados ampliado com consulta read-only da view.
+- Ranking publico calculado em SQL por `ROW_NUMBER()` sobre os indicadores oficiais da view.
+- Percentual `Decimal` convertido para numero JSON.
+- Filtros implementados: `categoria` e `limit`.
+- Paginacao `page` e `page_size` implementada.
+- Limite maximo de `page_size` e `limit` definido em 100.
+- Suite automatizada aprovada com 39 testes.
+- Validacao real contra SQL Server concluida.
+- Total real validado: 12 parametros.
+- Ranking 1 validado: `Turbidez`.
+- Documentacao tecnica criada em `docs/parametros_criticos_endpoint.md`.
+- Nenhum CRUD, migration, autenticacao, Docker, deploy ou alteracao no SQL Server foi criado.
+
 ## Fase 2 - Endpoints de Consulta
 
 Status: em andamento.
@@ -388,6 +417,7 @@ Escopo previsto:
 - `GET /api/v1/resultados/nao-conformidades` (implementado na Fase 2.5)
 - `GET /api/v1/resultados/sem-limite-referencia` (implementado na Fase 2.6)
 - `GET /api/v1/resultados/resumo-mensal` (implementado na Fase 2.7)
+- `GET /api/v1/resultados/parametros-criticos` (implementado na Fase 2.8)
 
 Filtros previstos:
 
