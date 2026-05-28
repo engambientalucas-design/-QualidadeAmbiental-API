@@ -16,6 +16,65 @@ router = APIRouter(
 
 
 @router.get(
+    "/nao-conformidades",
+    response_model=ResultadoListResponse,
+    summary="Lista resultados fora do padrao",
+    description="Consulta resultados nao conformes a partir da view VW_ResultadosForaDoPadrao.",
+)
+def list_resultados_nao_conformidades(
+    data_inicio: Annotated[
+        date | None,
+        Query(description="Filtra coletas a partir desta data."),
+    ] = None,
+    data_fim: Annotated[
+        date | None,
+        Query(description="Filtra coletas ate esta data."),
+    ] = None,
+    municipio: Annotated[
+        str | None,
+        Query(min_length=1, max_length=100, description="Filtra por municipio."),
+    ] = None,
+    id_ponto_coleta: Annotated[
+        int | None,
+        Query(ge=1, description="Filtra por identificador do ponto de coleta."),
+    ] = None,
+    id_parametro: Annotated[
+        int | None,
+        Query(ge=1, description="Filtra por identificador do parametro."),
+    ] = None,
+    categoria: Annotated[
+        str | None,
+        Query(min_length=1, max_length=80, description="Filtra por categoria do parametro."),
+    ] = None,
+    classificacao_resultado: Annotated[
+        str | None,
+        Query(min_length=1, max_length=80, description="Filtra por classificacao calculada na view."),
+    ] = None,
+    page: Annotated[
+        int,
+        Query(ge=1, description="Numero da pagina."),
+    ] = 1,
+    page_size: Annotated[
+        int,
+        Query(ge=1, le=100, description="Quantidade de registros por pagina."),
+    ] = 20,
+    db: Session = Depends(get_db),
+) -> dict:
+    return resultados_service.list_resultados_nao_conformidades(
+        db,
+        data_inicio=data_inicio,
+        data_fim=data_fim,
+        municipio=municipio,
+        id_ponto_coleta=id_ponto_coleta,
+        id_parametro=id_parametro,
+        categoria=categoria,
+        classificacao_resultado=classificacao_resultado,
+        page=page,
+        page_size=page_size,
+    )
+
+
+@router.get(
     "",
     response_model=ResultadoListResponse,
     summary="Lista resultados analiticos consolidados",

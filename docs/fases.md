@@ -287,6 +287,33 @@ Resultados:
 - Documentacao tecnica criada em `docs/resultados_endpoint.md`.
 - Nenhum CRUD, migration, autenticacao, Docker, deploy ou alteracao no SQL Server foi criado.
 
+## Fase 2.5 - Endpoint Read-only de Nao Conformidades
+
+Status: concluida em 2026-05-28.
+
+Objetivos:
+
+- Implementar `GET /api/v1/resultados/nao-conformidades`.
+- Consumir `VW_ResultadosForaDoPadrao` como fonte oficial do recorte.
+- Manter contrato compativel com `GET /api/v1/resultados`.
+- Nao recalcular conformidade em Python.
+- Reaproveitar schema, service, repository e router de resultados quando adequado.
+- Validar OpenAPI, testes automatizados e SQL Server real.
+
+Resultados:
+
+- View `VW_ResultadosForaDoPadrao` inspecionada em modo read-only.
+- Shape reduzido da view documentado em `docs/inspecao_vw_resultados_fora_do_padrao.md`.
+- Endpoint implementado no router de resultados.
+- Repository consulta `VW_ResultadosForaDoPadrao` como recorte e junta com `VW_ConformidadeResultados` por `IdResultado` para preservar contrato completo.
+- Conformidade consumida diretamente das views, sem recalculo em Python.
+- Suite automatizada aprovada com 24 testes.
+- Validacao real contra SQL Server concluida.
+- Total real retornado: 7 registros.
+- Todos os registros retornados apresentaram `indicador_nao_conforme=true`.
+- Documentacao tecnica criada em `docs/resultados_nao_conformidades_endpoint.md`.
+- Nenhum CRUD, migration, autenticacao, Docker, deploy ou alteracao no SQL Server foi criado.
+
 ## Fase 2 - Endpoints de Consulta
 
 Status: em andamento.
@@ -302,7 +329,7 @@ Escopo previsto:
 - `GET /api/v1/resultados` (implementado na Fase 2.4)
 - `GET /api/v1/resultados/{id}`
 - `GET /api/v1/resultados/resumo`
-- `GET /api/v1/resultados/nao-conformidades`
+- `GET /api/v1/resultados/nao-conformidades` (implementado na Fase 2.5)
 
 Filtros previstos:
 

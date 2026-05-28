@@ -163,6 +163,8 @@ Campos sugeridos:
 
 ## GET /api/v1/resultados/nao-conformidades
 
+Status: implementado e validado.
+
 Objetivo: listar resultados fora do padrao.
 
 Fonte recomendada: `VW_ResultadosForaDoPadrao`.

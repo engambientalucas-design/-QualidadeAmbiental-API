@@ -136,7 +136,7 @@ Views relevantes para a evolução da API:
 | `GET /api/v1/parametros` | Listagem de parâmetros ambientais | ✅ Implementado |
 | `GET /api/v1/amostras` | Listagem de amostras | ✅ Implementado |
 | `GET /api/v1/resultados` | Resultados analíticos consolidados | ✅ Implementado |
-| `GET /api/v1/resultados/nao-conformidades` | Resultados fora do padrão | 📋 Planejado |
+| `GET /api/v1/resultados/nao-conformidades` | Resultados fora do padrão | ✅ Implementado |
 | `GET /api/v1/resultados/resumo-mensal` | Resumo mensal de conformidade | 📋 Planejado |
 | `GET /api/v1/resultados/parametros-criticos` | Ranking de parâmetros críticos | 📋 Planejado |
 
@@ -250,12 +250,13 @@ pytest
 
 Status atual:
 
-- ✅ 19 testes aprovados
+- ✅ 24 testes aprovados
 - ✅ Endpoint `/health` validado
 - ✅ Endpoint `/api/v1/pontos-coleta` validado por contrato
 - ✅ Endpoint `/api/v1/parametros` validado por contrato
 - ✅ Endpoint `/api/v1/amostras` validado por contrato
 - ✅ Endpoint `/api/v1/resultados` validado por contrato
+- ✅ Endpoint `/api/v1/resultados/nao-conformidades` validado por contrato
 - ✅ Paginação e filtros básicos validados
 
 ---
@@ -286,6 +287,7 @@ Medidas já aplicadas no projeto:
 | `docs/parametros_endpoint.md` | Documentação técnica do endpoint de parâmetros. |
 | `docs/amostras_endpoint.md` | Documentação técnica do endpoint de amostras com joins. |
 | `docs/resultados_endpoint.md` | Documentação técnica do endpoint de resultados consolidados. |
+| `docs/resultados_nao_conformidades_endpoint.md` | Documentação técnica do endpoint de não conformidades. |
 | `docs/versionamento_backup.md` | Política de Git, snapshots e rollback. |
 | `docs/decisoes_tecnicas.md` | Decisões arquiteturais e tecnológicas. |
 | `docs/checklist_operacional.md` | Checklist antes de mudanças críticas. |
@@ -303,6 +305,7 @@ Medidas já aplicadas no projeto:
 - [x] Fase 2.2 - Endpoint read-only: `GET /api/v1/parametros`
 - [x] Fase 2.3 - Endpoint read-only com joins: `GET /api/v1/amostras`
 - [x] Fase 2.4 - Endpoint read-only consolidado: `GET /api/v1/resultados`
+- [x] Fase 2.5 - Endpoint read-only analítico: `GET /api/v1/resultados/nao-conformidades`
 - [ ] Fase 2 - Endpoints de consulta do domínio
 - [ ] Fase 3 - Organização profissional, paginação, filtros e erros
 - [ ] Fase 4 - Evolução funcional controlada
@@ -330,7 +333,7 @@ A proposta é evoluir a API com qualidade, mantendo rastreabilidade técnica e c
 
 | Item | Status |
 | ---- | ------ |
-| Fase atual | Fase 2.4 concluída |
+| Fase atual | Fase 2.5 concluída |
 | Próxima etapa | Definir próximo endpoint read-only da Fase 2 |
 | API local | Validada |
 | Swagger/ReDoc | Ativos |
@@ -339,8 +342,9 @@ A proposta é evoluir a API com qualidade, mantendo rastreabilidade técnica e c
 | Segundo endpoint de domínio | `GET /api/v1/parametros` implementado |
 | Primeiro endpoint com joins | `GET /api/v1/amostras` implementado |
 | Primeiro endpoint consolidado por view | `GET /api/v1/resultados` implementado |
+| Primeiro endpoint analítico específico | `GET /api/v1/resultados/nao-conformidades` implementado |
 | Validação SQL Server real | Concluída em 2026-05-28 |
-| Testes | 19 testes aprovados |
+| Testes | 24 testes aprovados |
 | Workspace | Preparado para evolução dos endpoints |
 
 Validação real do endpoint `GET /api/v1/pontos-coleta`:
@@ -383,6 +387,15 @@ Validação real do endpoint `GET /api/v1/resultados`:
 - Filtros validados: `municipio`, `id_parametro`, `categoria`, `classificacao_resultado`, `indicador_nao_conforme`, `possui_limite_referencia`, `codigo_amostra`, `id_amostra`, `id_ponto_coleta`, `data_inicio` e `data_fim`.
 - `indicador_nao_conforme` aceita retorno `null` para resultados sem limite.
 - Conformidade consumida diretamente da view, sem recalculo em Python.
+
+Validação real do endpoint `GET /api/v1/resultados/nao-conformidades`:
+
+- Fonte do recorte: `VW_ResultadosForaDoPadrao`.
+- Total retornado: 7 registros.
+- Paginação validada com `page=1&page_size=2`.
+- Filtros validados: `municipio`, `categoria`, `classificacao_resultado`, `id_parametro`, `id_ponto_coleta`, `data_inicio` e `data_fim`.
+- Todos os registros retornados apresentaram `indicador_nao_conforme=true`.
+- Conformidade consumida diretamente das views, sem recalculo em Python.
 
 Ainda não fazem parte do escopo atual:
 

@@ -187,3 +187,115 @@ def test_resultados_openapi_contains_endpoint_and_query_params() -> None:
         "page",
         "page_size",
     ]
+
+
+def test_resultados_nao_conformidades_returns_standard_response(monkeypatch) -> None:
+    def fake_list_resultados_nao_conformidades(db: object, **kwargs: Any) -> dict:
+        return {
+            "success": True,
+            "message": "Consulta realizada com sucesso.",
+            "data": [resultado_payload(indicador_nao_conforme=True)],
+            "pagination": {"page": 1, "page_size": 20, "total": 1},
+        }
+
+    app.dependency_overrides[get_db] = override_get_db
+    monkeypatch.setattr(
+        resultados.resultados_service,
+        "list_resultados_nao_conformidades",
+        fake_list_resultados_nao_conformidades,
+    )
+
+    response = client.get("/api/v1/resultados/nao-conformidades")
+
+    app.dependency_overrides.clear()
+
+    assert response.status_code == 200
+    payload = response.json()
+    assert payload["success"] is True
+    assert payload["pagination"] == {"page": 1, "page_size": 20, "total": 1}
+    assert payload["data"][0]["indicador_nao_conforme"] is True
+
+
+def test_resultados_nao_conformidades_forwards_filters_and_pagination(monkeypatch) -> None:
+    captured: dict[str, Any] = {}
+
+    def fake_list_resultados_nao_conformidades(db: object, **kwargs: Any) -> dict:
+        captured.update(kwargs)
+        return {
+            "success": True,
+            "message": "Consulta realizada com sucesso.",
+            "data": [],
+            "pagination": {"page": kwargs["page"], "page_size": kwargs["page_size"], "total": 0},
+        }
+
+    app.dependency_overrides[get_db] = override_get_db
+    monkeypatch.setattr(
+        resultados.resultados_service,
+        "list_resultados_nao_conformidades",
+        fake_list_resultados_nao_conformidades,
+    )
+
+    response = client.get(
+        "/api/v1/resultados/nao-conformidades",
+        params={
+            "data_inicio": "2026-04-01",
+            "data_fim": "2026-04-03",
+            "municipio": "Cuiaba",
+            "id_ponto_coleta": 6,
+            "id_parametro": 11,
+            "categoria": "Nutrientes",
+            "classificacao_resultado": "Acima do limite maximo",
+            "page": 2,
+            "page_size": 10,
+        },
+    )
+
+    app.dependency_overrides.clear()
+
+    assert response.status_code == 200
+    assert captured == {
+        "data_inicio": date(2026, 4, 1),
+        "data_fim": date(2026, 4, 3),
+        "municipio": "Cuiaba",
+        "id_ponto_coleta": 6,
+        "id_parametro": 11,
+        "categoria": "Nutrientes",
+        "classificacao_resultado": "Acima do limite maximo",
+        "page": 2,
+        "page_size": 10,
+    }
+
+
+def test_resultados_nao_conformidades_rejects_invalid_page_size() -> None:
+    response = client.get("/api/v1/resultados/nao-conformidades", params={"page_size": 101})
+
+    assert response.status_code == 422
+
+
+def test_resultados_nao_conformidades_rejects_invalid_date_range() -> None:
+    response = client.get(
+        "/api/v1/resultados/nao-conformidades",
+        params={"data_inicio": "2026-04-03", "data_fim": "2026-04-01"},
+    )
+
+    assert response.status_code == 422
+    assert response.json()["detail"] == "data_inicio deve ser menor ou igual a data_fim."
+
+
+def test_resultados_nao_conformidades_openapi_contains_endpoint_and_query_params() -> None:
+    schema = app.openapi()
+    operation = schema["paths"]["/api/v1/resultados/nao-conformidades"]["get"]
+    params = [param["name"] for param in operation["parameters"]]
+
+    assert operation["tags"] == ["resultados"]
+    assert params == [
+        "data_inicio",
+        "data_fim",
+        "municipio",
+        "id_ponto_coleta",
+        "id_parametro",
+        "categoria",
+        "classificacao_resultado",
+        "page",
+        "page_size",
+    ]
