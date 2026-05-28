@@ -134,7 +134,7 @@ Views relevantes para a evolução da API:
 | `GET /health` | Health check da aplicação | ✅ Implementado |
 | `GET /api/v1/pontos-coleta` | Listagem de pontos de coleta | ✅ Implementado |
 | `GET /api/v1/parametros` | Listagem de parâmetros ambientais | ✅ Implementado |
-| `GET /api/v1/amostras` | Listagem de amostras | 📋 Planejado |
+| `GET /api/v1/amostras` | Listagem de amostras | ✅ Implementado |
 | `GET /api/v1/resultados` | Resultados analíticos consolidados | 📋 Planejado |
 | `GET /api/v1/resultados/nao-conformidades` | Resultados fora do padrão | 📋 Planejado |
 | `GET /api/v1/resultados/resumo-mensal` | Resumo mensal de conformidade | 📋 Planejado |
@@ -250,10 +250,11 @@ pytest
 
 Status atual:
 
-- ✅ 8 testes aprovados
+- ✅ 13 testes aprovados
 - ✅ Endpoint `/health` validado
 - ✅ Endpoint `/api/v1/pontos-coleta` validado por contrato
 - ✅ Endpoint `/api/v1/parametros` validado por contrato
+- ✅ Endpoint `/api/v1/amostras` validado por contrato
 - ✅ Paginação e filtros básicos validados
 
 ---
@@ -282,6 +283,7 @@ Medidas já aplicadas no projeto:
 | `docs/contratos_api_fase2.md` | Contratos planejados para endpoints read-only. |
 | `docs/pontos_coleta_endpoint.md` | Documentação técnica do primeiro endpoint read-only. |
 | `docs/parametros_endpoint.md` | Documentação técnica do endpoint de parâmetros. |
+| `docs/amostras_endpoint.md` | Documentação técnica do endpoint de amostras com joins. |
 | `docs/versionamento_backup.md` | Política de Git, snapshots e rollback. |
 | `docs/decisoes_tecnicas.md` | Decisões arquiteturais e tecnológicas. |
 | `docs/checklist_operacional.md` | Checklist antes de mudanças críticas. |
@@ -297,6 +299,7 @@ Medidas já aplicadas no projeto:
 - [x] Fase 2.0 - Inspeção real do banco SQL Server
 - [x] Fase 2.1 - Primeiro endpoint read-only: `GET /api/v1/pontos-coleta`
 - [x] Fase 2.2 - Endpoint read-only: `GET /api/v1/parametros`
+- [x] Fase 2.3 - Endpoint read-only com joins: `GET /api/v1/amostras`
 - [ ] Fase 2 - Endpoints de consulta do domínio
 - [ ] Fase 3 - Organização profissional, paginação, filtros e erros
 - [ ] Fase 4 - Evolução funcional controlada
@@ -324,15 +327,16 @@ A proposta é evoluir a API com qualidade, mantendo rastreabilidade técnica e c
 
 | Item | Status |
 | ---- | ------ |
-| Fase atual | Fase 2.2 concluída |
+| Fase atual | Fase 2.3 concluída |
 | Próxima etapa | Definir próximo endpoint read-only da Fase 2 |
 | API local | Validada |
 | Swagger/ReDoc | Ativos |
 | Banco SQL Server | Inspecionado em modo read-only |
 | Primeiro endpoint de domínio | `GET /api/v1/pontos-coleta` implementado |
 | Segundo endpoint de domínio | `GET /api/v1/parametros` implementado |
+| Primeiro endpoint com joins | `GET /api/v1/amostras` implementado |
 | Validação SQL Server real | Concluída em 2026-05-28 |
-| Testes | 8 testes aprovados |
+| Testes | 13 testes aprovados |
 | Workspace | Preparado para evolução dos endpoints |
 
 Validação real do endpoint `GET /api/v1/pontos-coleta`:
@@ -354,6 +358,18 @@ Validação real do endpoint `GET /api/v1/parametros`:
 - Filtros validados: `ativo=true`, `ativo=false`, `categoria=Fisico-quimico`.
 - Filtro sem resultado retorna `data=[]` e `total=0`.
 - Limite de `page_size=101` retorna HTTP 422.
+
+Validação real do endpoint `GET /api/v1/amostras`:
+
+- Banco: `QualidadeAmbiental`.
+- Fonte principal: `Tbl_Amostras`.
+- Joins validados com pontos de coleta, tipos de amostra, status e responsáveis.
+- Total retornado: 6 registros.
+- Paginação validada com `page=1&page_size=2`.
+- Filtros validados: `municipio=Cuiaba`, `id_tipo_amostra=1`, `id_status=3`, `data_inicio` e `data_fim`.
+- Filtro sem resultado retorna `data=[]` e `total=0`.
+- Limite de `page_size=101` retorna HTTP 422.
+- Intervalo inválido `data_inicio > data_fim` retorna HTTP 422.
 
 Ainda não fazem parte do escopo atual:
 

@@ -31,6 +31,8 @@ Recursos individuais podem usar o mesmo envelope sem `pagination`.
 
 ## GET /api/v1/pontos-coleta
 
+Status: implementado e validado.
+
 Objetivo: listar pontos de coleta.
 
 Fonte primaria: `Tbl_PontosColeta`.
@@ -56,6 +58,8 @@ Campos sugeridos:
 
 ## GET /api/v1/parametros
 
+Status: implementado e validado.
+
 Objetivo: listar parametros ambientais.
 
 Fonte primaria: `Tbl_Parametros`.
@@ -78,6 +82,8 @@ Campos sugeridos:
 
 ## GET /api/v1/amostras
 
+Status: implementado e validado.
+
 Objetivo: listar amostras com dados de ponto, tipo, status e responsavel.
 
 Fonte primaria: `Tbl_Amostras` com joins nas tabelas de dominio.
@@ -99,10 +105,16 @@ Campos sugeridos:
 - `codigo_amostra`;
 - `data_coleta`;
 - `hora_coleta`;
-- `ponto_coleta`;
-- `tipo_amostra`;
-- `status`;
-- `responsavel`;
+- `id_ponto_coleta`;
+- `nome_ponto`;
+- `municipio`;
+- `estado`;
+- `id_tipo_amostra`;
+- `nome_tipo_amostra`;
+- `id_status`;
+- `nome_status`;
+- `id_responsavel`;
+- `nome_responsavel`;
 - `observacao`.
 
 ## GET /api/v1/resultados
@@ -211,4 +223,4 @@ Filtros iniciais:
 
 ## Proximo passo recomendado
 
-Implementar primeiro `GET /api/v1/pontos-coleta`, pois e o endpoint mais simples e valida o fluxo completo da arquitetura sem depender de joins complexos.
+Proximo passo recomendado: avaliar `GET /api/v1/resultados`, usando preferencialmente `VW_ConformidadeResultados`, pois os endpoints simples e o primeiro endpoint com joins ja validaram o padrao arquitetural da Fase 2.

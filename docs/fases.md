@@ -203,6 +203,46 @@ Resultados:
 - Documentacao tecnica criada em `docs/parametros_endpoint.md`.
 - Nenhum CRUD, migration, autenticacao, Docker, deploy ou alteracao no SQL Server foi criado.
 
+## Fase 2.3 - Endpoint Read-only de Amostras
+
+Status: concluida em 2026-05-28.
+
+Objetivos:
+
+- Implementar `GET /api/v1/amostras`.
+- Validar a primeira consulta relacional com joins controlados.
+- Criar schema Pydantic com campos de data e hora.
+- Criar repository read-only com joins.
+- Criar service dedicado com validacao leve de intervalo de datas.
+- Implementar filtros `data_inicio`, `data_fim`, `id_ponto_coleta`, `municipio`, `id_tipo_amostra` e `id_status`.
+- Implementar paginacao `page` e `page_size`.
+- Criar testes automatizados.
+- Validar OpenAPI e SQL Server real.
+
+Resultados:
+
+- `GET /api/v1/amostras` implementado.
+- Router registrado em `/api/v1`.
+- Service dedicado criado em `app/services/amostras_service.py`.
+- Repository read-only criado com `SELECT`, `COUNT(1)`, joins parametrizados e paginacao por `OFFSET/FETCH`.
+- Joins implementados com `Tbl_PontosColeta`, `Tbl_TiposAmostra`, `Tbl_StatusAmostra` e `Tbl_Responsaveis`.
+- Schema Pydantic criado para resposta individual, lista e paginacao.
+- Campos `data_coleta` e `hora_coleta` tratados com tipos nativos `date` e `time`.
+- Validacao `data_inicio <= data_fim` implementada.
+- Ordenacao padrao definida por `DataColeta DESC, IdAmostra DESC`.
+- OpenAPI validado com endpoint, parametros e respostas esperadas.
+- Suite automatizada aprovada com 13 testes.
+- Validacao real contra SQL Server concluida.
+- Total real retornado em `Tbl_Amostras`: 6 registros.
+- Filtro `municipio=Cuiaba` retornou 4 registros.
+- Filtro `id_tipo_amostra=1` retornou 1 registro.
+- Filtro `id_status=3` retornou 6 registros.
+- Intervalo `2026-04-01` a `2026-04-30` retornou 6 registros.
+- `page_size=101` retornou HTTP 422.
+- Intervalo invalido `data_inicio > data_fim` retornou HTTP 422.
+- Documentacao tecnica criada em `docs/amostras_endpoint.md`.
+- Nenhum CRUD, migration, autenticacao, Docker, deploy ou alteracao no SQL Server foi criado.
+
 ## Fase 2 - Endpoints de Consulta
 
 Status: em andamento.
@@ -213,7 +253,7 @@ Escopo previsto:
 - `GET /api/v1/pontos-coleta/{id}`
 - `GET /api/v1/parametros` (implementado na Fase 2.2)
 - `GET /api/v1/parametros/{id}`
-- `GET /api/v1/amostras`
+- `GET /api/v1/amostras` (implementado na Fase 2.3)
 - `GET /api/v1/amostras/{id}`
 - `GET /api/v1/resultados`
 - `GET /api/v1/resultados/{id}`

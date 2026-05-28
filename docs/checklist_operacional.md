@@ -32,6 +32,8 @@ Use este checklist antes de evoluir o projeto ou executar mudancas criticas.
 - [x] Endpoint `/api/v1/pontos-coleta` validado por teste automatizado de contrato.
 - [x] Endpoint `/api/v1/parametros` implementado.
 - [x] Endpoint `/api/v1/parametros` validado por teste automatizado de contrato.
+- [x] Endpoint `/api/v1/amostras` implementado.
+- [x] Endpoint `/api/v1/amostras` validado por teste automatizado de contrato.
 - [x] Swagger `/docs` acessivel.
 - [x] ReDoc `/redoc` acessivel.
 - [x] OpenAPI `/openapi.json` acessivel.
@@ -42,8 +44,9 @@ Use este checklist antes de evoluir o projeto ou executar mudancas criticas.
 - [x] `tests/test_health.py` criado.
 - [x] `tests/test_pontos_coleta.py` criado.
 - [x] `tests/test_parametros.py` criado.
+- [x] `tests/test_amostras.py` criado.
 - [x] `pytest` executado.
-- [x] Suite atual aprovada: 8 testes.
+- [x] Suite atual aprovada: 13 testes.
 
 ## Governanca
 
@@ -160,5 +163,34 @@ Observacao: a aplicacao carrega `.env` diretamente via `pydantic-settings`; a co
 - [x] Filtro sem resultado validado com `data=[]`.
 - [x] `page_size=101` validado com HTTP 422.
 - [x] `pytest` executado com 8 testes aprovados.
+- [x] Documentacao tecnica do endpoint criada.
+- [x] Nenhuma alteracao realizada no SQL Server.
+
+## Fase 2.3 - Endpoint read-only de amostras
+
+- [x] Schema Pydantic de amostras criado.
+- [x] Repository read-only de amostras criado.
+- [x] Service de amostras criado.
+- [x] Router `GET /api/v1/amostras` criado.
+- [x] Router registrado na aplicacao.
+- [x] Resposta padronizada implementada.
+- [x] Joins com pontos de coleta, tipos, status e responsaveis implementados.
+- [x] Campos `data_coleta` e `hora_coleta` tipados como `date` e `time`.
+- [x] Validacao `data_inicio <= data_fim` implementada.
+- [x] Paginacao `page` e `page_size` implementada.
+- [x] Limite maximo de `page_size` definido em 100.
+- [x] Filtros `data_inicio`, `data_fim`, `id_ponto_coleta`, `municipio`, `id_tipo_amostra` e `id_status` implementados.
+- [x] Testes automatizados de contrato criados.
+- [x] OpenAPI/Swagger validado com parametros do endpoint.
+- [x] Validacao real com SQL Server concluida.
+- [x] Total real de `Tbl_Amostras` validado: 6 registros.
+- [x] Filtro `municipio=Cuiaba` validado.
+- [x] Filtro `id_tipo_amostra=1` validado.
+- [x] Filtro `id_status=3` validado.
+- [x] Intervalo `data_inicio=2026-04-01&data_fim=2026-04-30` validado.
+- [x] Filtro sem resultado validado com `data=[]`.
+- [x] `page_size=101` validado com HTTP 422.
+- [x] Intervalo invalido `data_inicio > data_fim` validado com HTTP 422.
+- [x] `pytest` executado com 13 testes aprovados.
 - [x] Documentacao tecnica do endpoint criada.
 - [x] Nenhuma alteracao realizada no SQL Server.
