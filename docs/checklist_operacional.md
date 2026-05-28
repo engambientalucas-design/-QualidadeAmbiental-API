@@ -9,8 +9,11 @@ Use este checklist antes de evoluir o projeto ou executar mudancas criticas.
 - [x] `pip` validado.
 - [x] Dependencias instaladas com `pip install -r requirements.txt`.
 - [x] Imports principais validados.
-- [ ] Arquivo `.env` criado a partir de `.env.example` quando a validacao de banco for necessaria.
-- [ ] Variaveis `QA_API_` conferidas quando a validacao de banco for necessaria.
+- [x] Arquivo `.env` criado a partir de `.env.example` quando a validacao de banco for necessaria.
+- [x] Variaveis `QA_API_` conferidas quando a validacao de banco for necessaria.
+- [x] VS Code configurado para usar `.venv`.
+- [x] VS Code configurado para localizar `${workspaceFolder}/.env`.
+- [x] VS Code configurado com `python.terminal.useEnvFile=true`.
 
 ## Banco de dados
 
@@ -44,6 +47,7 @@ Use este checklist antes de evoluir o projeto ou executar mudancas criticas.
 - [x] `.gitignore` revisado.
 - [x] `.env` ignorado pelo Git.
 - [x] `.venv/` ignorado pelo Git.
+- [x] `.vscode/settings.json` liberado para versionamento seguro.
 - [x] Logs ignorados pelo Git.
 - [x] Snapshot da Fase 1 gerado.
 - [x] Snapshot da Fase 1.3 gerado em 2026-05-27.
@@ -117,3 +121,16 @@ Use este checklist antes de evoluir o projeto ou executar mudancas criticas.
 - [x] `page_size=101` validado com HTTP 422.
 - [x] `pytest` executado com 5 testes aprovados.
 - [x] Nenhuma credencial exposta em documentacao ou Git.
+
+## Ambiente VS Code
+
+- [x] `.vscode/settings.json` criado.
+- [x] `python.defaultInterpreterPath` aponta para `.venv\Scripts\python.exe`.
+- [x] `python.envFile` aponta para `${workspaceFolder}/.env`.
+- [x] `python.terminal.useEnvFile` habilitado.
+- [x] `.env` permanece ignorado pelo Git.
+- [x] Configuracao versionada nao contem credenciais.
+- [ ] Validar `echo $env:QA_API_DB_NAME` em novo terminal integrado do VS Code.
+- [ ] Validar `echo $env:QA_API_DB_DRIVER` em novo terminal integrado do VS Code.
+
+Observacao: a aplicacao carrega `.env` diretamente via `pydantic-settings`; a configuracao do VS Code garante que o terminal integrado tambem receba as variaveis `QA_API_` ao abrir um novo terminal.

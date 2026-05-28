@@ -20,7 +20,8 @@ coverage.xml
 htmlcov/
 
 .idea/
-.vscode/
+.vscode/*
+!.vscode/settings.json
 
 *.log
 uvicorn.*.log

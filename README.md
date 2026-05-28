@@ -201,6 +201,27 @@ QA_API_DB_NAME=QualidadeAmbiental
 QA_API_DB_ENCRYPT=no
 ```
 
+### VS Code
+
+O projeto versiona uma configuração segura em `.vscode/settings.json` para padronizar o ambiente local:
+
+```json
+{
+  "python.defaultInterpreterPath": ".venv\\Scripts\\python.exe",
+  "python.envFile": "${workspaceFolder}/.env",
+  "python.terminal.useEnvFile": true
+}
+```
+
+A aplicação já lê o `.env` diretamente via `pydantic-settings`. A configuração `python.terminal.useEnvFile` garante que o terminal integrado do VS Code também injete as variáveis `QA_API_` ao abrir um novo terminal.
+
+Para validar no terminal integrado:
+
+```powershell
+echo $env:QA_API_DB_NAME
+echo $env:QA_API_DB_DRIVER
+```
+
 ### Execução
 
 ```powershell
@@ -242,7 +263,8 @@ Medidas já aplicadas no projeto:
 
 - `.env` fora do versionamento Git.
 - `.env.example` mantido apenas com valores de exemplo.
-- `.gitignore` configurado para ambiente virtual, logs, caches e snapshots.
+- `.gitignore` configurado para ambiente virtual, logs, caches, snapshots e arquivos locais do VS Code.
+- `.vscode/settings.json` versionado apenas com configurações seguras de ambiente.
 - Snapshots locais compactados em `backup/`, sem versionar arquivos `.zip`.
 - API read-only na fase atual.
 - Nenhuma migration ou alteração de schema no SQL Server.
