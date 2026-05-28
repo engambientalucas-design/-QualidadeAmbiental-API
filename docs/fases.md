@@ -166,6 +166,43 @@ Resultados:
 - Nenhuma credencial foi exposta ou versionada.
 - Nenhuma alteracao realizada no SQL Server.
 
+## Fase 2.2 - Endpoint Read-only de Parametros
+
+Status: concluida em 2026-05-28.
+
+Objetivos:
+
+- Implementar `GET /api/v1/parametros`.
+- Reaplicar o fluxo `router -> service -> repository -> banco`.
+- Criar schema Pydantic de resposta.
+- Criar repository read-only.
+- Criar service dedicado.
+- Implementar filtros `categoria` e `ativo`.
+- Implementar paginacao `page` e `page_size`.
+- Criar testes automatizados.
+- Validar OpenAPI e SQL Server real.
+
+Resultados:
+
+- `GET /api/v1/parametros` implementado.
+- Router registrado em `/api/v1`.
+- Service dedicado criado em `app/services/parametros_service.py`.
+- Repository read-only criado com `SELECT`, `COUNT(1)`, filtros parametrizados e paginacao por `OFFSET/FETCH`.
+- Schema Pydantic criado para resposta individual, lista e paginacao.
+- Campo publico `ativo` tratado como booleano.
+- Filtros iniciais implementados: `categoria`, `ativo`.
+- Paginacao implementada com `page` padrao `1`, `page_size` padrao `20` e maximo `100`.
+- OpenAPI validado com endpoint, parametros e respostas esperadas.
+- Suite automatizada aprovada com 8 testes.
+- Validacao real contra SQL Server concluida.
+- Total real retornado em `Tbl_Parametros`: 12 registros.
+- Filtro `categoria=Fisico-quimico` retornou 5 registros.
+- Filtro `ativo=true` retornou 12 registros.
+- Filtro `ativo=false` retornou 0 registros.
+- `page_size=101` retornou HTTP 422.
+- Documentacao tecnica criada em `docs/parametros_endpoint.md`.
+- Nenhum CRUD, migration, autenticacao, Docker, deploy ou alteracao no SQL Server foi criado.
+
 ## Fase 2 - Endpoints de Consulta
 
 Status: em andamento.
@@ -174,7 +211,7 @@ Escopo previsto:
 
 - `GET /api/v1/pontos-coleta` (implementado na Fase 2.1)
 - `GET /api/v1/pontos-coleta/{id}`
-- `GET /api/v1/parametros`
+- `GET /api/v1/parametros` (implementado na Fase 2.2)
 - `GET /api/v1/parametros/{id}`
 - `GET /api/v1/amostras`
 - `GET /api/v1/amostras/{id}`

@@ -30,6 +30,8 @@ Use este checklist antes de evoluir o projeto ou executar mudancas criticas.
 - [x] Endpoint `/health` validado por teste automatizado.
 - [x] Endpoint `/api/v1/pontos-coleta` implementado.
 - [x] Endpoint `/api/v1/pontos-coleta` validado por teste automatizado de contrato.
+- [x] Endpoint `/api/v1/parametros` implementado.
+- [x] Endpoint `/api/v1/parametros` validado por teste automatizado de contrato.
 - [x] Swagger `/docs` acessivel.
 - [x] ReDoc `/redoc` acessivel.
 - [x] OpenAPI `/openapi.json` acessivel.
@@ -39,8 +41,9 @@ Use este checklist antes de evoluir o projeto ou executar mudancas criticas.
 
 - [x] `tests/test_health.py` criado.
 - [x] `tests/test_pontos_coleta.py` criado.
+- [x] `tests/test_parametros.py` criado.
 - [x] `pytest` executado.
-- [x] Suite atual aprovada: 5 testes.
+- [x] Suite atual aprovada: 8 testes.
 
 ## Governanca
 
@@ -134,3 +137,28 @@ Use este checklist antes de evoluir o projeto ou executar mudancas criticas.
 - [ ] Validar `echo $env:QA_API_DB_DRIVER` em novo terminal integrado do VS Code.
 
 Observacao: a aplicacao carrega `.env` diretamente via `pydantic-settings`; a configuracao do VS Code garante que o terminal integrado tambem receba as variaveis `QA_API_` ao abrir um novo terminal.
+
+## Fase 2.2 - Endpoint read-only de parametros
+
+- [x] Schema Pydantic de parametros criado.
+- [x] Repository read-only de parametros criado.
+- [x] Service de parametros criado.
+- [x] Router `GET /api/v1/parametros` criado.
+- [x] Router registrado na aplicacao.
+- [x] Resposta padronizada implementada.
+- [x] Paginacao `page` e `page_size` implementada.
+- [x] Limite maximo de `page_size` definido em 100.
+- [x] Filtros `categoria` e `ativo` implementados.
+- [x] Campo `ativo` tratado como booleano na API publica.
+- [x] Testes automatizados de contrato criados.
+- [x] OpenAPI/Swagger validado com parametros do endpoint.
+- [x] Validacao real com SQL Server concluida.
+- [x] Total real de `Tbl_Parametros` validado: 12 registros.
+- [x] Filtro `categoria=Fisico-quimico` validado.
+- [x] Filtro `ativo=true` validado.
+- [x] Filtro `ativo=false` validado.
+- [x] Filtro sem resultado validado com `data=[]`.
+- [x] `page_size=101` validado com HTTP 422.
+- [x] `pytest` executado com 8 testes aprovados.
+- [x] Documentacao tecnica do endpoint criada.
+- [x] Nenhuma alteracao realizada no SQL Server.
