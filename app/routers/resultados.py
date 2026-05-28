@@ -1,4 +1,94 @@
-"""Rotas de resultados analíticos.
+from datetime import date
+from typing import Annotated
 
-Endpoints GET serão adicionados na Fase 2.
-"""
+from fastapi import APIRouter, Depends, Query
+from sqlalchemy.orm import Session
+
+from app.core.config import settings
+from app.core.database import get_db
+from app.schemas.resultados import ResultadoListResponse
+from app.services import resultados_service
+
+router = APIRouter(
+    prefix=f"{settings.API_V1_PREFIX}/resultados",
+    tags=["resultados"],
+)
+
+
+@router.get(
+    "",
+    response_model=ResultadoListResponse,
+    summary="Lista resultados analiticos consolidados",
+    description="Consulta resultados consolidados pela view VW_ConformidadeResultados.",
+)
+def list_resultados(
+    data_inicio: Annotated[
+        date | None,
+        Query(description="Filtra coletas a partir desta data."),
+    ] = None,
+    data_fim: Annotated[
+        date | None,
+        Query(description="Filtra coletas ate esta data."),
+    ] = None,
+    id_amostra: Annotated[
+        int | None,
+        Query(ge=1, description="Filtra por identificador da amostra."),
+    ] = None,
+    codigo_amostra: Annotated[
+        str | None,
+        Query(min_length=1, max_length=50, description="Filtra por codigo da amostra."),
+    ] = None,
+    id_ponto_coleta: Annotated[
+        int | None,
+        Query(ge=1, description="Filtra por identificador do ponto de coleta."),
+    ] = None,
+    municipio: Annotated[
+        str | None,
+        Query(min_length=1, max_length=100, description="Filtra por municipio."),
+    ] = None,
+    id_parametro: Annotated[
+        int | None,
+        Query(ge=1, description="Filtra por identificador do parametro."),
+    ] = None,
+    categoria: Annotated[
+        str | None,
+        Query(min_length=1, max_length=80, description="Filtra por categoria do parametro."),
+    ] = None,
+    classificacao_resultado: Annotated[
+        str | None,
+        Query(min_length=1, max_length=80, description="Filtra por classificacao calculada na view."),
+    ] = None,
+    possui_limite_referencia: Annotated[
+        bool | None,
+        Query(description="Filtra resultados com ou sem limite de referencia."),
+    ] = None,
+    indicador_nao_conforme: Annotated[
+        bool | None,
+        Query(description="Filtra resultados conformes ou nao conformes quando ha limite."),
+    ] = None,
+    page: Annotated[
+        int,
+        Query(ge=1, description="Numero da pagina."),
+    ] = 1,
+    page_size: Annotated[
+        int,
+        Query(ge=1, le=100, description="Quantidade de registros por pagina."),
+    ] = 20,
+    db: Session = Depends(get_db),
+) -> dict:
+    return resultados_service.list_resultados(
+        db,
+        data_inicio=data_inicio,
+        data_fim=data_fim,
+        id_amostra=id_amostra,
+        codigo_amostra=codigo_amostra,
+        id_ponto_coleta=id_ponto_coleta,
+        municipio=municipio,
+        id_parametro=id_parametro,
+        categoria=categoria,
+        classificacao_resultado=classificacao_resultado,
+        possui_limite_referencia=possui_limite_referencia,
+        indicador_nao_conforme=indicador_nao_conforme,
+        page=page,
+        page_size=page_size,
+    )

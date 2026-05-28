@@ -119,6 +119,8 @@ Campos sugeridos:
 
 ## GET /api/v1/resultados
 
+Status: implementado e validado.
+
 Objetivo: listar resultados analiticos consolidados.
 
 Fonte recomendada: `VW_ConformidadeResultados`.

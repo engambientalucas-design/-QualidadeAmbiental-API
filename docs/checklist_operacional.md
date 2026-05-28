@@ -34,6 +34,8 @@ Use este checklist antes de evoluir o projeto ou executar mudancas criticas.
 - [x] Endpoint `/api/v1/parametros` validado por teste automatizado de contrato.
 - [x] Endpoint `/api/v1/amostras` implementado.
 - [x] Endpoint `/api/v1/amostras` validado por teste automatizado de contrato.
+- [x] Endpoint `/api/v1/resultados` implementado.
+- [x] Endpoint `/api/v1/resultados` validado por teste automatizado de contrato.
 - [x] Swagger `/docs` acessivel.
 - [x] ReDoc `/redoc` acessivel.
 - [x] OpenAPI `/openapi.json` acessivel.
@@ -45,8 +47,9 @@ Use este checklist antes de evoluir o projeto ou executar mudancas criticas.
 - [x] `tests/test_pontos_coleta.py` criado.
 - [x] `tests/test_parametros.py` criado.
 - [x] `tests/test_amostras.py` criado.
+- [x] `tests/test_resultados.py` criado.
 - [x] `pytest` executado.
-- [x] Suite atual aprovada: 13 testes.
+- [x] Suite atual aprovada: 19 testes.
 
 ## Governanca
 
@@ -205,4 +208,31 @@ Observacao: a aplicacao carrega `.env` diretamente via `pydantic-settings`; a co
 - [x] Filtros booleanos reais confirmados.
 - [x] `IndicadorNaoConforme` confirmado como campo que pode retornar `NULL`.
 - [x] Documento `docs/inspecao_vw_conformidade_resultados.md` criado.
+- [x] Nenhuma alteracao realizada no SQL Server.
+
+## Fase 2.4 - Endpoint read-only de resultados consolidados
+
+- [x] Schema Pydantic de resultados criado.
+- [x] Repository read-only de resultados criado sobre `VW_ConformidadeResultados`.
+- [x] Service de resultados criado.
+- [x] Router `GET /api/v1/resultados` criado.
+- [x] Router registrado na aplicacao.
+- [x] Resposta padronizada implementada.
+- [x] Conformidade consumida da view, sem recalculo em Python.
+- [x] Decimais convertidos para numeros JSON.
+- [x] `PossuiLimiteReferencia` convertido para booleano.
+- [x] `IndicadorNaoConforme` tratado como `boolean | null`.
+- [x] Validacao `data_inicio <= data_fim` implementada.
+- [x] Paginacao `page` e `page_size` implementada.
+- [x] Limite maximo de `page_size` definido em 100.
+- [x] Testes automatizados de contrato criados.
+- [x] OpenAPI/Swagger validado com parametros do endpoint.
+- [x] Validacao real com SQL Server concluida.
+- [x] Total real validado: 72 registros.
+- [x] Filtros reais validados conforme `docs/resultados_endpoint.md`.
+- [x] Filtro sem resultado validado com `data=[]`.
+- [x] `page_size=101` validado com HTTP 422.
+- [x] Intervalo invalido `data_inicio > data_fim` validado com HTTP 422.
+- [x] `pytest` executado com 19 testes aprovados.
+- [x] Documentacao tecnica do endpoint criada.
 - [x] Nenhuma alteracao realizada no SQL Server.

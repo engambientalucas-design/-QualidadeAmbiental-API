@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 
 from app.core.config import settings
-from app.routers import amostras, health, parametros, pontos_coleta
+from app.routers import amostras, health, parametros, pontos_coleta, resultados
 
 
 def create_app() -> FastAPI:
@@ -17,6 +17,7 @@ def create_app() -> FastAPI:
     app.include_router(pontos_coleta.router)
     app.include_router(parametros.router)
     app.include_router(amostras.router)
+    app.include_router(resultados.router)
 
     return app
 

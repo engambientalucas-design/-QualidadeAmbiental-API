@@ -245,7 +245,7 @@ Resultados:
 
 ## Fase 2.4 - Endpoint Read-only de Resultados Consolidados
 
-Status: inspecao previa concluida em 2026-05-28; implementacao pendente.
+Status: concluida em 2026-05-28.
 
 Resultados da inspecao previa:
 
@@ -257,6 +257,35 @@ Resultados da inspecao previa:
 - `ValorResultado`, `ValorMinimo` e `ValorMaximo` devem ser expostos como numeros JSON.
 - Distribuicoes e filtros reais documentados em `docs/inspecao_vw_conformidade_resultados.md`.
 - Nenhuma alteracao realizada no SQL Server.
+
+Objetivos de implementacao:
+
+- Implementar `GET /api/v1/resultados`.
+- Consumir `VW_ConformidadeResultados` como fonte oficial.
+- Nao recalcular conformidade em Python.
+- Criar schema Pydantic com campos consolidados.
+- Criar repository read-only com filtros parametrizados.
+- Criar service dedicado com validacao leve de intervalo de datas.
+- Implementar filtros analiticos e paginacao.
+- Validar OpenAPI, testes automatizados e SQL Server real.
+
+Resultados:
+
+- `GET /api/v1/resultados` implementado.
+- Router registrado em `/api/v1`.
+- Service dedicado criado em `app/services/resultados_service.py`.
+- Repository read-only criado sobre `VW_ConformidadeResultados`.
+- Conformidade consumida diretamente da view.
+- `PossuiLimiteReferencia` convertido para booleano publico.
+- `IndicadorNaoConforme` convertido para `boolean | null`.
+- Decimais convertidos para numeros JSON.
+- Ordenacao padrao definida por `DataColeta DESC, IdAmostra DESC, IdResultado DESC`.
+- Suite automatizada aprovada com 19 testes.
+- Validacao real contra SQL Server concluida.
+- Total real retornado: 72 registros.
+- Filtros reais validados conforme `docs/resultados_endpoint.md`.
+- Documentacao tecnica criada em `docs/resultados_endpoint.md`.
+- Nenhum CRUD, migration, autenticacao, Docker, deploy ou alteracao no SQL Server foi criado.
 
 ## Fase 2 - Endpoints de Consulta
 
@@ -270,7 +299,7 @@ Escopo previsto:
 - `GET /api/v1/parametros/{id}`
 - `GET /api/v1/amostras` (implementado na Fase 2.3)
 - `GET /api/v1/amostras/{id}`
-- `GET /api/v1/resultados`
+- `GET /api/v1/resultados` (implementado na Fase 2.4)
 - `GET /api/v1/resultados/{id}`
 - `GET /api/v1/resultados/resumo`
 - `GET /api/v1/resultados/nao-conformidades`
