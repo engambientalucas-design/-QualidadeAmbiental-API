@@ -133,3 +133,26 @@ def list_resultados_sem_limite_referencia(
         data=data,
         pagination=pagination_metadata(page=page, page_size=page_size, total=total),
     )
+
+
+def list_resumo_mensal(
+    db: Session,
+    *,
+    ano: int | None = None,
+    mes: int | None = None,
+    page: int = 1,
+    page_size: int = 20,
+) -> dict:
+    data, total = resultados_repository.list_resumo_mensal(
+        db,
+        ano=ano,
+        mes=mes,
+        page=page,
+        page_size=page_size,
+    )
+
+    return success_response(
+        message="Consulta realizada com sucesso.",
+        data=data,
+        pagination=pagination_metadata(page=page, page_size=page_size, total=total),
+    )

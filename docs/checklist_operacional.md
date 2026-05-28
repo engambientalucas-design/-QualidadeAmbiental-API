@@ -40,6 +40,8 @@ Use este checklist antes de evoluir o projeto ou executar mudancas criticas.
 - [x] Endpoint `/api/v1/resultados/nao-conformidades` validado por teste automatizado de contrato.
 - [x] Endpoint `/api/v1/resultados/sem-limite-referencia` implementado.
 - [x] Endpoint `/api/v1/resultados/sem-limite-referencia` validado por teste automatizado de contrato.
+- [x] Endpoint `/api/v1/resultados/resumo-mensal` implementado.
+- [x] Endpoint `/api/v1/resultados/resumo-mensal` validado por teste automatizado de contrato.
 - [x] Swagger `/docs` acessivel.
 - [x] ReDoc `/redoc` acessivel.
 - [x] OpenAPI `/openapi.json` acessivel.
@@ -53,7 +55,7 @@ Use este checklist antes de evoluir o projeto ou executar mudancas criticas.
 - [x] `tests/test_amostras.py` criado.
 - [x] `tests/test_resultados.py` criado.
 - [x] `pytest` executado.
-- [x] Suite atual aprovada: 29 testes.
+- [x] Suite atual aprovada: 34 testes.
 
 ## Governanca
 
@@ -286,5 +288,32 @@ Observacao: a aplicacao carrega `.env` diretamente via `pydantic-settings`; a co
 - [x] `page_size=101` validado com HTTP 422.
 - [x] Intervalo invalido `data_inicio > data_fim` validado com HTTP 422.
 - [x] `pytest` executado com 29 testes aprovados.
+- [x] Documentacao tecnica do endpoint criada.
+- [x] Nenhuma alteracao realizada no SQL Server.
+
+## Fase 2.7 - Endpoint analitico read-only de resumo mensal
+
+- [x] View `VW_ConformidadeMensal` inspecionada em modo read-only.
+- [x] Colunas e tipos reais confirmados.
+- [x] Granularidade real confirmada por `AnoColeta` e `MesColeta`.
+- [x] Endpoint `GET /api/v1/resultados/resumo-mensal` criado.
+- [x] Router de resultados reaproveitado.
+- [x] Schema de resumo mensal criado em `app/schemas/resultados.py`.
+- [x] Repository de resultados ampliado com consulta read-only da view.
+- [x] Service de resultados ampliado.
+- [x] Indicadores consumidos da view, sem recalculo em Python.
+- [x] Decimal convertido para numero JSON.
+- [x] Paginacao `page` e `page_size` implementada.
+- [x] Limite maximo de `page_size` definido em 100.
+- [x] Filtros `ano` e `mes` implementados.
+- [x] Testes automatizados de contrato criados.
+- [x] OpenAPI/Swagger validado com parametros do endpoint.
+- [x] Validacao real com SQL Server concluida.
+- [x] Total real validado: 1 registro mensal.
+- [x] Periodo real validado: abril de 2026.
+- [x] Filtro sem resultado validado com `data=[]`.
+- [x] `page_size=101` validado com HTTP 422.
+- [x] `mes=13` validado com HTTP 422.
+- [x] `pytest` executado com 34 testes aprovados.
 - [x] Documentacao tecnica do endpoint criada.
 - [x] Nenhuma alteracao realizada no SQL Server.

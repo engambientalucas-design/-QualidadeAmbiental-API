@@ -25,6 +25,11 @@ BASE_SELECT_SEM_LIMITE_REFERENCIA = """
     WHERE 1 = 1
 """
 
+BASE_SELECT_RESUMO_MENSAL = """
+    FROM VW_ConformidadeMensal
+    WHERE 1 = 1
+"""
+
 
 def _build_filters(
     data_inicio: date | None,
@@ -176,6 +181,24 @@ def _build_sem_limite_referencia_filters(
     if id_amostra is not None:
         conditions.append("AND cr.IdAmostra = :id_amostra")
         params["id_amostra"] = id_amostra
+
+    return "\n".join(conditions), params
+
+
+def _build_resumo_mensal_filters(
+    ano: int | None,
+    mes: int | None,
+) -> tuple[str, dict[str, Any]]:
+    conditions: list[str] = []
+    params: dict[str, Any] = {}
+
+    if ano is not None:
+        conditions.append("AND AnoColeta = :ano")
+        params["ano"] = ano
+
+    if mes is not None:
+        conditions.append("AND MesColeta = :mes")
+        params["mes"] = mes
 
     return "\n".join(conditions), params
 
@@ -465,3 +488,58 @@ def list_resultados_sem_limite_referencia(
     ).mappings()
 
     return [_normalize_row(dict(row)) for row in rows], total
+
+
+def list_resumo_mensal(
+    db: Session,
+    *,
+    ano: int | None = None,
+    mes: int | None = None,
+    page: int = 1,
+    page_size: int = 20,
+) -> tuple[list[dict[str, Any]], int]:
+    filters_sql, params = _build_resumo_mensal_filters(ano=ano, mes=mes)
+    offset = (page - 1) * page_size
+
+    count_query = text(
+        f"""
+        SELECT COUNT(1)
+        {BASE_SELECT_RESUMO_MENSAL}
+        {filters_sql}
+        """
+    )
+
+    total = db.execute(count_query, params).scalar_one()
+
+    list_query = text(
+        f"""
+        SELECT
+            AnoColeta AS ano_coleta,
+            MesColeta AS mes_coleta,
+            TotalResultados AS total_resultados,
+            ResultadosComLimite AS resultados_com_limite,
+            ResultadosSemLimite AS resultados_sem_limite,
+            ResultadosConformesComLimite AS resultados_conformes_com_limite,
+            ResultadosNaoConformesComLimite AS resultados_nao_conformes_com_limite,
+            PercentualConformidadeComLimite AS percentual_conformidade_com_limite
+        {BASE_SELECT_RESUMO_MENSAL}
+        {filters_sql}
+        ORDER BY AnoColeta DESC, MesColeta DESC
+        OFFSET :offset ROWS
+        FETCH NEXT :page_size ROWS ONLY
+        """
+    )
+
+    rows = db.execute(
+        list_query,
+        {
+            **params,
+            "offset": offset,
+            "page_size": page_size,
+        },
+    ).mappings()
+
+    return [
+        {key: _normalize_value(value) for key, value in dict(row).items()}
+        for row in rows
+    ], total

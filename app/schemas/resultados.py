@@ -49,3 +49,23 @@ class ResultadoListResponse(BaseModel):
     message: str = Field(default="Consulta realizada com sucesso.")
     data: list[ResultadoResponse]
     pagination: PaginationResponse
+
+
+class ResumoMensalResponse(BaseModel):
+    ano_coleta: int | None = Field(default=None, examples=[2026])
+    mes_coleta: int | None = Field(default=None, ge=1, le=12, examples=[4])
+    total_resultados: int | None = Field(default=None, ge=0, examples=[72])
+    resultados_com_limite: int | None = Field(default=None, ge=0, examples=[57])
+    resultados_sem_limite: int | None = Field(default=None, ge=0, examples=[15])
+    resultados_conformes_com_limite: int | None = Field(default=None, ge=0, examples=[50])
+    resultados_nao_conformes_com_limite: int | None = Field(default=None, ge=0, examples=[7])
+    percentual_conformidade_com_limite: float | None = Field(default=None, examples=[87.72])
+
+    model_config = ConfigDict(from_attributes=True)
+
+
+class ResumoMensalListResponse(BaseModel):
+    success: bool = Field(default=True, examples=[True])
+    message: str = Field(default="Consulta realizada com sucesso.")
+    data: list[ResumoMensalResponse]
+    pagination: PaginationResponse

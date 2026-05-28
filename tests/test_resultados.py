@@ -51,6 +51,19 @@ def resultado_payload(indicador_nao_conforme: bool | None = False) -> dict[str, 
     }
 
 
+def resumo_mensal_payload() -> dict[str, Any]:
+    return {
+        "ano_coleta": 2026,
+        "mes_coleta": 4,
+        "total_resultados": 72,
+        "resultados_com_limite": 57,
+        "resultados_sem_limite": 15,
+        "resultados_conformes_com_limite": 50,
+        "resultados_nao_conformes_com_limite": 7,
+        "percentual_conformidade_com_limite": 87.72,
+    }
+
+
 def test_resultados_returns_standard_response(monkeypatch) -> None:
     def fake_list_resultados(db: object, **kwargs: Any) -> dict:
         return {
@@ -423,3 +436,81 @@ def test_resultados_sem_limite_referencia_openapi_contains_endpoint_and_query_pa
         "page",
         "page_size",
     ]
+
+
+def test_resultados_resumo_mensal_returns_standard_response(monkeypatch) -> None:
+    def fake_list_resumo_mensal(db: object, **kwargs: Any) -> dict:
+        return {
+            "success": True,
+            "message": "Consulta realizada com sucesso.",
+            "data": [resumo_mensal_payload()],
+            "pagination": {"page": 1, "page_size": 20, "total": 1},
+        }
+
+    app.dependency_overrides[get_db] = override_get_db
+    monkeypatch.setattr(
+        resultados.resultados_service,
+        "list_resumo_mensal",
+        fake_list_resumo_mensal,
+    )
+
+    response = client.get("/api/v1/resultados/resumo-mensal")
+
+    app.dependency_overrides.clear()
+
+    assert response.status_code == 200
+    payload = response.json()
+    assert payload["success"] is True
+    assert payload["pagination"] == {"page": 1, "page_size": 20, "total": 1}
+    assert payload["data"][0] == resumo_mensal_payload()
+
+
+def test_resultados_resumo_mensal_forwards_filters_and_pagination(monkeypatch) -> None:
+    captured: dict[str, Any] = {}
+
+    def fake_list_resumo_mensal(db: object, **kwargs: Any) -> dict:
+        captured.update(kwargs)
+        return {
+            "success": True,
+            "message": "Consulta realizada com sucesso.",
+            "data": [],
+            "pagination": {"page": kwargs["page"], "page_size": kwargs["page_size"], "total": 0},
+        }
+
+    app.dependency_overrides[get_db] = override_get_db
+    monkeypatch.setattr(
+        resultados.resultados_service,
+        "list_resumo_mensal",
+        fake_list_resumo_mensal,
+    )
+
+    response = client.get(
+        "/api/v1/resultados/resumo-mensal",
+        params={"ano": 2026, "mes": 4, "page": 2, "page_size": 10},
+    )
+
+    app.dependency_overrides.clear()
+
+    assert response.status_code == 200
+    assert captured == {"ano": 2026, "mes": 4, "page": 2, "page_size": 10}
+
+
+def test_resultados_resumo_mensal_rejects_invalid_page_size() -> None:
+    response = client.get("/api/v1/resultados/resumo-mensal", params={"page_size": 101})
+
+    assert response.status_code == 422
+
+
+def test_resultados_resumo_mensal_rejects_invalid_mes() -> None:
+    response = client.get("/api/v1/resultados/resumo-mensal", params={"mes": 13})
+
+    assert response.status_code == 422
+
+
+def test_resultados_resumo_mensal_openapi_contains_endpoint_and_query_params() -> None:
+    schema = app.openapi()
+    operation = schema["paths"]["/api/v1/resultados/resumo-mensal"]["get"]
+    params = [param["name"] for param in operation["parameters"]]
+
+    assert operation["tags"] == ["resultados"]
+    assert params == ["ano", "mes", "page", "page_size"]

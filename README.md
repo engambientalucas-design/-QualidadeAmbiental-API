@@ -138,7 +138,7 @@ Views relevantes para a evolução da API:
 | `GET /api/v1/resultados` | Resultados analíticos consolidados | ✅ Implementado |
 | `GET /api/v1/resultados/nao-conformidades` | Resultados fora do padrão | ✅ Implementado |
 | `GET /api/v1/resultados/sem-limite-referencia` | Resultados sem limite de referência | ✅ Implementado |
-| `GET /api/v1/resultados/resumo-mensal` | Resumo mensal de conformidade | 📋 Planejado |
+| `GET /api/v1/resultados/resumo-mensal` | Resumo mensal de conformidade | ✅ Implementado |
 | `GET /api/v1/resultados/parametros-criticos` | Ranking de parâmetros críticos | 📋 Planejado |
 
 ### Padrão de resposta
@@ -251,7 +251,7 @@ pytest
 
 Status atual:
 
-- ✅ 29 testes aprovados
+- ✅ 34 testes aprovados
 - ✅ Endpoint `/health` validado
 - ✅ Endpoint `/api/v1/pontos-coleta` validado por contrato
 - ✅ Endpoint `/api/v1/parametros` validado por contrato
@@ -259,6 +259,7 @@ Status atual:
 - ✅ Endpoint `/api/v1/resultados` validado por contrato
 - ✅ Endpoint `/api/v1/resultados/nao-conformidades` validado por contrato
 - ✅ Endpoint `/api/v1/resultados/sem-limite-referencia` validado por contrato
+- ✅ Endpoint `/api/v1/resultados/resumo-mensal` validado por contrato
 - ✅ Paginação e filtros básicos validados
 
 ---
@@ -291,6 +292,7 @@ Medidas já aplicadas no projeto:
 | `docs/resultados_endpoint.md` | Documentação técnica do endpoint de resultados consolidados. |
 | `docs/resultados_nao_conformidades_endpoint.md` | Documentação técnica do endpoint de não conformidades. |
 | `docs/resultados_sem_limite_referencia_endpoint.md` | Documentação técnica do endpoint de resultados sem limite. |
+| `docs/resumo_mensal_endpoint.md` | Documentação técnica do endpoint de resumo mensal. |
 | `docs/versionamento_backup.md` | Política de Git, snapshots e rollback. |
 | `docs/decisoes_tecnicas.md` | Decisões arquiteturais e tecnológicas. |
 | `docs/checklist_operacional.md` | Checklist antes de mudanças críticas. |
@@ -310,6 +312,7 @@ Medidas já aplicadas no projeto:
 - [x] Fase 2.4 - Endpoint read-only consolidado: `GET /api/v1/resultados`
 - [x] Fase 2.5 - Endpoint read-only analítico: `GET /api/v1/resultados/nao-conformidades`
 - [x] Fase 2.6 - Endpoint read-only analítico: `GET /api/v1/resultados/sem-limite-referencia`
+- [x] Fase 2.7 - Endpoint read-only analítico: `GET /api/v1/resultados/resumo-mensal`
 - [ ] Fase 2 - Endpoints de consulta do domínio
 - [ ] Fase 3 - Organização profissional, paginação, filtros e erros
 - [ ] Fase 4 - Evolução funcional controlada
@@ -337,8 +340,8 @@ A proposta é evoluir a API com qualidade, mantendo rastreabilidade técnica e c
 
 | Item | Status |
 | ---- | ------ |
-| Fase atual | Fase 2.6 concluída |
-| Próxima etapa | Definir próximo endpoint read-only da Fase 2 |
+| Fase atual | Fase 2.7 concluída |
+| Próxima etapa | Fase 2.8 - Ranking de parâmetros críticos |
 | API local | Validada |
 | Swagger/ReDoc | Ativos |
 | Banco SQL Server | Inspecionado em modo read-only |
@@ -348,8 +351,9 @@ A proposta é evoluir a API com qualidade, mantendo rastreabilidade técnica e c
 | Primeiro endpoint consolidado por view | `GET /api/v1/resultados` implementado |
 | Primeiro endpoint analítico específico | `GET /api/v1/resultados/nao-conformidades` implementado |
 | Segundo endpoint analítico específico | `GET /api/v1/resultados/sem-limite-referencia` implementado |
+| Endpoint analítico mensal | `GET /api/v1/resultados/resumo-mensal` implementado |
 | Validação SQL Server real | Concluída em 2026-05-28 |
-| Testes | 29 testes aprovados |
+| Testes | 34 testes aprovados |
 | Workspace | Preparado para evolução dos endpoints |
 
 Validação real do endpoint `GET /api/v1/pontos-coleta`:
@@ -409,6 +413,18 @@ Validação real do endpoint `GET /api/v1/resultados/sem-limite-referencia`:
 - Paginação validada com `page=1&page_size=2`.
 - Filtros validados: `municipio`, `categoria`, `id_parametro`, `id_ponto_coleta`, `codigo_amostra`, `id_amostra`, `data_inicio` e `data_fim`.
 - Todos os registros retornados apresentaram `possui_limite_referencia=false`, `indicador_nao_conforme=null` e `classificacao_resultado=Sem limite de referencia`.
+
+Validação real do endpoint `GET /api/v1/resultados/resumo-mensal`:
+
+- Fonte oficial: `VW_ConformidadeMensal`.
+- Total retornado: 1 registro mensal.
+- Período disponível: abril de 2026.
+- Indicadores retornados pela view: 72 resultados, 57 com limite, 15 sem limite, 50 conformes com limite e 7 não conformes com limite.
+- Percentual de conformidade com limite: 87.72.
+- Filtros validados: `ano` e `mes`.
+- `page_size=101` retorna HTTP 422.
+- `mes=13` retorna HTTP 422.
+- Indicadores consumidos diretamente da view, sem recalculo em Python.
 
 Ainda não fazem parte do escopo atual:
 

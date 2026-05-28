@@ -6,13 +6,47 @@ from sqlalchemy.orm import Session
 
 from app.core.config import settings
 from app.core.database import get_db
-from app.schemas.resultados import ResultadoListResponse
+from app.schemas.resultados import ResultadoListResponse, ResumoMensalListResponse
 from app.services import resultados_service
 
 router = APIRouter(
     prefix=f"{settings.API_V1_PREFIX}/resultados",
     tags=["resultados"],
 )
+
+
+@router.get(
+    "/resumo-mensal",
+    response_model=ResumoMensalListResponse,
+    summary="Lista resumo mensal de conformidade",
+    description="Consulta indicadores mensais consolidados pela view VW_ConformidadeMensal.",
+)
+def list_resumo_mensal(
+    ano: Annotated[
+        int | None,
+        Query(ge=2000, le=2100, description="Filtra por ano da coleta."),
+    ] = None,
+    mes: Annotated[
+        int | None,
+        Query(ge=1, le=12, description="Filtra por mes da coleta."),
+    ] = None,
+    page: Annotated[
+        int,
+        Query(ge=1, description="Numero da pagina."),
+    ] = 1,
+    page_size: Annotated[
+        int,
+        Query(ge=1, le=100, description="Quantidade de registros por pagina."),
+    ] = 20,
+    db: Session = Depends(get_db),
+) -> dict:
+    return resultados_service.list_resumo_mensal(
+        db,
+        ano=ano,
+        mes=mes,
+        page=page,
+        page_size=page_size,
+    )
 
 
 @router.get(

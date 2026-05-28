@@ -341,6 +341,35 @@ Resultados:
 - Documentacao tecnica criada em `docs/resultados_sem_limite_referencia_endpoint.md`.
 - Nenhum CRUD, migration, autenticacao, Docker, deploy ou alteracao no SQL Server foi criado.
 
+## Fase 2.7 - Endpoint Analitico Read-only de Resumo Mensal
+
+Status: concluida em 2026-05-28.
+
+Objetivos:
+
+- Implementar `GET /api/v1/resultados/resumo-mensal`.
+- Consumir `VW_ConformidadeMensal` como fonte oficial dos indicadores mensais.
+- Nao recalcular indicadores em Python.
+- Reaproveitar schema, service, repository e router da familia de resultados quando adequado.
+- Validar OpenAPI, testes automatizados e SQL Server real.
+
+Resultados:
+
+- View `VW_ConformidadeMensal` inspecionada em modo read-only.
+- Granularidade real confirmada por `AnoColeta` e `MesColeta`.
+- Endpoint implementado no router de resultados.
+- Repository de resultados ampliado com consulta read-only da view mensal.
+- Percentual `Decimal` convertido para numero JSON.
+- Filtros implementados conforme granularidade real: `ano` e `mes`.
+- Paginacao `page` e `page_size` implementada.
+- Limite maximo de `page_size` definido em 100.
+- Suite automatizada aprovada com 34 testes.
+- Validacao real contra SQL Server concluida.
+- Total real validado: 1 registro mensal.
+- Periodo real validado: abril de 2026.
+- Documentacao tecnica criada em `docs/resumo_mensal_endpoint.md`.
+- Nenhum CRUD, migration, autenticacao, Docker, deploy ou alteracao no SQL Server foi criado.
+
 ## Fase 2 - Endpoints de Consulta
 
 Status: em andamento.
@@ -357,6 +386,8 @@ Escopo previsto:
 - `GET /api/v1/resultados/{id}`
 - `GET /api/v1/resultados/resumo`
 - `GET /api/v1/resultados/nao-conformidades` (implementado na Fase 2.5)
+- `GET /api/v1/resultados/sem-limite-referencia` (implementado na Fase 2.6)
+- `GET /api/v1/resultados/resumo-mensal` (implementado na Fase 2.7)
 
 Filtros previstos:
 

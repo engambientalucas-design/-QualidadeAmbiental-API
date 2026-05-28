@@ -204,6 +204,8 @@ Filtros iniciais:
 
 ## GET /api/v1/resultados/resumo-mensal
 
+Status: implementado e validado.
+
 Objetivo: expor resumo mensal de conformidade.
 
 Fonte recomendada: `VW_ConformidadeMensal`.
@@ -212,6 +214,8 @@ Filtros iniciais:
 
 - `ano`;
 - `mes`.
+- `page`;
+- `page_size`.
 
 Campos sugeridos:
 
@@ -223,6 +227,8 @@ Campos sugeridos:
 - `resultados_conformes_com_limite`;
 - `resultados_nao_conformes_com_limite`;
 - `percentual_conformidade_com_limite`.
+
+Observacao: filtros por municipio, categoria, ponto de coleta ou parametro nao foram implementados porque a view mensal possui granularidade apenas por ano e mes.
 
 ## GET /api/v1/resultados/parametros-criticos
 
