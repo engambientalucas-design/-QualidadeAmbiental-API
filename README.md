@@ -316,7 +316,8 @@ Medidas já aplicadas no projeto:
 - [x] Fase 2.6 - Endpoint read-only analítico: `GET /api/v1/resultados/sem-limite-referencia`
 - [x] Fase 2.7 - Endpoint read-only analítico: `GET /api/v1/resultados/resumo-mensal`
 - [x] Fase 2.8 - Endpoint read-only analítico: `GET /api/v1/resultados/parametros-criticos`
-- [ ] Fase 2 - Endpoints de consulta do domínio
+- [x] Fase 2.9 - Consolidação e fechamento técnico da camada read-only e analítica
+- [x] Fase 2 - Endpoints de consulta do domínio
 - [ ] Fase 3 - Organização profissional, paginação, filtros e erros
 - [ ] Fase 4 - Evolução funcional controlada
 - [ ] Fase 5 - Validação final e entrega
@@ -343,8 +344,8 @@ A proposta é evoluir a API com qualidade, mantendo rastreabilidade técnica e c
 
 | Item | Status |
 | ---- | ------ |
-| Fase atual | Fase 2.8 concluída |
-| Próxima etapa | Revisão de fechamento da Fase 2 analítica |
+| Fase atual | Fase 2.9 concluída |
+| Próxima etapa | Fase 3 - Padronização de erros, paginação e observabilidade leve |
 | API local | Validada |
 | Swagger/ReDoc | Ativos |
 | Banco SQL Server | Inspecionado em modo read-only |
@@ -356,6 +357,7 @@ A proposta é evoluir a API com qualidade, mantendo rastreabilidade técnica e c
 | Segundo endpoint analítico específico | `GET /api/v1/resultados/sem-limite-referencia` implementado |
 | Endpoint analítico mensal | `GET /api/v1/resultados/resumo-mensal` implementado |
 | Endpoint analítico de ranking | `GET /api/v1/resultados/parametros-criticos` implementado |
+| Fechamento técnico da Fase 2 | Concluído |
 | Validação SQL Server real | Concluída em 2026-05-28 |
 | Testes | 39 testes aprovados |
 | Workspace | Preparado para evolução dos endpoints |
@@ -429,6 +431,15 @@ Validação real do endpoint `GET /api/v1/resultados/resumo-mensal`:
 - `page_size=101` retorna HTTP 422.
 - `mes=13` retorna HTTP 422.
 - Indicadores consumidos diretamente da view, sem recalculo em Python.
+
+Fechamento da Fase 2:
+
+- Contratos públicos auditados.
+- Filtros consolidados por endpoint.
+- OpenAPI revisado.
+- Dívida técnica registrada.
+- Checklist de entrada da Fase 3 criado.
+- Projeto pronto para evoluir para padronização de erros, paginação centralizada e observabilidade leve.
 
 Validação real do endpoint `GET /api/v1/resultados/parametros-criticos`:
 

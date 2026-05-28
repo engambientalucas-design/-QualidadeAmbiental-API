@@ -165,6 +165,22 @@ Campos sugeridos:
 
 Status: implementado e validado.
 
+Objetivo: listar resultados fora do padrao.
+
+Fonte recomendada: `VW_ResultadosForaDoPadrao`.
+
+Filtros iniciais:
+
+- `data_inicio`;
+- `data_fim`;
+- `municipio`;
+- `id_ponto_coleta`;
+- `id_parametro`;
+- `categoria`;
+- `classificacao_resultado`;
+- `page`;
+- `page_size`.
+
 ## GET /api/v1/resultados/sem-limite-referencia
 
 Status: implementado e validado.
@@ -186,22 +202,6 @@ Filtros iniciais:
 - `page`;
 - `page_size`.
 
-Objetivo: listar resultados fora do padrao.
-
-Fonte recomendada: `VW_ResultadosForaDoPadrao`.
-
-Filtros iniciais:
-
-- `data_inicio`;
-- `data_fim`;
-- `municipio`;
-- `nome_tipo_amostra`;
-- `nome_parametro`;
-- `categoria`;
-- `classificacao_resultado`;
-- `page`;
-- `page_size`.
-
 ## GET /api/v1/resultados/resumo-mensal
 
 Status: implementado e validado.
@@ -213,7 +213,7 @@ Fonte recomendada: `VW_ConformidadeMensal`.
 Filtros iniciais:
 
 - `ano`;
-- `mes`.
+- `mes`;
 - `page`;
 - `page_size`.
 
@@ -241,7 +241,7 @@ Fonte recomendada: `VW_RankingParametrosCriticos`.
 Filtros iniciais:
 
 - `categoria`;
-- `limit`.
+- `limit`;
 - `page`;
 - `page_size`.
 
@@ -270,6 +270,8 @@ Observacao: a view nao possui coluna fisica de ranking. A API calcula a posicao 
 - deploy;
 - frontend.
 
-## Proximo passo recomendado
+## Fechamento da Fase 2
 
-Proximo passo recomendado: avaliar `GET /api/v1/resultados`, usando preferencialmente `VW_ConformidadeResultados`, pois os endpoints simples e o primeiro endpoint com joins ja validaram o padrao arquitetural da Fase 2.
+Status: contratos da Fase 2 implementados e validados em SQL Server real.
+
+Proximo passo recomendado: iniciar a Fase 3 com foco em padronizacao de erros, reducao de duplicacoes, observabilidade leve e melhoria incremental dos testes.

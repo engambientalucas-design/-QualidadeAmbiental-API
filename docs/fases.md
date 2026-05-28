@@ -399,9 +399,36 @@ Resultados:
 - Documentacao tecnica criada em `docs/parametros_criticos_endpoint.md`.
 - Nenhum CRUD, migration, autenticacao, Docker, deploy ou alteracao no SQL Server foi criado.
 
+## Fase 2.9 - Consolidacao e Fechamento Tecnico da Camada Read-only e Analitica
+
+Status: concluida em 2026-05-28.
+
+Objetivos:
+
+- Auditar contratos publicos da Fase 2.
+- Revisar filtros, paginacao, status codes e OpenAPI.
+- Revisar arquitetura sem executar refatoracao profunda.
+- Consolidar documentacao principal.
+- Registrar divida tecnica.
+- Criar checklist de entrada da Fase 3.
+
+Resultados:
+
+- Contratos publicos auditados e registrados em `docs/fechamento_fase2.md`.
+- Tabela consolidada de filtros criada.
+- OpenAPI revisado por inspecao automatizada leve.
+- Documento `docs/divida_tecnica.md` criado.
+- Documento `docs/checklist_fase3.md` criado.
+- `docs/contratos_api_fase2.md` ajustado com correcoes documentais seguras.
+- Suite automatizada aprovada com 39 testes.
+- Nenhum endpoint novo criado.
+- Nenhum contrato publico alterado.
+- Nenhuma alteracao realizada no SQL Server.
+- Fase 2 oficialmente encerrada.
+
 ## Fase 2 - Endpoints de Consulta
 
-Status: em andamento.
+Status: concluida em 2026-05-28.
 
 Escopo previsto:
 
@@ -433,7 +460,7 @@ Filtros previstos:
 
 ## Fase 3 - Organizacao Profissional
 
-Status: pendente.
+Status: proxima fase.
 
 Objetivos:
 
