@@ -165,6 +165,27 @@ Campos sugeridos:
 
 Status: implementado e validado.
 
+## GET /api/v1/resultados/sem-limite-referencia
+
+Status: implementado e validado.
+
+Objetivo: listar resultados sem limite de referencia cadastrado.
+
+Fonte recomendada: `VW_ResultadosSemLimiteReferencia`.
+
+Filtros iniciais:
+
+- `data_inicio`;
+- `data_fim`;
+- `municipio`;
+- `id_ponto_coleta`;
+- `id_parametro`;
+- `categoria`;
+- `codigo_amostra`;
+- `id_amostra`;
+- `page`;
+- `page_size`.
+
 Objetivo: listar resultados fora do padrao.
 
 Fonte recomendada: `VW_ResultadosForaDoPadrao`.

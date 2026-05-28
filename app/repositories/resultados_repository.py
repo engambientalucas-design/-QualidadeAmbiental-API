@@ -18,6 +18,13 @@ BASE_SELECT_NAO_CONFORMIDADES = """
     WHERE 1 = 1
 """
 
+BASE_SELECT_SEM_LIMITE_REFERENCIA = """
+    FROM VW_ResultadosSemLimiteReferencia AS sl
+    INNER JOIN VW_ConformidadeResultados AS cr
+        ON cr.IdResultado = sl.IdResultado
+    WHERE 1 = 1
+"""
+
 
 def _build_filters(
     data_inicio: date | None,
@@ -121,6 +128,54 @@ def _build_nao_conformidades_filters(
     if classificacao_resultado:
         conditions.append("AND cr.ClassificacaoResultado = :classificacao_resultado")
         params["classificacao_resultado"] = classificacao_resultado
+
+    return "\n".join(conditions), params
+
+
+def _build_sem_limite_referencia_filters(
+    data_inicio: date | None,
+    data_fim: date | None,
+    municipio: str | None,
+    id_ponto_coleta: int | None,
+    id_parametro: int | None,
+    categoria: str | None,
+    codigo_amostra: str | None,
+    id_amostra: int | None,
+) -> tuple[str, dict[str, Any]]:
+    conditions: list[str] = []
+    params: dict[str, Any] = {}
+
+    if data_inicio:
+        conditions.append("AND cr.DataColeta >= :data_inicio")
+        params["data_inicio"] = data_inicio
+
+    if data_fim:
+        conditions.append("AND cr.DataColeta <= :data_fim")
+        params["data_fim"] = data_fim
+
+    if municipio:
+        conditions.append("AND cr.Municipio = :municipio")
+        params["municipio"] = municipio
+
+    if id_ponto_coleta is not None:
+        conditions.append("AND cr.IdPontoColeta = :id_ponto_coleta")
+        params["id_ponto_coleta"] = id_ponto_coleta
+
+    if id_parametro is not None:
+        conditions.append("AND cr.IdParametro = :id_parametro")
+        params["id_parametro"] = id_parametro
+
+    if categoria:
+        conditions.append("AND cr.Categoria = :categoria")
+        params["categoria"] = categoria
+
+    if codigo_amostra:
+        conditions.append("AND cr.CodigoAmostra = :codigo_amostra")
+        params["codigo_amostra"] = codigo_amostra
+
+    if id_amostra is not None:
+        conditions.append("AND cr.IdAmostra = :id_amostra")
+        params["id_amostra"] = id_amostra
 
     return "\n".join(conditions), params
 
@@ -304,6 +359,95 @@ def list_resultados_nao_conformidades(
             cr.PossuiLimiteReferencia AS possui_limite_referencia,
             cr.IndicadorNaoConforme AS indicador_nao_conforme
         {BASE_SELECT_NAO_CONFORMIDADES}
+        {filters_sql}
+        ORDER BY cr.DataColeta DESC, cr.IdAmostra DESC, cr.IdResultado DESC
+        OFFSET :offset ROWS
+        FETCH NEXT :page_size ROWS ONLY
+        """
+    )
+
+    rows = db.execute(
+        list_query,
+        {
+            **params,
+            "offset": offset,
+            "page_size": page_size,
+        },
+    ).mappings()
+
+    return [_normalize_row(dict(row)) for row in rows], total
+
+
+def list_resultados_sem_limite_referencia(
+    db: Session,
+    *,
+    data_inicio: date | None = None,
+    data_fim: date | None = None,
+    municipio: str | None = None,
+    id_ponto_coleta: int | None = None,
+    id_parametro: int | None = None,
+    categoria: str | None = None,
+    codigo_amostra: str | None = None,
+    id_amostra: int | None = None,
+    page: int = 1,
+    page_size: int = 20,
+) -> tuple[list[dict[str, Any]], int]:
+    filters_sql, params = _build_sem_limite_referencia_filters(
+        data_inicio=data_inicio,
+        data_fim=data_fim,
+        municipio=municipio,
+        id_ponto_coleta=id_ponto_coleta,
+        id_parametro=id_parametro,
+        categoria=categoria,
+        codigo_amostra=codigo_amostra,
+        id_amostra=id_amostra,
+    )
+    offset = (page - 1) * page_size
+
+    count_query = text(
+        f"""
+        SELECT COUNT(1)
+        {BASE_SELECT_SEM_LIMITE_REFERENCIA}
+        {filters_sql}
+        """
+    )
+
+    total = db.execute(count_query, params).scalar_one()
+
+    list_query = text(
+        f"""
+        SELECT
+            cr.IdResultado AS id_resultado,
+            cr.IdAmostra AS id_amostra,
+            cr.CodigoAmostra AS codigo_amostra,
+            cr.DataColeta AS data_coleta,
+            cr.HoraColeta AS hora_coleta,
+            cr.IdTipoAmostra AS id_tipo_amostra,
+            cr.NomeTipoAmostra AS nome_tipo_amostra,
+            cr.IdPontoColeta AS id_ponto_coleta,
+            cr.NomePonto AS nome_ponto,
+            cr.TipoPonto AS tipo_ponto,
+            cr.Municipio AS municipio,
+            cr.Estado AS estado,
+            cr.IdResponsavel AS id_responsavel,
+            cr.NomeResponsavel AS nome_responsavel,
+            cr.IdStatus AS id_status,
+            cr.NomeStatus AS nome_status,
+            cr.IdParametro AS id_parametro,
+            cr.NomeParametro AS nome_parametro,
+            cr.Categoria AS categoria,
+            cr.ValorResultado AS valor_resultado,
+            cr.UnidadeMedida AS unidade_medida,
+            cr.DataAnalise AS data_analise,
+            cr.MetodoAnalise AS metodo_analise,
+            cr.IdLimite AS id_limite,
+            cr.ValorMinimo AS valor_minimo,
+            cr.ValorMaximo AS valor_maximo,
+            cr.ReferenciaNormativa AS referencia_normativa,
+            cr.ClassificacaoResultado AS classificacao_resultado,
+            cr.PossuiLimiteReferencia AS possui_limite_referencia,
+            cr.IndicadorNaoConforme AS indicador_nao_conforme
+        {BASE_SELECT_SEM_LIMITE_REFERENCIA}
         {filters_sql}
         ORDER BY cr.DataColeta DESC, cr.IdAmostra DESC, cr.IdResultado DESC
         OFFSET :offset ROWS

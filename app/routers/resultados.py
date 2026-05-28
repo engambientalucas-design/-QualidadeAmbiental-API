@@ -16,6 +16,70 @@ router = APIRouter(
 
 
 @router.get(
+    "/sem-limite-referencia",
+    response_model=ResultadoListResponse,
+    summary="Lista resultados sem limite de referencia",
+    description="Consulta resultados sem limite de referencia a partir da view VW_ResultadosSemLimiteReferencia.",
+)
+def list_resultados_sem_limite_referencia(
+    data_inicio: Annotated[
+        date | None,
+        Query(description="Filtra coletas a partir desta data."),
+    ] = None,
+    data_fim: Annotated[
+        date | None,
+        Query(description="Filtra coletas ate esta data."),
+    ] = None,
+    municipio: Annotated[
+        str | None,
+        Query(min_length=1, max_length=100, description="Filtra por municipio."),
+    ] = None,
+    id_ponto_coleta: Annotated[
+        int | None,
+        Query(ge=1, description="Filtra por identificador do ponto de coleta."),
+    ] = None,
+    id_parametro: Annotated[
+        int | None,
+        Query(ge=1, description="Filtra por identificador do parametro."),
+    ] = None,
+    categoria: Annotated[
+        str | None,
+        Query(min_length=1, max_length=80, description="Filtra por categoria do parametro."),
+    ] = None,
+    codigo_amostra: Annotated[
+        str | None,
+        Query(min_length=1, max_length=50, description="Filtra por codigo da amostra."),
+    ] = None,
+    id_amostra: Annotated[
+        int | None,
+        Query(ge=1, description="Filtra por identificador da amostra."),
+    ] = None,
+    page: Annotated[
+        int,
+        Query(ge=1, description="Numero da pagina."),
+    ] = 1,
+    page_size: Annotated[
+        int,
+        Query(ge=1, le=100, description="Quantidade de registros por pagina."),
+    ] = 20,
+    db: Session = Depends(get_db),
+) -> dict:
+    return resultados_service.list_resultados_sem_limite_referencia(
+        db,
+        data_inicio=data_inicio,
+        data_fim=data_fim,
+        municipio=municipio,
+        id_ponto_coleta=id_ponto_coleta,
+        id_parametro=id_parametro,
+        categoria=categoria,
+        codigo_amostra=codigo_amostra,
+        id_amostra=id_amostra,
+        page=page,
+        page_size=page_size,
+    )
+
+
+@router.get(
     "/nao-conformidades",
     response_model=ResultadoListResponse,
     summary="Lista resultados fora do padrao",

@@ -38,6 +38,8 @@ Use este checklist antes de evoluir o projeto ou executar mudancas criticas.
 - [x] Endpoint `/api/v1/resultados` validado por teste automatizado de contrato.
 - [x] Endpoint `/api/v1/resultados/nao-conformidades` implementado.
 - [x] Endpoint `/api/v1/resultados/nao-conformidades` validado por teste automatizado de contrato.
+- [x] Endpoint `/api/v1/resultados/sem-limite-referencia` implementado.
+- [x] Endpoint `/api/v1/resultados/sem-limite-referencia` validado por teste automatizado de contrato.
 - [x] Swagger `/docs` acessivel.
 - [x] ReDoc `/redoc` acessivel.
 - [x] OpenAPI `/openapi.json` acessivel.
@@ -51,7 +53,7 @@ Use este checklist antes de evoluir o projeto ou executar mudancas criticas.
 - [x] `tests/test_amostras.py` criado.
 - [x] `tests/test_resultados.py` criado.
 - [x] `pytest` executado.
-- [x] Suite atual aprovada: 24 testes.
+- [x] Suite atual aprovada: 29 testes.
 
 ## Governanca
 
@@ -260,5 +262,29 @@ Observacao: a aplicacao carrega `.env` diretamente via `pydantic-settings`; a co
 - [x] `page_size=101` validado com HTTP 422.
 - [x] Intervalo invalido `data_inicio > data_fim` validado com HTTP 422.
 - [x] `pytest` executado com 24 testes aprovados.
+- [x] Documentacao tecnica do endpoint criada.
+- [x] Nenhuma alteracao realizada no SQL Server.
+
+## Fase 2.6 - Endpoint read-only de resultados sem limite
+
+- [x] View `VW_ResultadosSemLimiteReferencia` inspecionada em modo read-only.
+- [x] Shape reduzido da view documentado.
+- [x] Endpoint `GET /api/v1/resultados/sem-limite-referencia` criado.
+- [x] Router de resultados reaproveitado.
+- [x] Schema de resultados reaproveitado.
+- [x] Repository de resultados ampliado com consulta read-only da view.
+- [x] Service de resultados ampliado.
+- [x] Conformidade consumida das views, sem recalculo em Python.
+- [x] Paginacao `page` e `page_size` implementada.
+- [x] Limite maximo de `page_size` definido em 100.
+- [x] Testes automatizados de contrato criados.
+- [x] OpenAPI/Swagger validado com parametros do endpoint.
+- [x] Validacao real com SQL Server concluida.
+- [x] Total real validado: 15 registros.
+- [x] Filtros reais validados conforme `docs/resultados_sem_limite_referencia_endpoint.md`.
+- [x] Filtro sem resultado validado com `data=[]`.
+- [x] `page_size=101` validado com HTTP 422.
+- [x] Intervalo invalido `data_inicio > data_fim` validado com HTTP 422.
+- [x] `pytest` executado com 29 testes aprovados.
 - [x] Documentacao tecnica do endpoint criada.
 - [x] Nenhuma alteracao realizada no SQL Server.

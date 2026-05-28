@@ -314,6 +314,33 @@ Resultados:
 - Documentacao tecnica criada em `docs/resultados_nao_conformidades_endpoint.md`.
 - Nenhum CRUD, migration, autenticacao, Docker, deploy ou alteracao no SQL Server foi criado.
 
+## Fase 2.6 - Endpoint Read-only de Resultados Sem Limite de Referencia
+
+Status: concluida em 2026-05-28.
+
+Objetivos:
+
+- Implementar `GET /api/v1/resultados/sem-limite-referencia`.
+- Consumir `VW_ResultadosSemLimiteReferencia` como fonte oficial do recorte.
+- Manter contrato compativel com `GET /api/v1/resultados`.
+- Nao recalcular conformidade em Python.
+- Reaproveitar schema, service, repository e router de resultados quando adequado.
+- Validar OpenAPI, testes automatizados e SQL Server real.
+
+Resultados:
+
+- View `VW_ResultadosSemLimiteReferencia` inspecionada em modo read-only.
+- Shape reduzido da view documentado em `docs/inspecao_vw_resultados_sem_limite_referencia.md`.
+- Endpoint implementado no router de resultados.
+- Repository consulta `VW_ResultadosSemLimiteReferencia` como recorte e junta com `VW_ConformidadeResultados` por `IdResultado` para preservar contrato completo.
+- Conformidade consumida diretamente das views, sem recalculo em Python.
+- Suite automatizada aprovada com 29 testes.
+- Validacao real contra SQL Server concluida.
+- Total real retornado: 15 registros.
+- Todos os registros retornados apresentaram `possui_limite_referencia=false`, `indicador_nao_conforme=null` e `classificacao_resultado=Sem limite de referencia`.
+- Documentacao tecnica criada em `docs/resultados_sem_limite_referencia_endpoint.md`.
+- Nenhum CRUD, migration, autenticacao, Docker, deploy ou alteracao no SQL Server foi criado.
+
 ## Fase 2 - Endpoints de Consulta
 
 Status: em andamento.

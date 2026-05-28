@@ -92,3 +92,44 @@ def list_resultados_nao_conformidades(
         data=data,
         pagination=pagination_metadata(page=page, page_size=page_size, total=total),
     )
+
+
+def list_resultados_sem_limite_referencia(
+    db: Session,
+    *,
+    data_inicio: date | None = None,
+    data_fim: date | None = None,
+    municipio: str | None = None,
+    id_ponto_coleta: int | None = None,
+    id_parametro: int | None = None,
+    categoria: str | None = None,
+    codigo_amostra: str | None = None,
+    id_amostra: int | None = None,
+    page: int = 1,
+    page_size: int = 20,
+) -> dict:
+    if data_inicio and data_fim and data_inicio > data_fim:
+        raise HTTPException(
+            status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+            detail="data_inicio deve ser menor ou igual a data_fim.",
+        )
+
+    data, total = resultados_repository.list_resultados_sem_limite_referencia(
+        db,
+        data_inicio=data_inicio,
+        data_fim=data_fim,
+        municipio=municipio,
+        id_ponto_coleta=id_ponto_coleta,
+        id_parametro=id_parametro,
+        categoria=categoria,
+        codigo_amostra=codigo_amostra,
+        id_amostra=id_amostra,
+        page=page,
+        page_size=page_size,
+    )
+
+    return success_response(
+        message="Consulta realizada com sucesso.",
+        data=data,
+        pagination=pagination_metadata(page=page, page_size=page_size, total=total),
+    )
