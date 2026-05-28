@@ -132,7 +132,7 @@ Views relevantes para a evolução da API:
 | Endpoint | Objetivo | Status |
 | -------- | -------- | ------ |
 | `GET /health` | Health check da aplicação | ✅ Implementado |
-| `GET /api/v1/pontos-coleta` | Listagem de pontos de coleta | 🚧 Próxima etapa |
+| `GET /api/v1/pontos-coleta` | Listagem de pontos de coleta | ✅ Implementado |
 | `GET /api/v1/parametros` | Listagem de parâmetros ambientais | 📋 Planejado |
 | `GET /api/v1/amostras` | Listagem de amostras | 📋 Planejado |
 | `GET /api/v1/resultados` | Resultados analíticos consolidados | 📋 Planejado |
@@ -228,9 +228,10 @@ pytest
 
 Status atual:
 
-✅ 2 testes aprovados  
-✅ Endpoint `/health` validado  
-✅ Contrato mínimo de resposta validado  
+- ✅ 5 testes aprovados
+- ✅ Endpoint `/health` validado
+- ✅ Endpoint `/api/v1/pontos-coleta` validado por contrato
+- ✅ Paginação e filtros básicos validados
 
 ---
 
@@ -255,6 +256,7 @@ Medidas já aplicadas no projeto:
 | `docs/fases.md` | Evolução do projeto por fases. |
 | `docs/modelo_banco.md` | Modelo real inspecionado do banco. |
 | `docs/contratos_api_fase2.md` | Contratos planejados para endpoints read-only. |
+| `docs/pontos_coleta_endpoint.md` | Documentação técnica do primeiro endpoint read-only. |
 | `docs/versionamento_backup.md` | Política de Git, snapshots e rollback. |
 | `docs/decisoes_tecnicas.md` | Decisões arquiteturais e tecnológicas. |
 | `docs/checklist_operacional.md` | Checklist antes de mudanças críticas. |
@@ -268,7 +270,7 @@ Medidas já aplicadas no projeto:
 - [x] Fase 1.2 - Governança técnica, versionamento e backup
 - [x] Fase 1.3 - Validação local completa
 - [x] Fase 2.0 - Inspeção real do banco SQL Server
-- [ ] Fase 2.1 - Primeiro endpoint read-only: `GET /api/v1/pontos-coleta`
+- [x] Fase 2.1 - Primeiro endpoint read-only: `GET /api/v1/pontos-coleta`
 - [ ] Fase 2 - Endpoints de consulta do domínio
 - [ ] Fase 3 - Organização profissional, paginação, filtros e erros
 - [ ] Fase 4 - Evolução funcional controlada
@@ -296,12 +298,14 @@ A proposta é evoluir a API com qualidade, mantendo rastreabilidade técnica e c
 
 | Item | Status |
 | ---- | ------ |
-| Fase atual | Fase 2.0 concluída |
-| Próxima etapa | Fase 2.1 - `GET /api/v1/pontos-coleta` |
+| Fase atual | Fase 2.1 implementada |
+| Próxima etapa | Validar endpoint com SQL Server real configurado via `.env` |
 | API local | Validada |
 | Swagger/ReDoc | Ativos |
 | Banco SQL Server | Inspecionado em modo read-only |
-| Testes | 2 testes aprovados |
+| Primeiro endpoint de domínio | `GET /api/v1/pontos-coleta` implementado |
+| Testes | 5 testes aprovados |
+| Validação SQL Server real | Pendente no workspace atual por ausência de `.env` |
 | Workspace | Preparado para evolução dos endpoints |
 
 Ainda não fazem parte do escopo atual:

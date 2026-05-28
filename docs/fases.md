@@ -106,7 +106,7 @@ Resultados:
 
 ## Fase 2.1 - Primeiro Endpoint Read-only
 
-Status: proxima etapa.
+Status: implementada em 2026-05-28; validacao real com SQL Server pendente no workspace atual por ausencia de `.env`.
 
 Objetivos:
 
@@ -118,13 +118,29 @@ Objetivos:
 - Criar teste automatizado.
 - Validar Swagger.
 
+Resultados:
+
+- `GET /api/v1/pontos-coleta` implementado.
+- Router registrado em `/api/v1`.
+- Service dedicado criado em `app/services/pontos_coleta_service.py`.
+- Repository read-only criado com `SELECT`, `COUNT(1)`, filtros parametrizados e paginacao por `OFFSET/FETCH`.
+- Schema Pydantic criado para resposta individual, lista e paginacao.
+- Filtros iniciais implementados: `municipio`, `estado`, `tipo_ponto`.
+- Paginacao implementada com `page` padrao `1`, `page_size` padrao `20` e maximo `100`.
+- Testes automatizados criados em `tests/test_pontos_coleta.py`.
+- Suite automatizada aprovada com 5 testes.
+- Documentacao tecnica criada em `docs/pontos_coleta_endpoint.md`.
+- OpenAPI validado com o endpoint, parametros e respostas esperadas.
+- Validacao real contra SQL Server nao concluida neste workspace porque nao ha arquivo `.env` configurado e a aplicacao usou o fallback `localhost:1433`.
+- Nenhum CRUD, migration, autenticacao, Docker, deploy ou alteracao no SQL Server foi criado.
+
 ## Fase 2 - Endpoints de Consulta
 
-Status: pendente.
+Status: em andamento.
 
 Escopo previsto:
 
-- `GET /api/v1/pontos-coleta`
+- `GET /api/v1/pontos-coleta` (implementado na Fase 2.1)
 - `GET /api/v1/pontos-coleta/{id}`
 - `GET /api/v1/parametros`
 - `GET /api/v1/parametros/{id}`
