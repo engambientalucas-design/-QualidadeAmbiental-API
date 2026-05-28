@@ -194,3 +194,15 @@ Observacao: a aplicacao carrega `.env` diretamente via `pydantic-settings`; a co
 - [x] `pytest` executado com 13 testes aprovados.
 - [x] Documentacao tecnica do endpoint criada.
 - [x] Nenhuma alteracao realizada no SQL Server.
+
+## Antes da Fase 2.4 - Inspecao da view de resultados
+
+- [x] View `VW_ConformidadeResultados` inspecionada em modo read-only.
+- [x] Colunas e tipos reais confirmados.
+- [x] Total real de registros confirmado: 72.
+- [x] Periodo real confirmado: `2026-04-01` a `2026-04-03`.
+- [x] Distribuicoes por municipio, categoria e classificacao confirmadas.
+- [x] Filtros booleanos reais confirmados.
+- [x] `IndicadorNaoConforme` confirmado como campo que pode retornar `NULL`.
+- [x] Documento `docs/inspecao_vw_conformidade_resultados.md` criado.
+- [x] Nenhuma alteracao realizada no SQL Server.

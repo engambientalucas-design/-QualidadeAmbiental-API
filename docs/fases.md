@@ -243,6 +243,21 @@ Resultados:
 - Documentacao tecnica criada em `docs/amostras_endpoint.md`.
 - Nenhum CRUD, migration, autenticacao, Docker, deploy ou alteracao no SQL Server foi criado.
 
+## Fase 2.4 - Endpoint Read-only de Resultados Consolidados
+
+Status: inspecao previa concluida em 2026-05-28; implementacao pendente.
+
+Resultados da inspecao previa:
+
+- View fonte confirmada: `VW_ConformidadeResultados`.
+- Total real observado: 72 registros.
+- Periodo observado: `2026-04-01` a `2026-04-03`.
+- `PossuiLimiteReferencia` retorna `int` e deve ser exposto como booleano.
+- `IndicadorNaoConforme` retorna `int` ou `NULL`; o contrato publico deve permitir `boolean | null`.
+- `ValorResultado`, `ValorMinimo` e `ValorMaximo` devem ser expostos como numeros JSON.
+- Distribuicoes e filtros reais documentados em `docs/inspecao_vw_conformidade_resultados.md`.
+- Nenhuma alteracao realizada no SQL Server.
+
 ## Fase 2 - Endpoints de Consulta
 
 Status: em andamento.
