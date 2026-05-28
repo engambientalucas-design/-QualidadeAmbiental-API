@@ -40,17 +40,17 @@ Definir criterios e trilha de trabalho para iniciar a Fase 3 com seguranca, sem 
 
 ## Checklist Tecnico
 
-- [ ] Criar handlers globais de erro.
-- [ ] Definir schema padrao de erro.
-- [ ] Padronizar respostas de validacao.
+- [x] Criar handlers globais de erro.
+- [x] Definir schema padrao de erro.
+- [x] Padronizar respostas de validacao.
 - [ ] Centralizar schema de paginacao.
-- [ ] Alinhar `PaginationParams` com `page` e `page_size`.
-- [ ] Criar helper de validacao de intervalo de datas.
+- [x] Alinhar `PaginationParams` com `page` e `page_size`.
+- [x] Criar helper de validacao de intervalo de datas.
 - [ ] Criar testes parametrizados de OpenAPI.
-- [ ] Criar testes para erros HTTP 422.
-- [ ] Adicionar logging estruturado basico.
-- [ ] Garantir que logs nao exponham credenciais.
-- [ ] Documentar politica de erro e logging.
+- [x] Criar testes para erros HTTP 422.
+- [x] Adicionar logging estruturado basico.
+- [x] Garantir que logs nao exponham credenciais.
+- [x] Documentar politica de erro e logging.
 
 ## Cuidado com Contratos Publicos
 

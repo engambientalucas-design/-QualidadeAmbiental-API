@@ -1,11 +1,11 @@
 from datetime import date
 
-from fastapi import HTTPException, status
 from sqlalchemy.orm import Session
 
 from app.repositories import resultados_repository
-from app.utils.pagination import pagination_metadata
+from app.utils.pagination import DEFAULT_PAGE, DEFAULT_PAGE_SIZE, pagination_metadata
 from app.utils.responses import success_response
+from app.utils.validators import validate_date_range
 
 
 def list_resultados(
@@ -22,14 +22,10 @@ def list_resultados(
     classificacao_resultado: str | None = None,
     possui_limite_referencia: bool | None = None,
     indicador_nao_conforme: bool | None = None,
-    page: int = 1,
-    page_size: int = 20,
+    page: int = DEFAULT_PAGE,
+    page_size: int = DEFAULT_PAGE_SIZE,
 ) -> dict:
-    if data_inicio and data_fim and data_inicio > data_fim:
-        raise HTTPException(
-            status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
-            detail="data_inicio deve ser menor ou igual a data_fim.",
-        )
+    validate_date_range(data_inicio, data_fim)
 
     data, total = resultados_repository.list_resultados(
         db,
@@ -65,14 +61,10 @@ def list_resultados_nao_conformidades(
     id_parametro: int | None = None,
     categoria: str | None = None,
     classificacao_resultado: str | None = None,
-    page: int = 1,
-    page_size: int = 20,
+    page: int = DEFAULT_PAGE,
+    page_size: int = DEFAULT_PAGE_SIZE,
 ) -> dict:
-    if data_inicio and data_fim and data_inicio > data_fim:
-        raise HTTPException(
-            status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
-            detail="data_inicio deve ser menor ou igual a data_fim.",
-        )
+    validate_date_range(data_inicio, data_fim)
 
     data, total = resultados_repository.list_resultados_nao_conformidades(
         db,
@@ -105,14 +97,10 @@ def list_resultados_sem_limite_referencia(
     categoria: str | None = None,
     codigo_amostra: str | None = None,
     id_amostra: int | None = None,
-    page: int = 1,
-    page_size: int = 20,
+    page: int = DEFAULT_PAGE,
+    page_size: int = DEFAULT_PAGE_SIZE,
 ) -> dict:
-    if data_inicio and data_fim and data_inicio > data_fim:
-        raise HTTPException(
-            status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
-            detail="data_inicio deve ser menor ou igual a data_fim.",
-        )
+    validate_date_range(data_inicio, data_fim)
 
     data, total = resultados_repository.list_resultados_sem_limite_referencia(
         db,
@@ -140,8 +128,8 @@ def list_resumo_mensal(
     *,
     ano: int | None = None,
     mes: int | None = None,
-    page: int = 1,
-    page_size: int = 20,
+    page: int = DEFAULT_PAGE,
+    page_size: int = DEFAULT_PAGE_SIZE,
 ) -> dict:
     data, total = resultados_repository.list_resumo_mensal(
         db,
@@ -163,8 +151,8 @@ def list_parametros_criticos(
     *,
     categoria: str | None = None,
     limit: int | None = None,
-    page: int = 1,
-    page_size: int = 20,
+    page: int = DEFAULT_PAGE,
+    page_size: int = DEFAULT_PAGE_SIZE,
 ) -> dict:
     data, total = resultados_repository.list_parametros_criticos(
         db,

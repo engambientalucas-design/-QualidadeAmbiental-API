@@ -56,8 +56,9 @@ Use este checklist antes de evoluir o projeto ou executar mudancas criticas.
 - [x] `tests/test_parametros.py` criado.
 - [x] `tests/test_amostras.py` criado.
 - [x] `tests/test_resultados.py` criado.
+- [x] `tests/test_error_handlers.py` criado.
 - [x] `pytest` executado.
-- [x] Suite atual aprovada: 39 testes.
+- [x] Suite atual aprovada: 41 testes.
 
 ## Governanca
 
@@ -346,4 +347,24 @@ Observacao: a aplicacao carrega `.env` diretamente via `pydantic-settings`; a co
 - [x] `limit=101` validado com HTTP 422.
 - [x] `pytest` executado com 39 testes aprovados.
 - [x] Documentacao tecnica do endpoint criada.
+- [x] Nenhuma alteracao realizada no SQL Server.
+
+## Fase 3.0 - Padronizacao interna da API
+
+- [x] Schema padrao de erro criado.
+- [x] Handlers globais registrados.
+- [x] Handler de `RequestValidationError` implementado.
+- [x] Handler de `HTTPException` implementado.
+- [x] Handler de erro inesperado implementado.
+- [x] Logging basico configurado.
+- [x] Constantes de paginacao centralizadas.
+- [x] Helper de offset criado.
+- [x] Validacao reutilizavel de intervalo de datas criada.
+- [x] Services de amostras e resultados usando validacao reutilizavel.
+- [x] Contrato de sucesso preservado.
+- [x] Contrato de erro padronizado.
+- [x] Testes de erro adicionados.
+- [x] `pytest` executado com 41 testes aprovados.
+- [x] Documento `docs/padroes_api.md` criado.
+- [x] Nenhum endpoint de dominio criado.
 - [x] Nenhuma alteracao realizada no SQL Server.

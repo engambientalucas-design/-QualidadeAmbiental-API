@@ -80,3 +80,40 @@ Devem ser confirmados:
 - indices;
 - views existentes;
 - volume esperado de dados.
+
+## Contrato padrao de erro
+
+A partir da Fase 3.0, erros da API usam envelope padronizado:
+
+```json
+{
+  "success": false,
+  "message": "Erro de validacao na requisicao.",
+  "error": {
+    "code": "VALIDATION_ERROR",
+    "details": "Verifique os parametros enviados na requisicao."
+  }
+}
+```
+
+Essa decisao preserva o contrato de sucesso da Fase 2 e cria previsibilidade para consumidores da API em cenarios de erro.
+
+## Handlers globais
+
+Handlers globais foram adotados para:
+
+- padronizar erros de validacao;
+- preservar status codes de `HTTPException`;
+- responder erros inesperados com mensagem segura;
+- registrar detalhes internos em log sem expor stacktrace na resposta externa.
+
+## Logging basico
+
+Logging estruturado simples foi configurado sem ferramenta externa nesta etapa.
+
+Regras:
+
+- nao registrar credenciais;
+- nao registrar connection string;
+- logar erros inesperados internamente;
+- manter resposta externa segura.

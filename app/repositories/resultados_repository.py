@@ -5,6 +5,8 @@ from typing import Any
 from sqlalchemy import text
 from sqlalchemy.orm import Session
 
+from app.utils.pagination import DEFAULT_PAGE, DEFAULT_PAGE_SIZE, calculate_offset
+
 
 BASE_SELECT_RESULTADOS = """
     FROM VW_ConformidadeResultados
@@ -251,8 +253,8 @@ def list_resultados(
     classificacao_resultado: str | None = None,
     possui_limite_referencia: bool | None = None,
     indicador_nao_conforme: bool | None = None,
-    page: int = 1,
-    page_size: int = 20,
+    page: int = DEFAULT_PAGE,
+    page_size: int = DEFAULT_PAGE_SIZE,
 ) -> tuple[list[dict[str, Any]], int]:
     filters_sql, params = _build_filters(
         data_inicio=data_inicio,
@@ -267,7 +269,7 @@ def list_resultados(
         possui_limite_referencia=possui_limite_referencia,
         indicador_nao_conforme=indicador_nao_conforme,
     )
-    offset = (page - 1) * page_size
+    offset = calculate_offset(page=page, page_size=page_size)
 
     count_query = text(
         f"""
@@ -342,8 +344,8 @@ def list_resultados_nao_conformidades(
     id_parametro: int | None = None,
     categoria: str | None = None,
     classificacao_resultado: str | None = None,
-    page: int = 1,
-    page_size: int = 20,
+    page: int = DEFAULT_PAGE,
+    page_size: int = DEFAULT_PAGE_SIZE,
 ) -> tuple[list[dict[str, Any]], int]:
     filters_sql, params = _build_nao_conformidades_filters(
         data_inicio=data_inicio,
@@ -354,7 +356,7 @@ def list_resultados_nao_conformidades(
         categoria=categoria,
         classificacao_resultado=classificacao_resultado,
     )
-    offset = (page - 1) * page_size
+    offset = calculate_offset(page=page, page_size=page_size)
 
     count_query = text(
         f"""
@@ -430,8 +432,8 @@ def list_resultados_sem_limite_referencia(
     categoria: str | None = None,
     codigo_amostra: str | None = None,
     id_amostra: int | None = None,
-    page: int = 1,
-    page_size: int = 20,
+    page: int = DEFAULT_PAGE,
+    page_size: int = DEFAULT_PAGE_SIZE,
 ) -> tuple[list[dict[str, Any]], int]:
     filters_sql, params = _build_sem_limite_referencia_filters(
         data_inicio=data_inicio,
@@ -443,7 +445,7 @@ def list_resultados_sem_limite_referencia(
         codigo_amostra=codigo_amostra,
         id_amostra=id_amostra,
     )
-    offset = (page - 1) * page_size
+    offset = calculate_offset(page=page, page_size=page_size)
 
     count_query = text(
         f"""
@@ -513,11 +515,11 @@ def list_resumo_mensal(
     *,
     ano: int | None = None,
     mes: int | None = None,
-    page: int = 1,
-    page_size: int = 20,
+    page: int = DEFAULT_PAGE,
+    page_size: int = DEFAULT_PAGE_SIZE,
 ) -> tuple[list[dict[str, Any]], int]:
     filters_sql, params = _build_resumo_mensal_filters(ano=ano, mes=mes)
-    offset = (page - 1) * page_size
+    offset = calculate_offset(page=page, page_size=page_size)
 
     count_query = text(
         f"""
@@ -568,11 +570,11 @@ def list_parametros_criticos(
     *,
     categoria: str | None = None,
     limit: int | None = None,
-    page: int = 1,
-    page_size: int = 20,
+    page: int = DEFAULT_PAGE,
+    page_size: int = DEFAULT_PAGE_SIZE,
 ) -> tuple[list[dict[str, Any]], int]:
     filters_sql, params = _build_parametros_criticos_filters(categoria=categoria)
-    offset = (page - 1) * page_size
+    offset = calculate_offset(page=page, page_size=page_size)
 
     base_cte = f"""
         WITH ranked AS (

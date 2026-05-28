@@ -18,6 +18,18 @@ def success_response(
     return response
 
 
+def paginated_response(message: str, data: Any, page: int, page_size: int, total: int) -> dict:
+    return success_response(
+        message=message,
+        data=data,
+        pagination={
+            "page": page,
+            "page_size": page_size,
+            "total": total,
+        },
+    )
+
+
 def error_response(message: str, code: str, details: str) -> dict:
     return {
         "success": False,

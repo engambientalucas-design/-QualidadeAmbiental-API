@@ -113,6 +113,9 @@ def test_amostras_rejects_invalid_page_size() -> None:
     response = client.get("/api/v1/amostras", params={"page_size": 101})
 
     assert response.status_code == 422
+    payload = response.json()
+    assert payload["success"] is False
+    assert payload["error"]["code"] == "VALIDATION_ERROR"
 
 
 def test_amostras_rejects_invalid_date_range() -> None:
@@ -122,7 +125,13 @@ def test_amostras_rejects_invalid_date_range() -> None:
     )
 
     assert response.status_code == 422
-    assert response.json()["detail"] == "data_inicio deve ser menor ou igual a data_fim."
+    payload = response.json()
+    assert payload["success"] is False
+    assert payload["message"] == "Erro ao processar a requisicao."
+    assert payload["error"] == {
+        "code": "HTTP_ERROR",
+        "details": "data_inicio deve ser menor ou igual a data_fim.",
+    }
 
 
 def test_amostras_openapi_contains_endpoint_and_query_params() -> None:

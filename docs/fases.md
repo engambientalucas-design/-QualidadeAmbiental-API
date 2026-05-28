@@ -460,7 +460,7 @@ Filtros previstos:
 
 ## Fase 3 - Organizacao Profissional
 
-Status: proxima fase.
+Status: em andamento.
 
 Objetivos:
 
@@ -468,6 +468,36 @@ Objetivos:
 - Adicionar tratamento padronizado de erros.
 - Adicionar paginacao e filtros.
 - Revisar acoplamento e nomes de dominio.
+
+## Fase 3.0 - Padronizacao de Erros, Paginacao e Validacoes
+
+Status: concluida em 2026-05-28.
+
+Objetivos:
+
+- Padronizar respostas de erro.
+- Centralizar constantes e metadados de paginacao.
+- Criar validacao reutilizavel de intervalo de datas.
+- Registrar handlers globais de erro.
+- Configurar logging basico.
+- Ampliar testes de erro.
+- Documentar padroes internos da API.
+
+Resultados:
+
+- Schema de erro criado em `app/schemas/error.py`.
+- Handlers globais criados em `app/core/exception_handlers.py`.
+- Logging basico criado em `app/core/logging.py`.
+- Utilitario de validacao criado em `app/utils/validators.py`.
+- Utilitario de paginacao consolidado com `DEFAULT_PAGE`, `DEFAULT_PAGE_SIZE` e `MAX_PAGE_SIZE`.
+- Contrato de sucesso preservado.
+- Contrato de erro padronizado como novo contrato oficial da Fase 3.
+- Validacao de data reutilizada em amostras e resultados.
+- Testes de erro adicionados em `tests/test_error_handlers.py`.
+- Suite automatizada aprovada com 41 testes.
+- Documento `docs/padroes_api.md` criado.
+- Nenhum endpoint de dominio criado.
+- Nenhuma alteracao realizada no SQL Server.
 
 ## Fase 4 - Evolucao Funcional
 

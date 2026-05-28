@@ -181,6 +181,9 @@ def test_resultados_rejects_invalid_page_size() -> None:
     response = client.get("/api/v1/resultados", params={"page_size": 101})
 
     assert response.status_code == 422
+    payload = response.json()
+    assert payload["success"] is False
+    assert payload["error"]["code"] == "VALIDATION_ERROR"
 
 
 def test_resultados_rejects_invalid_date_range() -> None:
@@ -190,7 +193,12 @@ def test_resultados_rejects_invalid_date_range() -> None:
     )
 
     assert response.status_code == 422
-    assert response.json()["detail"] == "data_inicio deve ser menor ou igual a data_fim."
+    payload = response.json()
+    assert payload["success"] is False
+    assert payload["error"] == {
+        "code": "HTTP_ERROR",
+        "details": "data_inicio deve ser menor ou igual a data_fim.",
+    }
 
 
 def test_resultados_openapi_contains_endpoint_and_query_params() -> None:
@@ -297,6 +305,9 @@ def test_resultados_nao_conformidades_rejects_invalid_page_size() -> None:
     response = client.get("/api/v1/resultados/nao-conformidades", params={"page_size": 101})
 
     assert response.status_code == 422
+    payload = response.json()
+    assert payload["success"] is False
+    assert payload["error"]["code"] == "VALIDATION_ERROR"
 
 
 def test_resultados_nao_conformidades_rejects_invalid_date_range() -> None:
@@ -306,7 +317,12 @@ def test_resultados_nao_conformidades_rejects_invalid_date_range() -> None:
     )
 
     assert response.status_code == 422
-    assert response.json()["detail"] == "data_inicio deve ser menor ou igual a data_fim."
+    payload = response.json()
+    assert payload["success"] is False
+    assert payload["error"] == {
+        "code": "HTTP_ERROR",
+        "details": "data_inicio deve ser menor ou igual a data_fim.",
+    }
 
 
 def test_resultados_nao_conformidades_openapi_contains_endpoint_and_query_params() -> None:
@@ -420,6 +436,9 @@ def test_resultados_sem_limite_referencia_rejects_invalid_page_size() -> None:
     response = client.get("/api/v1/resultados/sem-limite-referencia", params={"page_size": 101})
 
     assert response.status_code == 422
+    payload = response.json()
+    assert payload["success"] is False
+    assert payload["error"]["code"] == "VALIDATION_ERROR"
 
 
 def test_resultados_sem_limite_referencia_rejects_invalid_date_range() -> None:
@@ -429,7 +448,12 @@ def test_resultados_sem_limite_referencia_rejects_invalid_date_range() -> None:
     )
 
     assert response.status_code == 422
-    assert response.json()["detail"] == "data_inicio deve ser menor ou igual a data_fim."
+    payload = response.json()
+    assert payload["success"] is False
+    assert payload["error"] == {
+        "code": "HTTP_ERROR",
+        "details": "data_inicio deve ser menor ou igual a data_fim.",
+    }
 
 
 def test_resultados_sem_limite_referencia_openapi_contains_endpoint_and_query_params() -> None:
@@ -513,12 +537,18 @@ def test_resultados_resumo_mensal_rejects_invalid_page_size() -> None:
     response = client.get("/api/v1/resultados/resumo-mensal", params={"page_size": 101})
 
     assert response.status_code == 422
+    payload = response.json()
+    assert payload["success"] is False
+    assert payload["error"]["code"] == "VALIDATION_ERROR"
 
 
 def test_resultados_resumo_mensal_rejects_invalid_mes() -> None:
     response = client.get("/api/v1/resultados/resumo-mensal", params={"mes": 13})
 
     assert response.status_code == 422
+    payload = response.json()
+    assert payload["success"] is False
+    assert payload["error"]["code"] == "VALIDATION_ERROR"
 
 
 def test_resultados_resumo_mensal_openapi_contains_endpoint_and_query_params() -> None:
@@ -596,12 +626,18 @@ def test_resultados_parametros_criticos_rejects_invalid_page_size() -> None:
     response = client.get("/api/v1/resultados/parametros-criticos", params={"page_size": 101})
 
     assert response.status_code == 422
+    payload = response.json()
+    assert payload["success"] is False
+    assert payload["error"]["code"] == "VALIDATION_ERROR"
 
 
 def test_resultados_parametros_criticos_rejects_invalid_limit() -> None:
     response = client.get("/api/v1/resultados/parametros-criticos", params={"limit": 101})
 
     assert response.status_code == 422
+    payload = response.json()
+    assert payload["success"] is False
+    assert payload["error"]["code"] == "VALIDATION_ERROR"
 
 
 def test_resultados_parametros_criticos_openapi_contains_endpoint_and_query_params() -> None:

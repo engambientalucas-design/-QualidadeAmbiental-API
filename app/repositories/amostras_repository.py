@@ -4,6 +4,8 @@ from typing import Any
 from sqlalchemy import text
 from sqlalchemy.orm import Session
 
+from app.utils.pagination import DEFAULT_PAGE, DEFAULT_PAGE_SIZE, calculate_offset
+
 
 BASE_SELECT = """
     FROM Tbl_Amostras AS a
@@ -66,8 +68,8 @@ def list_amostras(
     municipio: str | None = None,
     id_tipo_amostra: int | None = None,
     id_status: int | None = None,
-    page: int = 1,
-    page_size: int = 20,
+    page: int = DEFAULT_PAGE,
+    page_size: int = DEFAULT_PAGE_SIZE,
 ) -> tuple[list[dict[str, Any]], int]:
     filters_sql, params = _build_filters(
         data_inicio=data_inicio,
@@ -77,7 +79,7 @@ def list_amostras(
         id_tipo_amostra=id_tipo_amostra,
         id_status=id_status,
     )
-    offset = (page - 1) * page_size
+    offset = calculate_offset(page=page, page_size=page_size)
 
     count_query = text(
         f"""

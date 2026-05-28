@@ -7,6 +7,7 @@ from app.core.config import settings
 from app.core.database import get_db
 from app.schemas.pontos_coleta import PontoColetaListResponse
 from app.services import pontos_coleta_service
+from app.utils.pagination import DEFAULT_PAGE, DEFAULT_PAGE_SIZE, MAX_PAGE_SIZE
 
 router = APIRouter(
     prefix=f"{settings.API_V1_PREFIX}/pontos-coleta",
@@ -36,11 +37,11 @@ def list_pontos_coleta(
     page: Annotated[
         int,
         Query(ge=1, description="Número da página."),
-    ] = 1,
+    ] = DEFAULT_PAGE,
     page_size: Annotated[
         int,
-        Query(ge=1, le=100, description="Quantidade de registros por página."),
-    ] = 20,
+        Query(ge=1, le=MAX_PAGE_SIZE, description="Quantidade de registros por página."),
+    ] = DEFAULT_PAGE_SIZE,
     db: Session = Depends(get_db),
 ) -> dict:
     return pontos_coleta_service.list_pontos_coleta(

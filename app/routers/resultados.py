@@ -12,6 +12,7 @@ from app.schemas.resultados import (
     ResumoMensalListResponse,
 )
 from app.services import resultados_service
+from app.utils.pagination import DEFAULT_PAGE, DEFAULT_PAGE_SIZE, MAX_PAGE_SIZE
 
 router = APIRouter(
     prefix=f"{settings.API_V1_PREFIX}/resultados",
@@ -32,16 +33,16 @@ def list_parametros_criticos(
     ] = None,
     limit: Annotated[
         int | None,
-        Query(ge=1, le=100, description="Limita o ranking aos primeiros N parametros."),
+        Query(ge=1, le=MAX_PAGE_SIZE, description="Limita o ranking aos primeiros N parametros."),
     ] = None,
     page: Annotated[
         int,
         Query(ge=1, description="Numero da pagina."),
-    ] = 1,
+    ] = DEFAULT_PAGE,
     page_size: Annotated[
         int,
-        Query(ge=1, le=100, description="Quantidade de registros por pagina."),
-    ] = 20,
+        Query(ge=1, le=MAX_PAGE_SIZE, description="Quantidade de registros por pagina."),
+    ] = DEFAULT_PAGE_SIZE,
     db: Session = Depends(get_db),
 ) -> dict:
     return resultados_service.list_parametros_criticos(
@@ -71,11 +72,11 @@ def list_resumo_mensal(
     page: Annotated[
         int,
         Query(ge=1, description="Numero da pagina."),
-    ] = 1,
+    ] = DEFAULT_PAGE,
     page_size: Annotated[
         int,
-        Query(ge=1, le=100, description="Quantidade de registros por pagina."),
-    ] = 20,
+        Query(ge=1, le=MAX_PAGE_SIZE, description="Quantidade de registros por pagina."),
+    ] = DEFAULT_PAGE_SIZE,
     db: Session = Depends(get_db),
 ) -> dict:
     return resultados_service.list_resumo_mensal(
@@ -129,11 +130,11 @@ def list_resultados_sem_limite_referencia(
     page: Annotated[
         int,
         Query(ge=1, description="Numero da pagina."),
-    ] = 1,
+    ] = DEFAULT_PAGE,
     page_size: Annotated[
         int,
-        Query(ge=1, le=100, description="Quantidade de registros por pagina."),
-    ] = 20,
+        Query(ge=1, le=MAX_PAGE_SIZE, description="Quantidade de registros por pagina."),
+    ] = DEFAULT_PAGE_SIZE,
     db: Session = Depends(get_db),
 ) -> dict:
     return resultados_service.list_resultados_sem_limite_referencia(
@@ -189,11 +190,11 @@ def list_resultados_nao_conformidades(
     page: Annotated[
         int,
         Query(ge=1, description="Numero da pagina."),
-    ] = 1,
+    ] = DEFAULT_PAGE,
     page_size: Annotated[
         int,
-        Query(ge=1, le=100, description="Quantidade de registros por pagina."),
-    ] = 20,
+        Query(ge=1, le=MAX_PAGE_SIZE, description="Quantidade de registros por pagina."),
+    ] = DEFAULT_PAGE_SIZE,
     db: Session = Depends(get_db),
 ) -> dict:
     return resultados_service.list_resultados_nao_conformidades(
@@ -264,11 +265,11 @@ def list_resultados(
     page: Annotated[
         int,
         Query(ge=1, description="Numero da pagina."),
-    ] = 1,
+    ] = DEFAULT_PAGE,
     page_size: Annotated[
         int,
-        Query(ge=1, le=100, description="Quantidade de registros por pagina."),
-    ] = 20,
+        Query(ge=1, le=MAX_PAGE_SIZE, description="Quantidade de registros por pagina."),
+    ] = DEFAULT_PAGE_SIZE,
     db: Session = Depends(get_db),
 ) -> dict:
     return resultados_service.list_resultados(

@@ -7,6 +7,7 @@ from app.core.config import settings
 from app.core.database import get_db
 from app.schemas.parametros import ParametroListResponse
 from app.services import parametros_service
+from app.utils.pagination import DEFAULT_PAGE, DEFAULT_PAGE_SIZE, MAX_PAGE_SIZE
 
 router = APIRouter(
     prefix=f"{settings.API_V1_PREFIX}/parametros",
@@ -32,11 +33,11 @@ def list_parametros(
     page: Annotated[
         int,
         Query(ge=1, description="Numero da pagina."),
-    ] = 1,
+    ] = DEFAULT_PAGE,
     page_size: Annotated[
         int,
-        Query(ge=1, le=100, description="Quantidade de registros por pagina."),
-    ] = 20,
+        Query(ge=1, le=MAX_PAGE_SIZE, description="Quantidade de registros por pagina."),
+    ] = DEFAULT_PAGE_SIZE,
     db: Session = Depends(get_db),
 ) -> dict:
     return parametros_service.list_parametros(

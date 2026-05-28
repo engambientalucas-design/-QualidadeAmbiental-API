@@ -1,7 +1,7 @@
 from sqlalchemy.orm import Session
 
 from app.repositories import parametros_repository
-from app.utils.pagination import pagination_metadata
+from app.utils.pagination import DEFAULT_PAGE, DEFAULT_PAGE_SIZE, pagination_metadata
 from app.utils.responses import success_response
 
 
@@ -10,8 +10,8 @@ def list_parametros(
     *,
     categoria: str | None = None,
     ativo: bool | None = None,
-    page: int = 1,
-    page_size: int = 20,
+    page: int = DEFAULT_PAGE,
+    page_size: int = DEFAULT_PAGE_SIZE,
 ) -> dict:
     data, total = parametros_repository.list_parametros(
         db,

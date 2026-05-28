@@ -1,11 +1,11 @@
 from datetime import date
 
-from fastapi import HTTPException, status
 from sqlalchemy.orm import Session
 
 from app.repositories import amostras_repository
-from app.utils.pagination import pagination_metadata
+from app.utils.pagination import DEFAULT_PAGE, DEFAULT_PAGE_SIZE, pagination_metadata
 from app.utils.responses import success_response
+from app.utils.validators import validate_date_range
 
 
 def list_amostras(
@@ -17,14 +17,10 @@ def list_amostras(
     municipio: str | None = None,
     id_tipo_amostra: int | None = None,
     id_status: int | None = None,
-    page: int = 1,
-    page_size: int = 20,
+    page: int = DEFAULT_PAGE,
+    page_size: int = DEFAULT_PAGE_SIZE,
 ) -> dict:
-    if data_inicio and data_fim and data_inicio > data_fim:
-        raise HTTPException(
-            status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
-            detail="data_inicio deve ser menor ou igual a data_fim.",
-        )
+    validate_date_range(data_inicio, data_fim)
 
     data, total = amostras_repository.list_amostras(
         db,
