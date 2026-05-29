@@ -239,6 +239,34 @@ echo $env:QA_API_DB_DRIVER
 | Swagger | http://127.0.0.1:8000/docs |
 | ReDoc | http://127.0.0.1:8000/redoc |
 
+### Execucao com Docker
+
+Build da imagem:
+
+```powershell
+docker compose build
+```
+
+Subida local:
+
+```powershell
+docker compose up
+```
+
+Ou:
+
+```powershell
+docker compose up --build
+```
+
+No Windows, quando o SQL Server estiver rodando na maquina host, use no `.env`:
+
+```text
+QA_API_DB_SERVER=host.docker.internal
+```
+
+Documentacao completa: `docs/docker.md`.
+
 ---
 
 ## 🧪 Testes
@@ -310,6 +338,7 @@ Medidas já aplicadas no projeto:
 | `docs/padroes_api.md` | Padrões internos de sucesso, erro, paginação, validação e logs. |
 | `docs/observabilidade.md` | Padrao de request id, logs seguros e rastreabilidade leve. |
 | `docs/qualidade_testes.md` | Cobertura, riscos e metas de qualidade da suite automatizada. |
+| `docs/docker.md` | Dockerizacao local, build, execucao e pendencias de ambiente. |
 | `docs/publicacao_github.md` | Checklist e orientações para publicação profissional no GitHub. |
 | `docs/versionamento_backup.md` | Política de Git, snapshots e rollback. |
 | `docs/decisoes_tecnicas.md` | Decisões arquiteturais e tecnológicas. |
@@ -340,6 +369,7 @@ Medidas já aplicadas no projeto:
 - [x] Fase 3.0.3 - Validação do CI e release inicial
 - [x] Fase 3.1 - Testes avancados, OpenAPI e observabilidade leve
 - [x] Fase 3.2 - Cobertura de testes com pytest-cov
+- [ ] Fase 3.3 - Dockerizacao local da API
 - [ ] Fase 3 - Organização profissional, paginação, filtros e erros
 - [ ] Fase 4 - Evolução funcional controlada
 - [ ] Fase 5 - Validação final e entrega
@@ -366,8 +396,8 @@ A proposta é evoluir a API com qualidade, mantendo rastreabilidade técnica e c
 
 | Item | Status |
 | ---- | ------ |
-| Fase atual | Fase 3.2 concluida |
-| Proxima etapa | Fase 3.3 - Dockerizacao local ou suite de integracao |
+| Fase atual | Fase 3.3 em validacao |
+| Proxima etapa | Concluir validacao Docker local apos instalacao do Docker Desktop |
 | API local | Validada |
 | Swagger/ReDoc | Ativos |
 | Banco SQL Server | Inspecionado em modo read-only |
@@ -388,6 +418,7 @@ A proposta é evoluir a API com qualidade, mantendo rastreabilidade técnica e c
 | Publicação GitHub | Preparada para push inicial |
 | CI | GitHub Actions com pytest |
 | Release inicial | `v0.3.0-readonly-analytics` publicada |
+| Docker local | Arquivos criados; build pendente por Docker Desktop indisponivel |
 | Workspace | Preparado para evolução dos endpoints |
 
 Validação real do endpoint `GET /api/v1/pontos-coleta`:
@@ -514,6 +545,14 @@ Validacao da Fase 3.2:
 - Cobertura geral atual medida em 65%.
 - Relatorio HTML local gerado em `htmlcov/` e ignorado pelo Git.
 - Principal lacuna registrada: repositories com SQL real nao exercitados pelo CI.
+
+Preparacao da Fase 3.3:
+
+- `Dockerfile` criado com Python 3.12 slim e Microsoft ODBC Driver 18.
+- `.dockerignore` criado para excluir `.env`, `.venv`, `.git`, caches, logs, cobertura e backups.
+- `docker-compose.yml` criado para subir apenas a API na porta 8000.
+- Documentacao Docker criada em `docs/docker.md`.
+- Build local ainda pendente porque Docker Desktop nao esta instalado/disponivel no ambiente.
 
 Validação real do endpoint `GET /api/v1/resultados/parametros-criticos`:
 

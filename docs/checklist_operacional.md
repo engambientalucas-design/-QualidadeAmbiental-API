@@ -422,3 +422,23 @@ Observacao: a aplicacao carrega `.env` diretamente via `pydantic-settings`; a co
 - [x] Nenhum limite minimo de cobertura imposto nesta fase.
 - [x] Nenhum endpoint de dominio criado.
 - [x] Nenhuma alteracao realizada no SQL Server.
+
+## Fase 3.3 - Dockerizacao local da API
+
+- [x] Docker local verificado.
+- [x] Ausencia de Docker Desktop identificada: `docker` nao reconhecido.
+- [x] Instalacao via `winget` tentada no volume `D:`.
+- [x] Falha de instalacao documentada por necessidade de UAC/admin.
+- [x] `Dockerfile` criado.
+- [x] `.dockerignore` criado.
+- [x] `docker-compose.yml` criado.
+- [x] Documentacao `docs/docker.md` criada.
+- [x] Uso de `host.docker.internal` documentado para SQL Server no host Windows.
+- [ ] `docker compose build` validado.
+- [ ] `docker compose up` validado.
+- [ ] `/health` validado em container.
+- [ ] `/docs` validado em container.
+- [ ] `/redoc` validado em container.
+- [ ] Endpoint com SQL Server validado em container.
+- [x] Nenhum endpoint de dominio criado.
+- [x] Nenhuma alteracao realizada no SQL Server.

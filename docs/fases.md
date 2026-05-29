@@ -629,6 +629,36 @@ Resultados:
 - Nenhum contrato publico de sucesso alterado.
 - Nenhuma alteracao realizada no SQL Server.
 
+## Fase 3.3 - Dockerizacao Local da API
+
+Status: em validacao desde 2026-05-29.
+
+Objetivos:
+
+- Criar imagem Docker local para a API FastAPI.
+- Instalar dependencias de sistema necessarias para `pyodbc`.
+- Instalar Microsoft ODBC Driver 18 no container.
+- Subir apenas a API com Docker Compose.
+- Manter SQL Server externo/local, sem containerizar banco nesta fase.
+- Documentar uso de `host.docker.internal` no Windows.
+
+Resultados parciais:
+
+- `Dockerfile` criado com `python:3.12-slim-bookworm`.
+- `.dockerignore` criado com exclusoes para credenciais, `.venv`, `.git`, caches, logs, cobertura e backups.
+- `docker-compose.yml` criado com servico `qualidadeambiental-api`.
+- Documento `docs/docker.md` criado.
+- Nenhum endpoint de dominio criado.
+- Nenhum contrato publico alterado.
+- Nenhuma alteracao realizada no SQL Server.
+
+Pendencias:
+
+- Docker Desktop nao esta instalado/disponivel no ambiente atual.
+- Tentativa via `winget` baixou o instalador oficial, mas falhou com exit code 1 por necessidade de UAC/admin.
+- Tentativa elevada/interativa retornou sem erro no PowerShell, mas `docker` continuou indisponivel.
+- `docker compose build`, `docker compose up`, `/health` em container e endpoint com SQL Server via container permanecem pendentes ate Docker Desktop estar instalado e aberto.
+
 ## Fase 4 - Evolucao Funcional
 
 Status: pendente.

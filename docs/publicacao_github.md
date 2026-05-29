@@ -36,6 +36,7 @@ Esta etapa prepara o projeto para publicacao. O push para o repositorio remoto d
 - pytest
 - pytest-cov
 - Uvicorn
+- Docker
 
 ## Pre-requisitos
 
@@ -44,6 +45,7 @@ Esta etapa prepara o projeto para publicacao. O push para o repositorio remoto d
 - Driver ODBC para SQL Server
 - Ambiente virtual `.venv`
 - Arquivo `.env` local criado a partir de `.env.example`
+- Docker Desktop para execucao containerizada local
 
 ## Seguranca
 
@@ -111,6 +113,19 @@ Executar cobertura:
 | Health | `http://127.0.0.1:8000/health` |
 | Swagger | `http://127.0.0.1:8000/docs` |
 | ReDoc | `http://127.0.0.1:8000/redoc` |
+
+## Docker Local
+
+A Fase 3.3 adicionou os arquivos de containerizacao:
+
+- `Dockerfile`;
+- `.dockerignore`;
+- `docker-compose.yml`;
+- `docs/docker.md`.
+
+O build local depende de Docker Desktop instalado e em execucao. No Windows, use `QA_API_DB_SERVER=host.docker.internal` quando o SQL Server estiver rodando na maquina host.
+
+Status em 2026-05-29: arquivos criados, validacao de build pendente porque Docker Desktop nao esta disponivel no ambiente atual.
 
 ## Estrutura
 
