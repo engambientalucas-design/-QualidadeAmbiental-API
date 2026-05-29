@@ -3,11 +3,17 @@ from datetime import UTC, datetime
 from fastapi import APIRouter
 
 from app.core.config import settings
+from app.schemas.error import DEFAULT_ERROR_RESPONSES
 
 router = APIRouter(tags=["health"])
 
 
-@router.get("/health", summary="Verifica se a API está disponível")
+@router.get(
+    "/health",
+    summary="Verifica disponibilidade da API",
+    description="Retorna status operacional basico da aplicacao, sem consultar o SQL Server.",
+    responses={500: DEFAULT_ERROR_RESPONSES[500]},
+)
 def health_check() -> dict:
     return {
         "success": True,

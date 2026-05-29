@@ -576,6 +576,33 @@ Resultados:
 - Nenhum contrato publico alterado.
 - Nenhuma alteracao realizada no SQL Server.
 
+## Fase 3.1 - Testes Avancados, OpenAPI e Observabilidade Leve
+
+Status: concluida em 2026-05-29.
+
+Objetivos:
+
+- Ampliar testes parametrizados de validacao e contrato.
+- Validar contratos de erro 422 de forma transversal.
+- Documentar respostas de erro no OpenAPI.
+- Adicionar middleware de logging de requisicao.
+- Implementar suporte ao header `X-Request-ID`.
+- Manter CI independente do SQL Server real.
+
+Resultados:
+
+- Middleware `RequestLoggingMiddleware` criado em `app/core/middleware.py`.
+- Header `X-Request-ID` gerado ou preservado em respostas HTTP.
+- Logs de requisicao registram metodo, path, status code, duracao e `request_id`.
+- Routers documentam respostas padronizadas de erro 422 e 500 no OpenAPI.
+- Testes parametrizados adicionados em `tests/test_api_contracts_phase3.py`.
+- Testes de observabilidade adicionados em `tests/test_observability.py`.
+- Suite automatizada aprovada com 73 testes.
+- Documento `docs/observabilidade.md` criado.
+- Nenhum endpoint de dominio criado.
+- Nenhum contrato publico de sucesso alterado.
+- Nenhuma alteracao realizada no SQL Server.
+
 ## Fase 4 - Evolucao Funcional
 
 Status: pendente.

@@ -6,6 +6,7 @@ from sqlalchemy.orm import Session
 
 from app.core.config import settings
 from app.core.database import get_db
+from app.schemas.error import DEFAULT_ERROR_RESPONSES
 from app.schemas.resultados import (
     ParametroCriticoListResponse,
     ResultadoListResponse,
@@ -25,6 +26,7 @@ router = APIRouter(
     response_model=ParametroCriticoListResponse,
     summary="Lista ranking de parametros criticos",
     description="Consulta ranking de parametros criticos a partir da view VW_RankingParametrosCriticos.",
+    responses=DEFAULT_ERROR_RESPONSES,
 )
 def list_parametros_criticos(
     categoria: Annotated[
@@ -59,6 +61,7 @@ def list_parametros_criticos(
     response_model=ResumoMensalListResponse,
     summary="Lista resumo mensal de conformidade",
     description="Consulta indicadores mensais consolidados pela view VW_ConformidadeMensal.",
+    responses=DEFAULT_ERROR_RESPONSES,
 )
 def list_resumo_mensal(
     ano: Annotated[
@@ -93,6 +96,7 @@ def list_resumo_mensal(
     response_model=ResultadoListResponse,
     summary="Lista resultados sem limite de referencia",
     description="Consulta resultados sem limite de referencia a partir da view VW_ResultadosSemLimiteReferencia.",
+    responses=DEFAULT_ERROR_RESPONSES,
 )
 def list_resultados_sem_limite_referencia(
     data_inicio: Annotated[
@@ -157,6 +161,7 @@ def list_resultados_sem_limite_referencia(
     response_model=ResultadoListResponse,
     summary="Lista resultados fora do padrao",
     description="Consulta resultados nao conformes a partir da view VW_ResultadosForaDoPadrao.",
+    responses=DEFAULT_ERROR_RESPONSES,
 )
 def list_resultados_nao_conformidades(
     data_inicio: Annotated[
@@ -216,6 +221,7 @@ def list_resultados_nao_conformidades(
     response_model=ResultadoListResponse,
     summary="Lista resultados analiticos consolidados",
     description="Consulta resultados consolidados pela view VW_ConformidadeResultados.",
+    responses=DEFAULT_ERROR_RESPONSES,
 )
 def list_resultados(
     data_inicio: Annotated[

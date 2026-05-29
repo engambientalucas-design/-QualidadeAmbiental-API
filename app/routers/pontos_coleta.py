@@ -5,6 +5,7 @@ from sqlalchemy.orm import Session
 
 from app.core.config import settings
 from app.core.database import get_db
+from app.schemas.error import DEFAULT_ERROR_RESPONSES
 from app.schemas.pontos_coleta import PontoColetaListResponse
 from app.services import pontos_coleta_service
 from app.utils.pagination import DEFAULT_PAGE, DEFAULT_PAGE_SIZE, MAX_PAGE_SIZE
@@ -19,12 +20,13 @@ router = APIRouter(
     "",
     response_model=PontoColetaListResponse,
     summary="Lista pontos de coleta",
-    description="Consulta pontos de coleta cadastrados no SQL Server com filtros simples e paginação.",
+    description="Consulta pontos de coleta cadastrados no SQL Server com filtros simples e paginacao.",
+    responses=DEFAULT_ERROR_RESPONSES,
 )
 def list_pontos_coleta(
     municipio: Annotated[
         str | None,
-        Query(min_length=1, max_length=100, description="Filtra por município."),
+        Query(min_length=1, max_length=100, description="Filtra por municipio."),
     ] = None,
     estado: Annotated[
         str | None,
@@ -36,7 +38,7 @@ def list_pontos_coleta(
     ] = None,
     page: Annotated[
         int,
-        Query(ge=1, description="Número da página."),
+        Query(ge=1, description="Numero da pagina."),
     ] = DEFAULT_PAGE,
     page_size: Annotated[
         int,

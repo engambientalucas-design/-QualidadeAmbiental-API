@@ -382,3 +382,26 @@ Observacao: a aplicacao carrega `.env` diretamente via `pydantic-settings`; a co
 - [x] Snapshot da Fase 3.0.1 gerado.
 - [x] Nenhum endpoint criado.
 - [x] Nenhuma alteracao realizada no SQL Server.
+
+## Fase 3.1 - Testes avancados, OpenAPI e observabilidade leve
+
+- [x] Suite atual de testes revisada.
+- [x] Testes parametrizados criados para endpoints paginados.
+- [x] `page_size=101` validado de forma transversal com HTTP 422.
+- [x] `page=0` validado de forma transversal com HTTP 422.
+- [x] Booleanos invalidos validados com HTTP 422.
+- [x] Datas invalidas validadas com HTTP 422.
+- [x] Intervalos invalidos `data_inicio > data_fim` validados com HTTP 422.
+- [x] `mes=13` validado com HTTP 422.
+- [x] `limit=101` validado com HTTP 422.
+- [x] OpenAPI validado para endpoints, query params, tags e respostas de erro.
+- [x] Middleware de logging de requisicao criado.
+- [x] Header `X-Request-ID` implementado.
+- [x] `X-Request-ID` gerado quando ausente.
+- [x] `X-Request-ID` preservado quando enviado pelo cliente.
+- [x] `X-Request-ID` retornado em resposta de erro 422.
+- [x] Documento `docs/observabilidade.md` criado.
+- [x] Documento `docs/padroes_api.md` atualizado.
+- [x] `pytest` executado com 73 testes aprovados.
+- [x] Nenhum endpoint de dominio criado.
+- [x] Nenhuma alteracao realizada no SQL Server.

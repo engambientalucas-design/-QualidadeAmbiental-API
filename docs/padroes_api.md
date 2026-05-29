@@ -146,6 +146,22 @@ Regras:
 - nao retornar stacktrace para consumidores externos;
 - nao registrar senha, token, connection string ou credenciais.
 
+## Observabilidade Leve
+
+A partir da Fase 3.1, a API registra requisicoes HTTP por meio de middleware dedicado em `app/core/middleware.py`.
+
+Padrao:
+
+- aceitar `X-Request-ID` enviado pelo cliente;
+- gerar UUID quando `X-Request-ID` nao for informado;
+- devolver `X-Request-ID` no header da resposta;
+- logar metodo HTTP, path sem query string, status code, duracao e `request_id`;
+- nao logar body, headers sensiveis, tokens, senhas ou connection strings.
+
+Documento complementar:
+
+- `docs/observabilidade.md`.
+
 ## Handlers Globais
 
 Handlers registrados em `app/core/exception_handlers.py`:

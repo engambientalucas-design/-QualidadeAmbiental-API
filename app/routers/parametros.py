@@ -5,6 +5,7 @@ from sqlalchemy.orm import Session
 
 from app.core.config import settings
 from app.core.database import get_db
+from app.schemas.error import DEFAULT_ERROR_RESPONSES
 from app.schemas.parametros import ParametroListResponse
 from app.services import parametros_service
 from app.utils.pagination import DEFAULT_PAGE, DEFAULT_PAGE_SIZE, MAX_PAGE_SIZE
@@ -20,6 +21,7 @@ router = APIRouter(
     response_model=ParametroListResponse,
     summary="Lista parametros ambientais",
     description="Consulta parametros ambientais cadastrados no SQL Server com filtros simples e paginacao.",
+    responses=DEFAULT_ERROR_RESPONSES,
 )
 def list_parametros(
     categoria: Annotated[

@@ -3,6 +3,7 @@ from fastapi import FastAPI
 from app.core.exception_handlers import register_exception_handlers
 from app.core.logging import configure_logging
 from app.core.config import settings
+from app.core.middleware import RequestLoggingMiddleware
 from app.routers import amostras, health, parametros, pontos_coleta, resultados
 
 
@@ -16,6 +17,8 @@ def create_app() -> FastAPI:
         docs_url="/docs",
         redoc_url="/redoc",
     )
+
+    app.add_middleware(RequestLoggingMiddleware)
 
     app.include_router(health.router)
     app.include_router(pontos_coleta.router)

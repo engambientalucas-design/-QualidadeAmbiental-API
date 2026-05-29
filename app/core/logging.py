@@ -23,4 +23,8 @@ def configure_logging() -> None:
 
 def get_logger(name: str | None = None) -> logging.Logger:
     configure_logging()
-    return logging.getLogger(name or LOGGER_NAME)
+    if not name:
+        return logging.getLogger(LOGGER_NAME)
+    if name.startswith(LOGGER_NAME):
+        return logging.getLogger(name)
+    return logging.getLogger(f"{LOGGER_NAME}.{name}")

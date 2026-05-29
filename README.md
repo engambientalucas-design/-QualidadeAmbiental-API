@@ -252,7 +252,7 @@ pytest
 
 Status atual:
 
-- ✅ 41 testes aprovados
+- ✅ 73 testes aprovados
 - ✅ Endpoint `/health` validado
 - ✅ Endpoint `/api/v1/pontos-coleta` validado por contrato
 - ✅ Endpoint `/api/v1/parametros` validado por contrato
@@ -264,6 +264,8 @@ Status atual:
 - ✅ Endpoint `/api/v1/resultados/parametros-criticos` validado por contrato
 - ✅ Erros padronizados por contrato
 - ✅ Paginação e filtros básicos validados
+- ✅ OpenAPI validado por contrato
+- ✅ `X-Request-ID` validado por contrato
 
 ---
 
@@ -298,6 +300,7 @@ Medidas já aplicadas no projeto:
 | `docs/resumo_mensal_endpoint.md` | Documentação técnica do endpoint de resumo mensal. |
 | `docs/parametros_criticos_endpoint.md` | Documentação técnica do endpoint de parâmetros críticos. |
 | `docs/padroes_api.md` | Padrões internos de sucesso, erro, paginação, validação e logs. |
+| `docs/observabilidade.md` | Padrao de request id, logs seguros e rastreabilidade leve. |
 | `docs/publicacao_github.md` | Checklist e orientações para publicação profissional no GitHub. |
 | `docs/versionamento_backup.md` | Política de Git, snapshots e rollback. |
 | `docs/decisoes_tecnicas.md` | Decisões arquiteturais e tecnológicas. |
@@ -326,6 +329,7 @@ Medidas já aplicadas no projeto:
 - [x] Fase 3.0.1 - Preparação para publicação no GitHub
 - [x] Fase 3.0.2 - Versionamento inicial e CI com GitHub Actions
 - [x] Fase 3.0.3 - Validação do CI e release inicial
+- [x] Fase 3.1 - Testes avancados, OpenAPI e observabilidade leve
 - [ ] Fase 3 - Organização profissional, paginação, filtros e erros
 - [ ] Fase 4 - Evolução funcional controlada
 - [ ] Fase 5 - Validação final e entrega
@@ -352,8 +356,8 @@ A proposta é evoluir a API com qualidade, mantendo rastreabilidade técnica e c
 
 | Item | Status |
 | ---- | ------ |
-| Fase atual | Fase 3.0.3 concluída |
-| Próxima etapa | Fase 3.1 - Testes avançados e observabilidade |
+| Fase atual | Fase 3.1 concluida |
+| Proxima etapa | Fase 3.2 - Cobertura de testes ou Dockerizacao local |
 | API local | Validada |
 | Swagger/ReDoc | Ativos |
 | Banco SQL Server | Inspecionado em modo read-only |
@@ -367,9 +371,9 @@ A proposta é evoluir a API com qualidade, mantendo rastreabilidade técnica e c
 | Endpoint analítico de ranking | `GET /api/v1/resultados/parametros-criticos` implementado |
 | Fechamento técnico da Fase 2 | Concluído |
 | Validação SQL Server real | Concluída em 2026-05-28 |
-| Testes | 41 testes aprovados |
+| Testes | 73 testes aprovados |
 | Contrato de erro | Padronizado |
-| Observabilidade leve | Logging básico configurado |
+| Observabilidade leve | `X-Request-ID` e logging de requisicao configurados |
 | Publicação GitHub | Preparada para push inicial |
 | CI | GitHub Actions com pytest |
 | Release inicial | `v0.3.0-readonly-analytics` publicada |
@@ -481,6 +485,15 @@ Versionamento inicial e CI:
 - Tag inicial sugerida/criada: `v0.3.0-readonly-analytics`.
 - CI remoto validado com status `success`.
 - Release inicial publicada: https://github.com/engambientalucas-design/-QualidadeAmbiental-API/releases/tag/v0.3.0-readonly-analytics
+
+Validacao da Fase 3.1:
+
+- Testes parametrizados adicionados para paginacao, filtros invalidos e contratos de erro.
+- OpenAPI passou a documentar respostas padronizadas de erro 422 e 500.
+- Middleware de logging de requisicao criado.
+- Header `X-Request-ID` gerado ou preservado por request.
+- Logs registram metodo, path, status code, duracao e `request_id`, sem body ou credenciais.
+- Testes ampliados para 73 cenarios aprovados.
 
 Validação real do endpoint `GET /api/v1/resultados/parametros-criticos`:
 

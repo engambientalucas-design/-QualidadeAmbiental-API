@@ -6,6 +6,7 @@ from sqlalchemy.orm import Session
 
 from app.core.config import settings
 from app.core.database import get_db
+from app.schemas.error import DEFAULT_ERROR_RESPONSES
 from app.schemas.amostras import AmostraListResponse
 from app.services import amostras_service
 from app.utils.pagination import DEFAULT_PAGE, DEFAULT_PAGE_SIZE, MAX_PAGE_SIZE
@@ -21,6 +22,7 @@ router = APIRouter(
     response_model=AmostraListResponse,
     summary="Lista amostras",
     description="Consulta amostras com dados de ponto, tipo, status e responsavel.",
+    responses=DEFAULT_ERROR_RESPONSES,
 )
 def list_amostras(
     data_inicio: Annotated[
