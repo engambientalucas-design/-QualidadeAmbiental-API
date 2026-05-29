@@ -16,7 +16,8 @@ Esta etapa prepara o projeto para publicacao. O push para o repositorio remoto d
 | SQL Server real | Validado |
 | API read-only | Confirmada |
 | OpenAPI/Swagger | Validado |
-| Testes automatizados | 41 passed |
+| Testes automatizados | 73 passed |
+| Cobertura automatizada | 65% com `pytest-cov` |
 | Tratamento padronizado de erro | Implementado |
 | Logging basico | Implementado |
 | Documentacao tecnica | Consolidada |
@@ -33,6 +34,7 @@ Esta etapa prepara o projeto para publicacao. O push para o repositorio remoto d
 - SQL Server
 - Pydantic
 - pytest
+- pytest-cov
 - Uvicorn
 
 ## Pre-requisitos
@@ -94,6 +96,12 @@ Executar testes:
 
 ```powershell
 .\.venv\Scripts\python.exe -m pytest
+```
+
+Executar cobertura:
+
+```powershell
+.\.venv\Scripts\python.exe -m pytest --cov=app --cov-report=term-missing
 ```
 
 ## URLs Locais
@@ -159,7 +167,7 @@ Tag recomendada para a primeira publicacao:
 v0.3.0-readonly-analytics
 ```
 
-Motivo: o projeto esta maduro como API read-only analitica, mas ainda nao possui CI/CD, Docker, autenticacao ou release produtiva.
+Motivo: o projeto esta maduro como API read-only analitica e ja possui CI de testes, mas ainda nao possui Docker, autenticacao ou deploy produtivo.
 
 ## CI com GitHub Actions
 
@@ -180,7 +188,7 @@ Etapas:
 - Python 3.12;
 - instalacao de `unixodbc-dev`;
 - instalacao de dependencias do `requirements.txt`;
-- execucao de `pytest`.
+- execucao de `pytest` com cobertura via `pytest-cov`.
 
 Os testes automatizados nao dependem do SQL Server real.
 
@@ -194,7 +202,7 @@ Validado em 2026-05-29:
 | Branch | `master` |
 | Tag | `v0.3.0-readonly-analytics` |
 | Status | `success` |
-| Job | `pytest` |
+| Job | `pytest` com cobertura |
 | Dependencia de SQL Server real | Nao |
 
 Observacao: o GitHub Actions apresentou apenas uma anotacao informativa sobre futura migracao de actions baseadas em Node.js 20 para Node.js 24. Essa anotacao nao bloqueou o CI.

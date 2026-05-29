@@ -176,3 +176,20 @@ Objetivo:
 - preservar status codes;
 - evitar vazamento de informacoes sensiveis;
 - preparar a API para observabilidade futura.
+
+## Cobertura de Testes
+
+A partir da Fase 3.2, a suite usa `pytest-cov` para medir cobertura do pacote `app`.
+
+Comando local:
+
+```powershell
+.\.venv\Scripts\python.exe -m pytest --cov=app --cov-report=term-missing
+```
+
+Regras:
+
+- nao exigir SQL Server real no CI;
+- nao impor cobertura minima ate haver baseline mais maduro;
+- registrar riscos conhecidos em `docs/qualidade_testes.md`;
+- manter `htmlcov/`, `.coverage` e `coverage.xml` fora do versionamento.

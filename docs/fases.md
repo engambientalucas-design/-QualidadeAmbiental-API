@@ -603,6 +603,32 @@ Resultados:
 - Nenhum contrato publico de sucesso alterado.
 - Nenhuma alteracao realizada no SQL Server.
 
+## Fase 3.2 - Cobertura de Testes com pytest-cov
+
+Status: concluida em 2026-05-29.
+
+Objetivos:
+
+- Adicionar medicao objetiva de cobertura com `pytest-cov`.
+- Padronizar execucao de testes via `pytest.ini`.
+- Integrar cobertura ao GitHub Actions.
+- Gerar relatorio HTML local ignorado pelo Git.
+- Documentar riscos e metas futuras de qualidade.
+
+Resultados:
+
+- Dependencia `pytest-cov==6.0.0` adicionada ao `requirements.txt`.
+- Arquivo `pytest.ini` criado com `testpaths`, `pythonpath` e `addopts`.
+- Workflow `Tests` atualizado para executar `python -m pytest --cov=app --cov-report=term-missing`.
+- Suite padrao aprovada com 73 testes.
+- Cobertura local medida com 65% geral.
+- Relatorio HTML gerado em `htmlcov/`.
+- `htmlcov/`, `.coverage` e `coverage.xml` confirmados no `.gitignore`.
+- Documento `docs/qualidade_testes.md` criado.
+- Nenhum endpoint de dominio criado.
+- Nenhum contrato publico de sucesso alterado.
+- Nenhuma alteracao realizada no SQL Server.
+
 ## Fase 4 - Evolucao Funcional
 
 Status: pendente.

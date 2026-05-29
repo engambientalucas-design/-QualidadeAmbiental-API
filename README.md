@@ -71,6 +71,7 @@ SQL Server
 | Pydantic | Validação e serialização de dados |
 | SQL Server | Banco de dados relacional |
 | pytest | Testes automatizados |
+| pytest-cov | Cobertura de testes |
 | Uvicorn | Servidor ASGI local |
 
 ---
@@ -247,12 +248,19 @@ O projeto utiliza `pytest` para validação automatizada da API.
 Execute:
 
 ```powershell
-pytest
+.\.venv\Scripts\python.exe -m pytest
+```
+
+Cobertura:
+
+```powershell
+.\.venv\Scripts\python.exe -m pytest --cov=app --cov-report=term-missing
 ```
 
 Status atual:
 
 - ✅ 73 testes aprovados
+- ✅ Cobertura geral atual: 65%
 - ✅ Endpoint `/health` validado
 - ✅ Endpoint `/api/v1/pontos-coleta` validado por contrato
 - ✅ Endpoint `/api/v1/parametros` validado por contrato
@@ -301,6 +309,7 @@ Medidas já aplicadas no projeto:
 | `docs/parametros_criticos_endpoint.md` | Documentação técnica do endpoint de parâmetros críticos. |
 | `docs/padroes_api.md` | Padrões internos de sucesso, erro, paginação, validação e logs. |
 | `docs/observabilidade.md` | Padrao de request id, logs seguros e rastreabilidade leve. |
+| `docs/qualidade_testes.md` | Cobertura, riscos e metas de qualidade da suite automatizada. |
 | `docs/publicacao_github.md` | Checklist e orientações para publicação profissional no GitHub. |
 | `docs/versionamento_backup.md` | Política de Git, snapshots e rollback. |
 | `docs/decisoes_tecnicas.md` | Decisões arquiteturais e tecnológicas. |
@@ -330,6 +339,7 @@ Medidas já aplicadas no projeto:
 - [x] Fase 3.0.2 - Versionamento inicial e CI com GitHub Actions
 - [x] Fase 3.0.3 - Validação do CI e release inicial
 - [x] Fase 3.1 - Testes avancados, OpenAPI e observabilidade leve
+- [x] Fase 3.2 - Cobertura de testes com pytest-cov
 - [ ] Fase 3 - Organização profissional, paginação, filtros e erros
 - [ ] Fase 4 - Evolução funcional controlada
 - [ ] Fase 5 - Validação final e entrega
@@ -356,8 +366,8 @@ A proposta é evoluir a API com qualidade, mantendo rastreabilidade técnica e c
 
 | Item | Status |
 | ---- | ------ |
-| Fase atual | Fase 3.1 concluida |
-| Proxima etapa | Fase 3.2 - Cobertura de testes ou Dockerizacao local |
+| Fase atual | Fase 3.2 concluida |
+| Proxima etapa | Fase 3.3 - Dockerizacao local ou suite de integracao |
 | API local | Validada |
 | Swagger/ReDoc | Ativos |
 | Banco SQL Server | Inspecionado em modo read-only |
@@ -372,6 +382,7 @@ A proposta é evoluir a API com qualidade, mantendo rastreabilidade técnica e c
 | Fechamento técnico da Fase 2 | Concluído |
 | Validação SQL Server real | Concluída em 2026-05-28 |
 | Testes | 73 testes aprovados |
+| Cobertura | 65% com `pytest-cov` |
 | Contrato de erro | Padronizado |
 | Observabilidade leve | `X-Request-ID` e logging de requisicao configurados |
 | Publicação GitHub | Preparada para push inicial |
@@ -494,6 +505,15 @@ Validacao da Fase 3.1:
 - Header `X-Request-ID` gerado ou preservado por request.
 - Logs registram metodo, path, status code, duracao e `request_id`, sem body ou credenciais.
 - Testes ampliados para 73 cenarios aprovados.
+
+Validacao da Fase 3.2:
+
+- `pytest-cov` adicionado ao projeto.
+- `pytest.ini` criado para padronizar execucao da suite.
+- Workflow GitHub Actions passou a executar cobertura com `--cov=app --cov-report=term-missing`.
+- Cobertura geral atual medida em 65%.
+- Relatorio HTML local gerado em `htmlcov/` e ignorado pelo Git.
+- Principal lacuna registrada: repositories com SQL real nao exercitados pelo CI.
 
 Validação real do endpoint `GET /api/v1/resultados/parametros-criticos`:
 

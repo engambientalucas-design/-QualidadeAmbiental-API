@@ -405,3 +405,20 @@ Observacao: a aplicacao carrega `.env` diretamente via `pydantic-settings`; a co
 - [x] `pytest` executado com 73 testes aprovados.
 - [x] Nenhum endpoint de dominio criado.
 - [x] Nenhuma alteracao realizada no SQL Server.
+
+## Fase 3.2 - Cobertura de testes com pytest-cov
+
+- [x] `pytest-cov` adicionado ao `requirements.txt`.
+- [x] `pytest-cov` instalado na `.venv` local.
+- [x] `pytest.ini` criado.
+- [x] `.gitignore` confirmado com `htmlcov/`, `.coverage` e `coverage.xml`.
+- [x] Workflow GitHub Actions atualizado para executar cobertura.
+- [x] Suite padrao executada com 73 testes aprovados.
+- [x] Cobertura local executada com `--cov=app --cov-report=term-missing`.
+- [x] Cobertura geral atual registrada: 65%.
+- [x] Relatorio HTML de cobertura gerado em `htmlcov/`.
+- [x] `htmlcov/` confirmado fora do Git.
+- [x] Documento `docs/qualidade_testes.md` criado.
+- [x] Nenhum limite minimo de cobertura imposto nesta fase.
+- [x] Nenhum endpoint de dominio criado.
+- [x] Nenhuma alteracao realizada no SQL Server.
