@@ -325,6 +325,7 @@ Medidas já aplicadas no projeto:
 - [x] Fase 3.0 - Padronização de erros, paginação e validações
 - [x] Fase 3.0.1 - Preparação para publicação no GitHub
 - [x] Fase 3.0.2 - Versionamento inicial e CI com GitHub Actions
+- [x] Fase 3.0.3 - Validação do CI e release inicial
 - [ ] Fase 3 - Organização profissional, paginação, filtros e erros
 - [ ] Fase 4 - Evolução funcional controlada
 - [ ] Fase 5 - Validação final e entrega
@@ -351,7 +352,7 @@ A proposta é evoluir a API com qualidade, mantendo rastreabilidade técnica e c
 
 | Item | Status |
 | ---- | ------ |
-| Fase atual | Fase 3.0.2 concluída |
+| Fase atual | Fase 3.0.3 concluída |
 | Próxima etapa | Fase 3.1 - Testes avançados e observabilidade |
 | API local | Validada |
 | Swagger/ReDoc | Ativos |
@@ -371,6 +372,7 @@ A proposta é evoluir a API com qualidade, mantendo rastreabilidade técnica e c
 | Observabilidade leve | Logging básico configurado |
 | Publicação GitHub | Preparada para push inicial |
 | CI | GitHub Actions com pytest |
+| Release inicial | `v0.3.0-readonly-analytics` publicada |
 | Workspace | Preparado para evolução dos endpoints |
 
 Validação real do endpoint `GET /api/v1/pontos-coleta`:
@@ -477,6 +479,8 @@ Versionamento inicial e CI:
 - Python 3.12 usado no pipeline.
 - Testes automatizados executados com `pytest`.
 - Tag inicial sugerida/criada: `v0.3.0-readonly-analytics`.
+- CI remoto validado com status `success`.
+- Release inicial publicada: https://github.com/engambientalucas-design/-QualidadeAmbiental-API/releases/tag/v0.3.0-readonly-analytics
 
 Validação real do endpoint `GET /api/v1/resultados/parametros-criticos`:
 

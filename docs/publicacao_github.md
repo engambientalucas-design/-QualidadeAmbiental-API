@@ -21,6 +21,8 @@ Esta etapa prepara o projeto para publicacao. O push para o repositorio remoto d
 | Logging basico | Implementado |
 | Documentacao tecnica | Consolidada |
 | Git | Limpo antes da publicacao |
+| CI remoto | Aprovado em 2026-05-29 |
+| Release inicial | Publicada em 2026-05-29 |
 
 ## Tecnologias
 
@@ -140,12 +142,14 @@ Contribuicoes futuras devem respeitar:
 - [x] README revisado como produto GitHub.
 - [x] Testes executados com sucesso.
 - [x] Snapshot de preparacao criado.
-- [ ] URL do repositorio remoto confirmada.
-- [ ] Remote GitHub configurado.
-- [ ] Push inicial executado.
+- [x] URL do repositorio remoto confirmada.
+- [x] Remote GitHub configurado.
+- [x] Push inicial executado.
 - [x] GitHub Actions configurado para testes.
 - [x] Badge de testes adicionado ao README.
 - [x] Tag/release inicial avaliada.
+- [x] CI remoto validado com sucesso.
+- [x] Release `v0.3.0-readonly-analytics` criada.
 
 ## Tag Sugerida
 
@@ -179,3 +183,34 @@ Etapas:
 - execucao de `pytest`.
 
 Os testes automatizados nao dependem do SQL Server real.
+
+## Validacao do CI Remoto
+
+Validado em 2026-05-29:
+
+| Item | Resultado |
+| ---- | --------- |
+| Workflow | `Tests` |
+| Branch | `master` |
+| Tag | `v0.3.0-readonly-analytics` |
+| Status | `success` |
+| Job | `pytest` |
+| Dependencia de SQL Server real | Nao |
+
+Observacao: o GitHub Actions apresentou apenas uma anotacao informativa sobre futura migracao de actions baseadas em Node.js 20 para Node.js 24. Essa anotacao nao bloqueou o CI.
+
+## Release Inicial
+
+Release criada em 2026-05-29:
+
+| Item | Valor |
+| ---- | ----- |
+| Tag | `v0.3.0-readonly-analytics` |
+| Titulo | `v0.3.0 - Read-only Analytics API` |
+| URL | `https://github.com/engambientalucas-design/-QualidadeAmbiental-API/releases/tag/v0.3.0-readonly-analytics` |
+
+Descricao:
+
+```text
+Primeira release versionada da QualidadeAmbiental API, com camada read-only e analitica consolidada, endpoints validados, documentacao tecnica, testes automatizados e CI com GitHub Actions.
+```

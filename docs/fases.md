@@ -546,6 +546,32 @@ Resultados:
 - Suite automatizada executada com `pytest`.
 - Badge de testes adicionado ao README.
 - Tag inicial definida: `v0.3.0-readonly-analytics`.
+- CI remoto validado com status `success`.
+- Release inicial criada no GitHub: `v0.3.0 - Read-only Analytics API`.
+- Nenhum endpoint criado.
+- Nenhum contrato publico alterado.
+- Nenhuma alteracao realizada no SQL Server.
+
+## Fase 3.0.3 - Validacao do CI e Release Inicial
+
+Status: concluida em 2026-05-29.
+
+Objetivos:
+
+- Validar autenticacao do GitHub CLI.
+- Conferir workflows disponiveis.
+- Validar execucoes recentes do GitHub Actions.
+- Criar release inicial a partir da tag `v0.3.0-readonly-analytics`.
+- Registrar status de CI e release na documentacao.
+
+Resultados:
+
+- GitHub CLI autenticado para a conta `engambientalucas-design`.
+- Workflow `Tests` identificado e ativo.
+- Run remoto do workflow `Tests` validado com status `success`.
+- Job `pytest` validado no GitHub Actions.
+- Release `v0.3.0 - Read-only Analytics API` criada.
+- URL da release registrada em `docs/publicacao_github.md`.
 - Nenhum endpoint criado.
 - Nenhum contrato publico alterado.
 - Nenhuma alteracao realizada no SQL Server.
