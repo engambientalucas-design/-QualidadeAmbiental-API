@@ -143,7 +143,9 @@ Contribuicoes futuras devem respeitar:
 - [ ] URL do repositorio remoto confirmada.
 - [ ] Remote GitHub configurado.
 - [ ] Push inicial executado.
-- [ ] Tag/release inicial avaliada.
+- [x] GitHub Actions configurado para testes.
+- [x] Badge de testes adicionado ao README.
+- [x] Tag/release inicial avaliada.
 
 ## Tag Sugerida
 
@@ -154,3 +156,26 @@ v0.3.0-readonly-analytics
 ```
 
 Motivo: o projeto esta maduro como API read-only analitica, mas ainda nao possui CI/CD, Docker, autenticacao ou release produtiva.
+
+## CI com GitHub Actions
+
+Workflow configurado:
+
+```text
+.github/workflows/tests.yml
+```
+
+O workflow executa em:
+
+- `push`;
+- `pull_request`.
+
+Etapas:
+
+- checkout do repositorio;
+- Python 3.12;
+- instalacao de `unixodbc-dev`;
+- instalacao de dependencias do `requirements.txt`;
+- execucao de `pytest`.
+
+Os testes automatizados nao dependem do SQL Server real.

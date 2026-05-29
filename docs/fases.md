@@ -526,6 +526,30 @@ Resultados:
 - Nenhuma alteracao realizada no SQL Server.
 - Projeto pronto para configuracao de remote e push inicial.
 
+## Fase 3.0.2 - Versionamento Inicial e CI com GitHub Actions
+
+Status: concluida em 2026-05-29.
+
+Objetivos:
+
+- Configurar workflow de testes no GitHub Actions.
+- Executar `pytest` automaticamente em `push` e `pull_request`.
+- Usar Python 3.12 no CI.
+- Garantir que o CI nao dependa do SQL Server real.
+- Criar tag inicial do projeto.
+
+Resultados:
+
+- Workflow criado em `.github/workflows/tests.yml`.
+- Dependencia de sistema `unixodbc-dev` instalada no CI para suporte ao `pyodbc`.
+- Dependencias Python instaladas via `requirements.txt`.
+- Suite automatizada executada com `pytest`.
+- Badge de testes adicionado ao README.
+- Tag inicial definida: `v0.3.0-readonly-analytics`.
+- Nenhum endpoint criado.
+- Nenhum contrato publico alterado.
+- Nenhuma alteracao realizada no SQL Server.
+
 ## Fase 4 - Evolucao Funcional
 
 Status: pendente.
