@@ -659,6 +659,40 @@ Pendencias:
 - Tentativa elevada/interativa retornou sem erro no PowerShell, mas `docker` continuou indisponivel.
 - `docker compose build`, `docker compose up`, `/health` em container e endpoint com SQL Server via container permanecem pendentes ate Docker Desktop estar instalado e aberto.
 
+## Fase 3.3.1 - Validacao Real do Docker
+
+Status: bloqueada em 2026-06-01.
+
+Objetivos:
+
+- Validar Docker Desktop, Docker Engine e Docker Compose no ambiente local.
+- Construir a imagem com `docker compose build --no-cache`.
+- Subir o container com `docker compose up -d`.
+- Validar `/health`, `/docs`, `/redoc` e `/openapi.json` no container.
+- Validar logs, estado do container e conectividade com SQL Server via `host.docker.internal`.
+
+Resultado da tentativa:
+
+- `docker --version` falhou porque o comando `docker` nao foi reconhecido no PowerShell.
+- `docker compose version` falhou pelo mesmo motivo.
+- `docker info`, `docker context ls`, build, subida do container e validacoes HTTP nao foram executados.
+- A validacao de SQL Server dentro do container nao foi executada.
+- Nenhum endpoint de dominio foi criado.
+- Nenhum contrato publico foi alterado.
+- Nenhuma alteracao foi realizada no SQL Server.
+
+Pendencias:
+
+- Instalar ou abrir o Docker Desktop manualmente com permissao adequada.
+- Abrir novo terminal apos a instalacao e confirmar `docker --version`.
+- Confirmar `docker compose version`, `docker info` e contexto Docker ativo.
+- Confirmar que o `.env` usado pelo container define `QA_API_DB_SERVER=host.docker.internal` quando o SQL Server estiver no host Windows.
+- Retomar a validacao com `docker compose build --no-cache` e `docker compose up -d`.
+
+Observacao tecnica:
+
+- Se o acesso local ao SQL Server depender de autenticacao integrada do Windows, a conexao a partir de container Linux pode falhar. A solucao recomendada para ambiente Docker e usar SQL Login configurado via variaveis `QA_API_DB_USER` e `QA_API_DB_PASSWORD`, mantendo credenciais reais fora do Git.
+
 ## Fase 4 - Evolucao Funcional
 
 Status: pendente.

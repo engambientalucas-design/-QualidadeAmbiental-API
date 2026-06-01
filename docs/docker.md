@@ -47,19 +47,19 @@ QA_API_DB_SERVER=host.docker.internal
 ## Build
 
 ```powershell
-docker compose build
+docker compose build --no-cache
 ```
 
 ## Execucao
 
 ```powershell
-docker compose up
+docker compose up -d
 ```
 
 Ou:
 
 ```powershell
-docker compose up --build
+docker compose up -d --build
 ```
 
 ## Acessos Locais
@@ -69,6 +69,7 @@ docker compose up --build
 | Health | `http://127.0.0.1:8000/health` |
 | Swagger | `http://127.0.0.1:8000/docs` |
 | ReDoc | `http://127.0.0.1:8000/redoc` |
+| OpenAPI | `http://127.0.0.1:8000/openapi.json` |
 
 ## Validacoes Esperadas
 
@@ -76,6 +77,12 @@ Com o container em execucao:
 
 ```powershell
 Invoke-RestMethod http://127.0.0.1:8000/health
+```
+
+Validar tambem o contrato OpenAPI gerado:
+
+```powershell
+Invoke-RestMethod http://127.0.0.1:8000/openapi.json
 ```
 
 Se o SQL Server host estiver acessivel:
@@ -104,6 +111,47 @@ Pendencia:
 - instalar/abrir Docker Desktop manualmente com permissao de administrador;
 - garantir que `docker --version` e `docker compose version` funcionem em novo terminal;
 - repetir `docker compose build` e `docker compose up`.
+
+### Tentativa de validacao em 2026-06-01
+
+| Item | Resultado |
+| ---- | --------- |
+| `docker --version` | Falhou: comando `docker` nao reconhecido no PowerShell |
+| `docker compose version` | Falhou: comando `docker` nao reconhecido no PowerShell |
+| Docker Engine (`docker info`) | Nao executado porque o CLI Docker nao esta disponivel |
+| Docker Context (`docker context ls`) | Nao executado porque o CLI Docker nao esta disponivel |
+| `docker compose build --no-cache` | Nao executado |
+| `docker compose up -d` | Nao executado |
+| `/health` em container | Nao validado |
+| `/docs` em container | Nao validado |
+| `/redoc` em container | Nao validado |
+| `/openapi.json` em container | Nao validado |
+| Endpoint com SQL Server via container | Nao validado |
+
+Conclusao: a Fase 3.3.1 permanece bloqueada ate o Docker Desktop estar instalado, aberto e disponivel no PATH do terminal.
+
+Quando o Docker estiver disponivel, a validacao deve ser retomada nesta ordem:
+
+```powershell
+docker --version
+docker compose version
+docker info
+docker context ls
+docker compose build --no-cache
+docker compose up -d
+docker compose ps
+docker compose logs --tail=100
+Invoke-RestMethod http://127.0.0.1:8000/health
+Invoke-RestMethod http://127.0.0.1:8000/openapi.json
+```
+
+Para SQL Server rodando no host Windows, confirmar antes da validacao de endpoint:
+
+```text
+QA_API_DB_SERVER=host.docker.internal
+```
+
+Se a conexao local usar autenticacao integrada do Windows, a validacao do banco a partir de container Linux pode falhar mesmo com rede correta. Nesse caso, a pendencia deve ser registrada explicitamente. A solucao tecnica recomendada para Docker e usar um SQL Login configurado por variaveis `QA_API_DB_USER` e `QA_API_DB_PASSWORD`, sem versionar credenciais reais.
 
 ## Limitacoes da Fase Atual
 

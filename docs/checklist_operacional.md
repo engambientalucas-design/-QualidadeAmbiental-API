@@ -58,7 +58,7 @@ Use este checklist antes de evoluir o projeto ou executar mudancas criticas.
 - [x] `tests/test_resultados.py` criado.
 - [x] `tests/test_error_handlers.py` criado.
 - [x] `pytest` executado.
-- [x] Suite atual aprovada: 41 testes.
+- [x] Suite atual aprovada: 73 testes.
 
 ## Governanca
 
@@ -434,11 +434,17 @@ Observacao: a aplicacao carrega `.env` diretamente via `pydantic-settings`; a co
 - [x] `docker-compose.yml` criado.
 - [x] Documentacao `docs/docker.md` criada.
 - [x] Uso de `host.docker.internal` documentado para SQL Server no host Windows.
-- [ ] `docker compose build` validado.
-- [ ] `docker compose up` validado.
+- [x] Tentativa de validacao real repetida em 2026-06-01.
+- [x] Bloqueio confirmado: `docker --version` e `docker compose version` falharam porque `docker` nao esta disponivel no PowerShell.
+- [x] Retomada documentada com `docker compose build --no-cache` e `docker compose up -d`.
+- [x] Validacao de `/openapi.json` adicionada ao checklist Docker.
+- [x] Risco de autenticacao integrada do Windows em container Linux documentado.
+- [ ] `docker compose build --no-cache` validado.
+- [ ] `docker compose up -d` validado.
 - [ ] `/health` validado em container.
 - [ ] `/docs` validado em container.
 - [ ] `/redoc` validado em container.
+- [ ] `/openapi.json` validado em container.
 - [ ] Endpoint com SQL Server validado em container.
 - [x] Nenhum endpoint de dominio criado.
 - [x] Nenhuma alteracao realizada no SQL Server.
