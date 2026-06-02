@@ -661,7 +661,7 @@ Pendencias:
 
 ## Fase 3.3.1 - Validacao Real do Docker
 
-Status: bloqueada em 2026-06-01.
+Status: validada parcialmente em 2026-06-02.
 
 Objetivos:
 
@@ -692,6 +692,36 @@ Pendencias:
 Observacao tecnica:
 
 - Se o acesso local ao SQL Server depender de autenticacao integrada do Windows, a conexao a partir de container Linux pode falhar. A solucao recomendada para ambiente Docker e usar SQL Login configurado via variaveis `QA_API_DB_USER` e `QA_API_DB_PASSWORD`, mantendo credenciais reais fora do Git.
+
+Resultado da validacao real em 2026-06-02:
+
+- WSL funcional, com `docker-desktop` rodando em WSL2.
+- Docker Engine validado com `docker info`.
+- Contexto Docker ativo: `desktop-linux`.
+- `docker compose config` validado.
+- `docker compose build --no-cache` executado com sucesso.
+- Imagem `qualidadeambiental_api_fastapi-qualidadeambiental-api:latest` criada.
+- Build confirmou instalacao de `unixodbc`, `pyodbc` e Microsoft ODBC Driver 18 (`msodbcsql18`).
+- `docker compose up -d` iniciou o container `qualidadeambiental-api`.
+- Porta `8000:8000` publicada.
+- Logs confirmaram Uvicorn iniciado sem stacktrace critico nos endpoints tecnicos.
+- `/health` validado com HTTP 200.
+- `/openapi.json` validado com HTTP 200 e schema gerado.
+- `/docs` validado com HTTP 200 via `curl.exe -I`.
+- `/redoc` validado com HTTP 200 via `curl.exe -I`.
+- `docker compose down` executado ao final e container removido.
+- Suite local fora do Docker aprovada com 73 testes.
+- Nenhum endpoint de dominio foi criado.
+- Nenhum contrato publico foi alterado.
+- Nenhuma alteracao foi realizada no SQL Server.
+
+Pendencia remanescente:
+
+- `GET /api/v1/pontos-coleta?page=1&page_size=2` em container retornou HTTP 500.
+- Logs indicaram `pyodbc.OperationalError HYT00` com `Login timeout expired`.
+- O `.env` local estava com `QA_API_DB_SERVER=localhost`, que dentro do container aponta para o proprio container.
+- `QA_API_DB_USER` e `QA_API_DB_PASSWORD` estavam vazios, sem SQL Login configurado para uso em Docker.
+- Nova validacao com SQL Server deve configurar `QA_API_DB_SERVER=host.docker.internal` e, se necessario, SQL Login via variaveis de ambiente sem versionar credenciais.
 
 ## Fase 4 - Evolucao Funcional
 

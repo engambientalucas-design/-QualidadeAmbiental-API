@@ -439,12 +439,23 @@ Observacao: a aplicacao carrega `.env` diretamente via `pydantic-settings`; a co
 - [x] Retomada documentada com `docker compose build --no-cache` e `docker compose up -d`.
 - [x] Validacao de `/openapi.json` adicionada ao checklist Docker.
 - [x] Risco de autenticacao integrada do Windows em container Linux documentado.
-- [ ] `docker compose build --no-cache` validado.
-- [ ] `docker compose up -d` validado.
-- [ ] `/health` validado em container.
-- [ ] `/docs` validado em container.
-- [ ] `/redoc` validado em container.
-- [ ] `/openapi.json` validado em container.
+- [x] Docker Desktop iniciado e Engine validado com `docker info`.
+- [x] WSL2 validado com `docker-desktop` em execucao.
+- [x] `docker compose config` validado.
+- [x] `docker compose build --no-cache` validado.
+- [x] Imagem Docker da API criada.
+- [x] `docker compose up -d` validado.
+- [x] Container `qualidadeambiental-api` iniciado.
+- [x] Porta `8000:8000` publicada.
+- [x] Logs revisados sem stacktrace critico nos endpoints tecnicos.
+- [x] `/health` validado em container.
+- [x] `/docs` validado em container.
+- [x] `/redoc` validado em container.
+- [x] `/openapi.json` validado em container.
+- [x] `docker compose down` executado ao final.
+- [x] Testes locais fora do Docker aprovados com 73 testes.
 - [ ] Endpoint com SQL Server validado em container.
+- [x] Pendencia SQL Server em container registrada: HTTP 500 por `pyodbc.OperationalError HYT00` e `Login timeout expired`.
+- [x] Causa provavel registrada: `.env` com `QA_API_DB_SERVER=localhost` e sem SQL Login configurado para Docker.
 - [x] Nenhum endpoint de dominio criado.
 - [x] Nenhuma alteracao realizada no SQL Server.

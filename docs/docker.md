@@ -153,6 +153,48 @@ QA_API_DB_SERVER=host.docker.internal
 
 Se a conexao local usar autenticacao integrada do Windows, a validacao do banco a partir de container Linux pode falhar mesmo com rede correta. Nesse caso, a pendencia deve ser registrada explicitamente. A solucao tecnica recomendada para Docker e usar um SQL Login configurado por variaveis `QA_API_DB_USER` e `QA_API_DB_PASSWORD`, sem versionar credenciais reais.
 
+### Validacao real em 2026-06-02
+
+| Item | Resultado |
+| ---- | --------- |
+| WSL | Funcional, `docker-desktop` rodando em WSL2 |
+| Docker Engine (`docker info`) | Validado com Server ativo |
+| Docker Context | `desktop-linux` ativo |
+| Arquivos Docker | `Dockerfile`, `.dockerignore`, `docker-compose.yml` e `docs/docker.md` presentes |
+| `.env` local | Existe e nao esta versionado |
+| `docker compose config` | Validado |
+| `docker compose build --no-cache` | Imagem construida com sucesso |
+| Microsoft ODBC Driver 18 | Instalado no build (`msodbcsql18`) |
+| Dependencias Python | Instaladas com sucesso |
+| `docker compose up -d` | Container iniciado com sucesso |
+| Porta | `8000:8000` publicada |
+| Logs | Uvicorn iniciou sem stacktrace critico nos endpoints tecnicos |
+| `/health` | HTTP 200 validado |
+| `/openapi.json` | HTTP 200 validado, schema gerado com 9 paths |
+| `/docs` | HTTP 200 validado via `curl.exe -I` |
+| `/redoc` | HTTP 200 validado via `curl.exe -I` |
+| Endpoint com SQL Server | HTTP 500 por falha de conexao ODBC |
+| Encerramento | `docker compose down` executado e container removido |
+| Testes locais | 73 testes aprovados fora do Docker |
+
+Resultado do endpoint com SQL Server:
+
+```text
+HTTP 500
+pyodbc.OperationalError HYT00
+Login timeout expired
+```
+
+Causa provavel da pendencia:
+
+- o `.env` local usado pelo Compose define `QA_API_DB_SERVER=localhost`;
+- dentro do container, `localhost` aponta para o proprio container, nao para o host Windows;
+- `QA_API_DB_USER` e `QA_API_DB_PASSWORD` estao vazios, indicando ausencia de SQL Login configurado para Docker;
+- para SQL Server no host Windows, a configuracao recomendada para nova tentativa e `QA_API_DB_SERVER=host.docker.internal`;
+- se o acesso local depender de autenticacao integrada do Windows, sera necessario configurar SQL Login para o container.
+
+Conclusao: a Dockerizacao da API foi validada para build, startup, logs e endpoints tecnicos. A pendencia restante e a conectividade/autenticacao com SQL Server a partir do container.
+
 ## Limitacoes da Fase Atual
 
 - SQL Server nao e containerizado.
